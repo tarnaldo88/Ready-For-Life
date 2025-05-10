@@ -51,14 +51,15 @@ Ready for Life is a React Native mobile application designed to help users set g
 ### Frontend
 - **Framework:** React Native
 - **Platforms:** iOS, Android
-- **State Management:** Redux or Context API
+- **State Management:** Redux or Context API 
 - **Navigation:** React Navigation
 
 ### Backend
-- **Database:** PostgreSQL
-- **API:** RESTful API (Node.js/Express or similar)
-- **Authentication:** JWT-based authentication
-- **Hosting:** Cloud provider (AWS, Azure, or Heroku)
+- **Database:** Firebase Realtime Database or Firestore
+- **API:** Firebase Cloud Functions (optional, for custom logic)
+- **Authentication:** Firebase Authentication
+- **Hosting:** Firebase Hosting (for web or static assets, if applicable)
+
 
 ## Non-Functional Requirements
 - Responsive and intuitive UI/UX
