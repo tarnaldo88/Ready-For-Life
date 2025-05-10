@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "118940387246",
+    "project_id": "readyforlife-145cc",
+    "storage_bucket": "readyforlife-145cc.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:118940387246:android:54d318ccdeaa4372b76a3f",
+        "android_client_info": {
+          "package_name": "com.Torres.ReadyForLife"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "118940387246-0s3ahhrnskvbomjod4vu45q0v9fbftjl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcSNGumnWc-LBSJdBAw0vc3MtCGxxA3oY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "118940387246-0s3ahhrnskvbomjod4vu45q0v9fbftjl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
