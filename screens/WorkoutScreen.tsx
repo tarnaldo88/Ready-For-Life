@@ -1,10 +1,10 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-export default function GoalScreen() {
+export default function WorkoutScreen() {
     return (
         <View>
-            <Text>GoalScreen</Text>
+            
         </View>
     );
 }
