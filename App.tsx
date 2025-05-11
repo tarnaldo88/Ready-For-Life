@@ -26,6 +26,8 @@ import {
 import firebase from './firebaseConfig';
 import { NavigationContainer } from '@react-navigation/native';
 import BottomTabs from './navigation/BottomTabs';
+import { AuthProvider, useAuth } from './AuthContext';
+import LoginScreen from './screens/LoginScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -35,32 +37,23 @@ type SectionProps = PropsWithChildren<{
 
 
 
-function App(): React.JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
+function MainApp() {
+  const { user, loading } = useAuth();
 
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  useEffect(() => {
-    console.log('Firebase initialized:', firebase.apps.length > 0);
-  }, []);
-
-  /*
-   * To keep the template simple and small we're adding padding to prevent view
-   * from rendering under the System UI.
-   * For bigger apps the recommendation is to use `react-native-safe-area-context`:
-   * https://github.com/AppAndFlow/react-native-safe-area-context
-   *
-   * You can read more about it here:
-   * https://github.com/react-native-community/discussions-and-proposals/discussions/827
-   */
-  const safePadding = '5%';
+  if (loading) return null; // Optionally show a splash/loading screen
 
   return (
     <NavigationContainer>
-      <BottomTabs />
+      {user ? <BottomTabs /> : <LoginScreen />}
     </NavigationContainer>
+  );
+}
+
+function App(): React.JSX.Element {
+  return (
+    <AuthProvider>
+      <MainApp />
+    </AuthProvider>
   );
 }
 
