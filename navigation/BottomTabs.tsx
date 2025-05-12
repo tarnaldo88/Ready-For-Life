@@ -24,7 +24,7 @@ const BottomTabs: React.FC = () => {
             iconName = 'person-outline';
           }
 
-          return <Ionicons name={iconName} size={size} color={color} />;
+          return <Text>Hello</Text>;
         },
         headerShown: false,
         tabBarActiveTintColor: '#6200ee',
