@@ -16,9 +16,11 @@
     "@react-native-google-signin/google-signin": "^14.0.0",
     "@react-native-vector-icons/ionicons": "^12.0.0",
     "@react-navigation/bottom-tabs": "^7.3.12",
+    "@react-navigation/drawer": "^7.3.12",
     "@react-navigation/native": "^7.1.8",
     "react": "19.0.0",
     "react-native": "0.79.2",
+    "react-native-paper": "^5.14.1",
     "react-native-vector-icons": "^10.2.0"
   },
   "devDependencies": {
