@@ -95,7 +95,7 @@ function DrawerContent(props){
 							)}
 							label="My Workouts"
 							onPress={() => {
-								navigation.navigate("MyWorkout");
+								navigation.navigate("MyWorkouts");
 							}}
 						/>
 						<DrawerItem
@@ -208,7 +208,7 @@ function DrawerContent(props){
 									size={size}
 								/>
 							)}
-							label="My Routines"
+							label="My Workouts"
 							onPress={() => {
 								navigation.navigate("MyWorkout");
 							}}

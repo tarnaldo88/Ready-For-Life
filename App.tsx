@@ -28,7 +28,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import BottomTabs from './navigation/BottomTabs';
 import { AuthProvider, useAuth } from './AuthContext';
 import LoginScreen from './screens/LoginScreen';
-import {DrawerContent} from "./Screens/DrawerContent";
+import {DrawerContent} from './screens/DrawerContent';
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import MainTabScreen from './screens/MainTabScreen';
 
