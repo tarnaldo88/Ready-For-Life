@@ -28,12 +28,26 @@ import { NavigationContainer } from '@react-navigation/native';
 import BottomTabs from './navigation/BottomTabs';
 import { AuthProvider, useAuth } from './AuthContext';
 import LoginScreen from './screens/LoginScreen';
+import {DrawerContent} from "./Screens/DrawerContent";
+import {createDrawerNavigator} from "@react-navigation/drawer";
 
 type SectionProps = PropsWithChildren<{
   title: string;
 }>;
 
+const Drawer = createDrawerNavigator();
 
+function AppDrawer() {
+	return (
+		<Drawer.Navigator   
+			screenOptions={{
+				headerShown:(false)
+			}}
+		drawerContent={props => <DrawerContent {...props} />}>
+			<Drawer.Screen name="Menu" component={MainTabScreen} />
+		</Drawer.Navigator>
+	);
+}
 
 
 
@@ -44,7 +58,7 @@ function MainApp() {
 
   return (
     <NavigationContainer>
-      {user ? <BottomTabs /> : <LoginScreen />}
+      {user ? <BottomTabs /> : <BottomTabs />}
     </NavigationContainer>
   );
 }
