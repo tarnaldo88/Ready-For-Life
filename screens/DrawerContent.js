@@ -19,9 +19,9 @@ function DrawerContent(props){
     const { navigation, state, descriptors } = props;
 
     
-    const [name, setName] = useState();
-	const [isLog, setIsLog] = useState();
-	const [isSign, setIsSign] = useState();
+    const [name, setName] = useState("name");
+	const [isLog, setIsLog] = useState(true);
+	const [isSign, setIsSign] = useState(true);
 	const [userID, setUserID] = useState();
 
     return(
@@ -57,7 +57,7 @@ function DrawerContent(props){
 									Diet Goal:
 								</Paragraph>
 								<Caption style={styleDrawContent.caption}>
-								11 lbs Left To Go
+								150 lbs Left To Go
 								</Caption>
 							</View>
                     </View>
@@ -155,7 +155,7 @@ function DrawerContent(props){
 					>
 						<View style={{flexDirection: "row", marginTop: 15}}>
 							<Avatar.Image
-								source={require("./../../img/user.png")}
+								source={require("./../img/img_avatar.webp")}
 								size={50}
 							/>
 							<View
@@ -222,7 +222,7 @@ function DrawerContent(props){
 							)}
 							label="My Routines"
 							onPress={() => {
-								navigation.navigate("MyRoutines");
+								navigation.navigate("MyWorkout");
 							}}
 						/>
 						<DrawerItem
