@@ -185,19 +185,7 @@ function DrawerContent(props){
 								8 Days In A Row!
 								</Caption>
 							</View>
-							<View style={styleDrawContent.section}>
-								<Paragraph
-									style={[
-										styleDrawContent.paragraph,
-										styleDrawContent.caption
-									]}
-								>
-									Diet Goal:
-								</Paragraph>
-								<Caption style={styleDrawContent.caption}>
-								11 lbs Left To Go
-								</Caption>
-							</View>
+							
 						</View>
 					</View>
 					<Drawer.Section
