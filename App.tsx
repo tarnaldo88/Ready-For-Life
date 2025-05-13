@@ -30,6 +30,7 @@ import { AuthProvider, useAuth } from './AuthContext';
 import LoginScreen from './screens/LoginScreen';
 import {DrawerContent} from "./Screens/DrawerContent";
 import {createDrawerNavigator} from "@react-navigation/drawer";
+import MainTabScreen from './screens/MainTabScreen';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -43,7 +44,7 @@ function AppDrawer() {
 			screenOptions={{
 				headerShown:(false)
 			}}
-		drawerContent={props => <DrawerContent {...props} />}>
+		  drawerContent={props => <DrawerContent {...props} />}>
 			<Drawer.Screen name="Menu" component={MainTabScreen} />
 		</Drawer.Navigator>
 	);

@@ -134,7 +134,7 @@ const ExerciseStackScreen = ({navigation}) => {
         >
             <ExerciseStack.Screen
                 name="Exercise"
-                component={WorkoutHomeScreen}
+                component={WorkoutScreen}
                 options={{
                     title: "Exercise",
                     headerLeft: () => (
