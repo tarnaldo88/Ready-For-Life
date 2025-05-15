@@ -1,9 +1,8 @@
-import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Text, View } from 'react-native';
-import Ionicons from 'react-native-vector-icons/ionicons';
+import React from 'react';
+import { Text } from 'react-native';
+import ProfileScreen from '../app/(tabs)/ProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
-import ProfileScreen from '../screens/ProfileScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 

@@ -1,10 +1,9 @@
-import * as React from "react";
-import HomeScreen from "./HomeScreen";
-import NutitrionScreen from "./NutitrionScreen";
+import ProfileScreen from "../app/(tabs)/ProfileScreen";
 import GoalScreen from "./GoalScreen";
-import WorkoutScreen from "./WorkoutScreen";
+import HomeScreen from "./HomeScreen";
 import LoginScreen from "./LoginScreen";
-import ProfileScreen from "./ProfileScreen";
+import NutitrionScreen from "./NutitrionScreen";
+import WorkoutScreen from "./WorkoutScreen";
 
 
 const HomeStackScreen = ({navigation}) => {
@@ -352,4 +351,4 @@ const DietStackScreen = ({navigation}) => {
     );
 };
 
-export {HomeStackScreen, ExerciseStackScreen, DietStackScreen};
+export { DietStackScreen, ExerciseStackScreen, HomeStackScreen };

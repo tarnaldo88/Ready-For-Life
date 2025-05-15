@@ -1,7 +1,6 @@
-import * as React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {createMaterialBottomTabNavigator} from "@react-navigation/material-bottom-tabs";
-import  {HomeStackScreen, CommunityStackScreen, ExerciseStackScreen, DietStackScreen} from "./StackNavigator";
+// import {createMaterialBottomTabNavigator} from "@react-navigation/bottom-tabs";
+import { CommunityStackScreen, DietStackScreen, ExerciseStackScreen, HomeStackScreen } from "./StackNavigator";
 
 const Tab = createMaterialBottomTabNavigator();
 
