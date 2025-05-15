@@ -4,7 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 const HomeScreen: React.FC = () => {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome to React Native!</Text>
+      <Text style={styles.title}>Ready For life placeholder</Text>
     </View>
   );
 };

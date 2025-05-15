@@ -130,6 +130,3 @@ dist
 .pnp.*
 
 google-services.json
-
-android/app
-android/.gradle
