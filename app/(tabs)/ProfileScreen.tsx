@@ -6,7 +6,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 
 function ProfileScreen(){
-  let te = "asdfasfsgsdsfs";
+  let te = "Placeholder";
 
   return(
     <ParallaxScrollView
