@@ -9,7 +9,7 @@ function ProfileScreen(){
   let te = "Placeholder";
 
   return(
-    <ParallaxScrollView
+    <ParallaxScrollView      
       headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
         headerImage={
           <IconSymbol
