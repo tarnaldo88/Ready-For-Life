@@ -8,6 +8,7 @@ const CreateGoalScreen: React.FC = () => {
   const [goalEndDate, setGoalEndDate] = useState<Date | undefined>(undefined);
   const [goalInformation, setGoalInformation] = useState('');
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
   const handleStartDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
