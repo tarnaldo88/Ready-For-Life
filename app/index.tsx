@@ -1,8 +1,10 @@
-import { Text, View } from "react-native";
+import React from 'react';
+import { Text, View } from 'react-native';
 
 export default function Index() {
-  return (
-    <View
+  // Redirect to the main tab navigator, specifically the home tab
+  return(
+  <View
       style={{
         flex: 1,
         justifyContent: "center",
