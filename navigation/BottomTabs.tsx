@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Text } from 'react-native';
 import ProfileScreen from '../app/ProfileScreen';
+import GoalStackNavigator from '../navigation/GoalStackNavigator';
 import HomeScreen from '../screens/HomeScreen';
-import GoalScreen from '../screens/GoalScreen';
 
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
@@ -33,7 +33,7 @@ const BottomTabs: React.FC = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} initialParams={{ userId }} />
       <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ userId }} />
-      <Tab.Screen name="Goals" component={GoalScreen} initialParams={{ userId }} />
+      <Tab.Screen name="Goals" children={() => <GoalStackNavigator userId={userId} />} />
     </Tab.Navigator>
   );
 };
