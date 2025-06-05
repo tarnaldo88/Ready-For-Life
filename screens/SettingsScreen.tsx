@@ -1,7 +1,12 @@
 import React from 'react';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { BottomTabParamList } from '../navigation/BottomTabs';
+
+type SettingsScreenProps = BottomTabScreenProps<BottomTabParamList, 'Settings'>;
 import { View, Text, StyleSheet } from 'react-native';
 
-const SettingsScreen: React.FC = () => {
+const SettingsScreen: React.FC<SettingsScreenProps> = ({ route }) => {
+  const { userId } = route.params;
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Settings Screen</Text>

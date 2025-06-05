@@ -1,19 +1,14 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { BottomTabParamList } from '../navigation/BottomTabs';
 
-// Define the type for the stack navigator's params
-export type RootStackParamList = {
-  Home: undefined;
-  Profile: { userId: string };
-};
+// Remove unused navigation types
 
-// Define the type for the navigation prop specific to HomeScreen
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
+type HomeScreenProps = BottomTabScreenProps<BottomTabParamList, 'Home'>;
 
-const HomeScreen: React.FC = () => {
-  const navigation = useNavigation<HomeScreenNavigationProp>();
+const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
+  const { userId } = route.params;
 
   return (
     <View style={styles.container}>

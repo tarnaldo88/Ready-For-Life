@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type RootStackParamList = {
     Goals: undefined;
@@ -10,8 +10,10 @@ type RootStackParamList = {
 };
 
 type GoalScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Goals'>;
-export default function GoalScreen() {
+export default function GoalScreen({ route }: { route: any }) {
     const navigation = useNavigation<GoalScreenNavigationProp>();
+    const { userId } = route.params;
+
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Goals</Text>

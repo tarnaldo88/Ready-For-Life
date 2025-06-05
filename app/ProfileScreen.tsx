@@ -1,14 +1,11 @@
-import { RouteProp } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { RootStackParamList } from '../screens/HomeScreen'; // Assuming RootStackParamList is in HomeScreen or a shared types file
+import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { BottomTabParamList } from '../navigation/BottomTabs';
 
-// Define the type for the route prop specific to ProfileScreen
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Profile'>;
+// Use the correct prop type for ProfileScreen
 
-interface ProfileScreenProps {
-  route: ProfileScreenRouteProp;
-}
+type ProfileScreenProps = BottomTabScreenProps<BottomTabParamList, 'Profile'>;
 
 const ProfileScreen: React.FC<ProfileScreenProps> = ({ route }) => {
   const { userId } = route.params;
