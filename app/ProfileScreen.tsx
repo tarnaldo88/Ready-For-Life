@@ -1,7 +1,7 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
 import { RouteProp } from '@react-navigation/native';
-import { RootStackParamList } from './HomeScreen'; // Assuming RootStackParamList is in HomeScreen or a shared types file
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import { RootStackParamList } from '../screens/HomeScreen'; // Assuming RootStackParamList is in HomeScreen or a shared types file
 
 // Define the type for the route prop specific to ProfileScreen
 type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Profile'>;

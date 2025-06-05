@@ -1,5 +1,5 @@
-import { StackNavigationProp } from '@react-navigation/stack';
 import { RouteProp } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
 
 // Defines the parameters for the stack navigator primarily managing Home and Profile screens
 export type HomeStackParamList = {
