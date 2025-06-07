@@ -3,10 +3,11 @@ import { getApp, getApps, initializeApp } from 'firebase/app';
 import { Auth, getAuth, getReactNativePersistence, initializeAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
+import key from './Key';
 
 // TODO: Replace with your own Firebase config from the Firebase Console
 const firebaseConfig = {
-  apiKey: 'AIzaSyCbjJpMCM7LhWiSDQ61iBC6C8GakMDccXQ',
+  apiKey: key,
   authDomain: 'readyforlife-145cc.firebaseapp.com',
   projectId: 'readyforlife-145cc',
   storageBucket: 'readyforlife-145cc.appspot.com',
