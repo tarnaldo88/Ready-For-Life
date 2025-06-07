@@ -1,13 +1,16 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { useVideoPlayer, VideoView } from 'expo-video';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
-import Video from 'react-native-video';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
 import { BottomTabParamList } from '../navigation/BottomTabs';
 
 type HomeScreenProps = BottomTabScreenProps<BottomTabParamList, 'Home'>;
+
+const videoSource1 = require('../img/video1.mp4');
+const videoSource2 = require('../img/video2.mp4');
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   const { userId } = route.params;
@@ -19,6 +22,18 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   const [user, setUser] = useState<User | null>(null);
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
+
+  const player = useVideoPlayer(videoSource1, (player) => {
+    player.loop = true;
+    player.staysActiveInBackground = true;
+    player.play();    
+  });
+
+  const player2 = useVideoPlayer(videoSource2, (player) => {
+    player.loop = true;
+    player.staysActiveInBackground = true;
+    player.play();
+  });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -84,7 +99,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   if (user) {
     return (
       <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-        
+        <VideoView style={styles.video} player={player}/>
         <View style={styles.container}>
           <Text style={styles.title}>Welcome, {user.email}</Text>
           <Button
@@ -104,8 +119,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 
   return (
     <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
+      <VideoView style={styles.video} player={player2}/>
       <View style={styles.container}>
-      <Video source={require('../img/video1.mp4')} style={styles.video} resizeMode="cover" repeat={true} muted rate={0.5}/>
+      
         <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
       {showReg ? (
         <>
@@ -231,7 +247,10 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   video: {    
+    height: '400%',
+    width: '400%',
     position: 'absolute',
+    //backgroundColor: 'rgba(121, 243, 14, 0.3)', // semi-transparent overlay for readability
     top: 0,
     left: 0,
     right: 0,
