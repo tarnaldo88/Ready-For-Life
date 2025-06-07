@@ -1,15 +1,15 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Text } from 'react-native';
-import ProfileScreen from '../app/ProfileScreen';
 import GoalStackNavigator from '../navigation/GoalStackNavigator';
 import HomeScreen from '../screens/HomeScreen';
+import NutitrionScreen from '../screens/NutitrionScreen';
 
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
   Home: { userId: string };
-  Profile: { userId: string };
-  Goals: { userId: string };
+  Nutrition: { userId: string };
+  GoalsHome: { userId: string };
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -22,8 +22,8 @@ const BottomTabs: React.FC = () => {
         tabBarIcon: ({ color, size }) => {
           // Simple emoji icons for demonstration
           let icon = '🏠';
-          if (route.name === 'Profile') icon = '👤';
-          if (route.name === 'Goals') icon = '🎯';
+          if (route.name === 'Nutrition') icon = '🍽️';
+          if (route.name === 'GoalsHome') icon = '🎯';
           return <Text style={{ fontSize: size }}>{icon}</Text>;
         },
         headerShown: false,
@@ -32,8 +32,8 @@ const BottomTabs: React.FC = () => {
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} initialParams={{ userId }} />
-      <Tab.Screen name="Profile" component={ProfileScreen} initialParams={{ userId }} />
-      <Tab.Screen name="Goals" children={() => <GoalStackNavigator userId={userId} />} />
+      <Tab.Screen name="Nutrition" component={NutitrionScreen} initialParams={{ userId }} />
+      <Tab.Screen name="GoalsHome" children={() => <GoalStackNavigator userId={userId} />} />
     </Tab.Navigator>
   );
 };

@@ -1,6 +1,6 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
+import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { auth } from '../firebaseConfig';
 import { BottomTabParamList } from '../navigation/BottomTabs';
@@ -13,7 +13,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [isRegister, setIsRegister] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+    });
+    return unsubscribe;
+  }, []);
 
   const handleLogin = async () => {
     setError('');
@@ -21,9 +29,34 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       setUser(userCredential.user);
-      // Optionally, navigate or update state
     } catch (e: any) {
       setError(e.message || 'Failed to sign in');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleRegister = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      setUser(userCredential.user);
+    } catch (e: any) {
+      setError(e.message || 'Failed to register');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleLogout = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      await auth.signOut();
+      setUser(null);
+    } catch (e: any) {
+      setError(e.message || 'Failed to logout');
     } finally {
       setLoading(false);
     }
@@ -34,8 +67,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
       <View style={styles.container}>
         <Text style={styles.title}>Welcome, {user.email}</Text>
         <Button
-          title="Go to Profile"
-          onPress={() => navigation.navigate('Profile', { userId: user.uid })}
+          title="Go to Nut"
+          onPress={() => navigation.navigate('Nutrition', { userId: user.uid })}
+        />
+        <Button
+          title="Logout"
+          onPress={handleLogout}
+          color="#e74c3c"
         />
       </View>
     );
@@ -43,7 +81,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+      <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
       <TextInput
         style={styles.input}
         placeholder="Email"
@@ -60,8 +98,28 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
         secureTextEntry
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      <Button title={loading ? 'Logging in...' : 'Login'} onPress={handleLogin} disabled={loading} />
+      {isRegister ? (
+        <Button
+          title={loading ? 'Registering...' : 'Register'}
+          onPress={handleRegister}
+          disabled={loading}
+        />
+      ) : (
+        <Button
+          title={loading ? 'Logging in...' : 'Login'}
+          onPress={handleLogin}
+          disabled={loading}
+        />
+      )}
       {loading && <ActivityIndicator style={{ marginTop: 10 }} />}
+      <Button
+        title={isRegister ? 'Already have an account? Login' : "Don't have an account? Register"}
+        onPress={() => {
+          setIsRegister(!isRegister);
+          setError('');
+        }}
+        color="#888"
+      />
     </View>
   );
 };
@@ -71,13 +129,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#d2f9af',
     padding: 20,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#000',
   },
   input: {
     width: '100%',
