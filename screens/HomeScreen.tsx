@@ -89,6 +89,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
             title="Go to Nut"
             onPress={() => navigation.navigate('Nutrition', { userId: user.uid })}
           />
+          <View style={{margin: 10}}></View>
           <Button
             title="Logout"
             onPress={handleLogout}
@@ -164,9 +165,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
           title={loading ? 'Logging in...' : 'Login'}
           onPress={handleLogin}
           disabled={loading}
+          
         />
       )}
       {loading && <ActivityIndicator style={{ marginTop: 10 }} />}
+      <View style={{margin: 10}}></View>
       <Button
         title={isRegister ? 'Already have an account? Login' : "Don't have an account? Register"}
         onPress={() => {
