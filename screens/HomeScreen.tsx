@@ -1,8 +1,9 @@
 import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { auth } from '../firebaseConfig';
+import loginBg from '../img/loginBg.jpg';
 import { BottomTabParamList } from '../navigation/BottomTabs';
 
 type HomeScreenProps = BottomTabScreenProps<BottomTabParamList, 'Home'>;
@@ -81,24 +82,27 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 
   if (user) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Welcome, {user.email}</Text>
-        <Button
-          title="Go to Nut"
-          onPress={() => navigation.navigate('Nutrition', { userId: user.uid })}
-        />
-        <Button
-          title="Logout"
-          onPress={handleLogout}
-          color="#e74c3c"
-        />
-      </View>
+      <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
+        <View style={styles.container}>
+          <Text style={styles.title}>Welcome, {user.email}</Text>
+          <Button
+            title="Go to Nut"
+            onPress={() => navigation.navigate('Nutrition', { userId: user.uid })}
+          />
+          <Button
+            title="Logout"
+            onPress={handleLogout}
+            color="#e74c3c"
+          />
+        </View>
+      </ImageBackground>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
+    <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
+      <View style={styles.container}>
+        <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
       {showReg ? (
         <>
         <TextInput
@@ -147,6 +151,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
       {error ? <Text style={styles.error}>{error}</Text> : null}
       {isRegister ? (        
         <Button
+          
           title={loading ? 'Registering...' : 'Register'}
           onPress={ () => {
             handleRegister();
@@ -171,23 +176,32 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
         }}
         color="#888"
       />
-    </View>
+      </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#d2f9af',
+    //backgroundColor: 'rgba(121, 243, 14, 0.3)', // semi-transparent overlay for readability
     padding: 20,
+    width: '100%',
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#000',
+    color: '#e9eff7',
   },
   input: {
     width: '100%',
@@ -202,6 +216,13 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 10,
+  },
+  button: {
+    backgroundColor: '#6200ee',
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 5,
+    margin: 10,
   },
 });
 
