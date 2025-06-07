@@ -11,10 +11,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   const { userId } = route.params;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [user, setUser] = useState<User | null>(null);
   const [isRegister, setIsRegister] = useState(false);
+  const [showReg, setShowReg] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
@@ -62,6 +64,21 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
     }
   };
 
+  const handlePasswordMatch = () => {
+    if (password.length < 6) 
+    {
+      setError('Password must be at least 6 characters long');
+    }
+    else if (confirmPassword !== password) 
+    {
+      setError('Passwords do not match');
+    } 
+    else 
+    {      
+      setError('');
+    }
+  };
+
   if (user) {
     return (
       <View style={styles.container}>
@@ -82,26 +99,59 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
-      <TextInput
+      {showReg ? (
+        <>
+        <TextInput
         style={styles.input}
         placeholder="Email"
         value={email}
         onChangeText={setEmail}
         autoCapitalize="none"
         keyboardType="email-address"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+          <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+        />
+        </>
+        ) : (
+          <>
+          <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+        />
+        </>
+      ) }
+      
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      {isRegister ? (
+      {isRegister ? (        
         <Button
           title={loading ? 'Registering...' : 'Register'}
-          onPress={handleRegister}
+          onPress={ () => {
+            handleRegister();
+            handlePasswordMatch();
+          }}
           disabled={loading}
         />
       ) : (
@@ -115,7 +165,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
       <Button
         title={isRegister ? 'Already have an account? Login' : "Don't have an account? Register"}
         onPress={() => {
-          setIsRegister(!isRegister);
+          setShowReg(!showReg);
+          setIsRegister(!isRegister);                  
           setError('');
         }}
         color="#888"
