@@ -2,6 +2,8 @@
 import { View, Text, TextInput, Button, StyleSheet, Platform } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 
+import { createGoal } from '../app/goalsService';
+
 const CreateGoalScreen: React.FC = () => {
   const [goalName, setGoalName] = useState('');
   const [goalStartDate, setGoalStartDate] = useState<Date | undefined>(undefined);
@@ -32,34 +34,26 @@ const CreateGoalScreen: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    console.log('Creating Goal:', {
-      goalName,
-      goalStartDate: goalStartDate?.toISOString(),
-      goalEndDate: goalEndDate?.toISOString(),
-      goalInformation,
-    });
-    // Here you would typically send this data to your backend
-    // Example using fetch:
-    // try {
-    //   const response = await fetch('YOUR_CREATE_GOAL_CLOUD_FUNCTION_URL', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({
-    //       goalName,
-    //       goalStartDate: goalStartDate?.toISOString(),
-    //       goalEndDate: goalEndDate?.toISOString(),
-    //       goalInformation,
-    //     }),
-    //   });
-    //   const data = await response.json();
-    //   console.log('Goal created:', data);
-    //   // Show a success message or navigate to another screen
-    // } catch (error) {
-    //   console.error('Error creating goal:', error);
-    //   // Show an error message
-    // }
+    try {
+      const newGoal = {
+        title: goalName,
+        description: goalInformation,
+        startDate: goalStartDate ? goalStartDate.toISOString() : null,
+        endDate: goalEndDate ? goalEndDate.toISOString() : null,
+        completed: false,
+      };
+      const goalId = await createGoal(newGoal);
+      console.log('Goal created with ID:', goalId);
+      // Optionally reset form
+      setGoalName('');
+      setGoalStartDate(undefined);
+      setGoalEndDate(undefined);
+      setGoalInformation('');
+      // Optionally show a success message or navigate
+    } catch (error) {
+      console.error('Error creating goal:', error);
+      // Optionally show error message to user
+    }
   };
 
   return (
