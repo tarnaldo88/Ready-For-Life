@@ -25,6 +25,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 
   const player = useVideoPlayer(videoSource1, (player) => {    
     player.staysActiveInBackground = true;
+    player.playbackRate = 2;
     player.play();  
     player.loop = true;      
   });
@@ -99,7 +100,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   if (user) {
     return (
       <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-        {/* <VideoView style={styles.video} player={player} nativeControls={false}/> */}
         <View style={styles.container}>
           <Text style={styles.title}>Welcome, {user.email}</Text>
           <Button
@@ -119,7 +119,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 
   return (
     <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-      <VideoView style={styles.video} player={player} nativeControls={false}/>
+      <VideoView style={styles.video} player={player} nativeControls={false} />
       <View style={styles.container}>
       
         <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
