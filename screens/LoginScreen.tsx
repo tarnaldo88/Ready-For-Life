@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, Button, ActivityIndicator } from 'react-native';
-import { useAuth } from '../AuthContext';
+import { ActivityIndicator, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+// import { useAuth } from '../AuthContext';
 
 const LoginScreen: React.FC = () => {
-  const { signIn, register, loading } = useAuth();
+  // const { signIn, register, loading } = useAuth();
+  const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -12,19 +13,19 @@ const LoginScreen: React.FC = () => {
   const handleSignIn = async () => {
     setError('');
     try {
-      await signIn(email, password);
+      // await signIn(email, password);
     } catch (e: any) {
       setError(e.message || 'Failed to sign in');
     }
   };
 
   const handleRegister = async () => {
-    setError('');
-    try {
-      await register(email, password);
-    } catch (e: any) {
-      setError(e.message || 'Failed to register');
-    }
+    // setError('');
+    // try {
+    //   await register(email, password);
+    // } catch (e: any) {
+    //   setError(e.message || 'Failed to register');
+    // }
   };
 
   return (
