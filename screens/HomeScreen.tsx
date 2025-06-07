@@ -23,16 +23,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
 
-  const player = useVideoPlayer(videoSource1, (player) => {
-    player.loop = true;
+  const player = useVideoPlayer(videoSource1, (player) => {    
     player.staysActiveInBackground = true;
-    player.play();    
+    player.play();  
+    player.loop = true;      
   });
 
-  const player2 = useVideoPlayer(videoSource2, (player) => {
-    player.loop = true;
+  const player2 = useVideoPlayer(videoSource2, (player) => {   
     player.staysActiveInBackground = true;
     player.play();
+    player.loop = true;
   });
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
   if (user) {
     return (
       <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-        <VideoView style={styles.video} player={player}/>
+        {/* <VideoView style={styles.video} player={player} nativeControls={false}/> */}
         <View style={styles.container}>
           <Text style={styles.title}>Welcome, {user.email}</Text>
           <Button
@@ -119,7 +119,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 
   return (
     <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-      <VideoView style={styles.video} player={player2}/>
+      <VideoView style={styles.video} player={player} nativeControls={false}/>
       <View style={styles.container}>
       
         <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
@@ -247,8 +247,8 @@ const styles = StyleSheet.create({
     margin: 10,
   },
   video: {    
-    height: '400%',
-    width: '400%',
+    height: '100%',
+    width: '320%',
     position: 'absolute',
     //backgroundColor: 'rgba(121, 243, 14, 0.3)', // semi-transparent overlay for readability
     top: 0,
