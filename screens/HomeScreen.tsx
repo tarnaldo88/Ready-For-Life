@@ -8,7 +8,7 @@ import { BottomTabParamList } from '../navigation/BottomTabs';
 type HomeScreenProps = BottomTabScreenProps<BottomTabParamList, 'Home'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
-  // const { userId } = route.params;
+  const { userId } = route.params;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
