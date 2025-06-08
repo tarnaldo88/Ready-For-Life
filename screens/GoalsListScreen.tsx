@@ -22,10 +22,13 @@ const GoalsListScreen: React.FC<Props> = ({ route }) => {
       let isActive = true;
       const fetchGoals = async () => {
         setLoading(true);
+        console.log('userId:', userId);
         try {
           const userGoals = await getGoals(userId);
+          console.log('Fetched goals:', userGoals);
           if (isActive) setGoals(userGoals);
         } catch (err) {
+          console.error('Error fetching goals:', err);
           if (isActive) setError('Failed to load goals');
         } finally {
           if (isActive) setLoading(false);
