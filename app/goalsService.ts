@@ -19,19 +19,23 @@ export async function createGoal(goal: Omit<Goal, 'id'>): Promise<string> {
 }
 
 // Get all goals
-export async function getGoals(): Promise<Goal[]> {
-  const snapshot = await getDocs(goalsCollection);
+import { query, where } from 'firebase/firestore';
+
+export async function getGoals(userId: string): Promise<Goal[]> {
+  const q = query(goalsCollection, where('userId', '==', userId));
+  const snapshot = await getDocs(q);
   return snapshot.docs.map((doc: QueryDocumentSnapshot<DocumentData>) => {
-  const data = doc.data();
-  return {
-    id: doc.id,
-    title: data.title ?? '', // Default to empty string if missing
-    description: data.description,
-    completed: data.completed,
-    ...data,
-  };
-});
+    const data = doc.data();
+    return {
+      id: doc.id,
+      title: data.title ?? '',
+      description: data.description,
+      completed: data.completed,
+      ...data,
+    };
+  });
 }
+
 
 // Update a goal
 export async function updateGoal(id: string, updates: Partial<Goal>): Promise<void> {
