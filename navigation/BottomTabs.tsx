@@ -1,11 +1,10 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React, { useContext } from 'react';
+import React from 'react';
 import { Text } from 'react-native';
-import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../app/AuthContext';
 import GoalStackNavigator from '../navigation/GoalStackNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import NutitrionScreen from '../screens/NutitrionScreen';
-import { useAuth } from '../app/AuthContext';
 
 
 // Define the param list for the bottom tabs
