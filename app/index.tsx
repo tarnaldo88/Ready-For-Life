@@ -1,7 +1,13 @@
 import BottomTabs from '@/navigation/BottomTabs';
 import React from 'react';
 
+import { AuthProvider } from './AuthContext';
+
 export default function Index() {
-  // Show the bottom tab navigator as the root
-  return <BottomTabs />;
+  // Wrap the app in AuthProvider
+  return (
+    <AuthProvider>
+      <BottomTabs />
+    </AuthProvider>
+  );
 }

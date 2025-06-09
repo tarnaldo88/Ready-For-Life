@@ -1,9 +1,12 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Text } from 'react-native';
+import { AuthContext } from '../context/AuthContext';
 import GoalStackNavigator from '../navigation/GoalStackNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import NutitrionScreen from '../screens/NutitrionScreen';
+import { useAuth } from '../app/AuthContext';
+
 
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
@@ -15,7 +18,14 @@ export type BottomTabParamList = {
 const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabs: React.FC = () => {
-  const userId = "123"; // TODO: Replace with real userId from auth/context
+  const { user } = useAuth();
+  if (!user) {
+    // You can show a loading spinner or redirect to login here
+    return <Text>Loading user...</Text>;
+  }
+  const userId = user.id;
+
+  
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
