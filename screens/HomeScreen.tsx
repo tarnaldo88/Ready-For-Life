@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { useVideoPlayer, VideoView } from 'expo-video';
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
-import React, { useEffect, useState } from 'react';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
@@ -110,7 +110,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             onPress={handleLogout}
             color="#e74c3c"
           />
-          <Text style={styles.title}>User ID: {user.uid}</Text>
         </View>
       </ImageBackground>
     );
