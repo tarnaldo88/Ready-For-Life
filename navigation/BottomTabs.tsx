@@ -22,22 +22,7 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 const BottomTabs: React.FC = () => {
   const { user } = useAuth();
   const navigation = useNavigation<BottomTabNavigationProp<BottomTabParamList>>();
-
-  React.useEffect(() => {
-    if (!user) {
-      // Redirect to HomeScreen with dummy userId if not authenticated
-      navigation.reset({
-        index: 0,
-        routes: [{ name: 'Home', params: { userId: 'guest' } }],
-      });
-    }
-  }, [user, navigation]);
-
-  if (!user) {
-    // Optionally show nothing or a spinner while redirecting
-    return null;
-  }
-  const userId = user.id;
+  const userId = user?.id;
 
   
   return (

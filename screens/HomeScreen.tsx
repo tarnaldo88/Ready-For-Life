@@ -1,13 +1,15 @@
-import { BottomTabScreenProps } from '@react-navigation/bottom-tabs';
+import { StackScreenProps } from '@react-navigation/stack';
+import { RootStackParamList } from '../navigation/RootNavigator';
+import { BottomTabParamList } from '../navigation/BottomTabs';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
-import { BottomTabParamList } from '../navigation/BottomTabs';
 
-type HomeScreenProps = BottomTabScreenProps<BottomTabParamList, 'Home'>;
+
+type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
 const videoSource1 = require('../img/video1.mp4');
 const videoSource2 = require('../img/video2.mp4');
@@ -104,7 +106,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
           <Text style={styles.title}>Welcome, {user.email}</Text>
           <Button
             title="Go to Nut"
-            onPress={() => navigation.navigate('Nutrition', { userId: user.uid })}
+            onPress={() => navigation.navigate('Main', { screen: 'Nutrition', params: { userId: user.uid } })}
           />
           <View style={{margin: 10}}></View>
           <Button
