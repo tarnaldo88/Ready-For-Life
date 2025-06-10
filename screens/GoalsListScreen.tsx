@@ -61,7 +61,7 @@ const GoalsListScreen: React.FC<Props> = ({ route }) => {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Goals List</Text>
-        <Text>No goals found for this user. {userId}</Text>
+        <Text>No goals found for this user.</Text>
       </View>
     );
   }

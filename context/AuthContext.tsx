@@ -1,4 +1,7 @@
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { Text } from 'react-native';
+import { onAuthStateChanged } from 'firebase/auth';
+import { auth } from '../firebaseConfig';
 
 // Define the shape of your AuthContext
 interface AuthContextType {
@@ -11,6 +14,15 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+      setLoading(false);
+    });
+    return unsubscribe;
+  }, []);
 
   const signIn = (userData: any) => {
     setUser(userData);
@@ -19,6 +31,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = () => {
     setUser(null);
   };
+
+  if (loading) {
+    return <Text>Loading user...</Text>;
+  }
 
   return (
     <AuthContext.Provider value={{ user, signIn, signOut }}>
