@@ -1,7 +1,7 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React from 'react';
 import { Text } from 'react-native';
-import { useAuth } from '../app/AuthContext';
+import { useAuth } from '../context/AuthContext';
 import GoalStackNavigator from '../navigation/GoalStackNavigator';
 import HomeScreen from '../screens/HomeScreen';
 import NutitrionScreen from '../screens/NutitrionScreen';

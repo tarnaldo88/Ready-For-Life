@@ -1,8 +1,8 @@
-import { View, Text, StyleSheet, FlatList, ActivityIndicator, TouchableOpacity, Alert } from 'react-native';
-import React, { useEffect, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { getGoals, Goal, deleteGoal } from '../app/goalsService';
 import { StackScreenProps } from '@react-navigation/stack';
+import React, { useState } from 'react';
+import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { deleteGoal, getGoals, Goal } from '../app/goalsService';
 import { GoalStackParamList } from '../navigation/GoalStackNavigator';
 
 type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
@@ -61,7 +61,7 @@ const GoalsListScreen: React.FC<Props> = ({ route }) => {
     return (
       <View style={styles.container}>
         <Text style={styles.title}>Goals List</Text>
-        <Text>No goals found for this user.</Text>
+        <Text>No goals found for this user. {userId}</Text>
       </View>
     );
   }
