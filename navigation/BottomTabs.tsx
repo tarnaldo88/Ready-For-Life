@@ -8,6 +8,8 @@ import HomeScreen from '../screens/HomeScreen';
 import NutitrionScreen from '../screens/NutitrionScreen';
 
 
+import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
+
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
   Home: { userId: string };
@@ -19,7 +21,7 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabs: React.FC = () => {
   const { user } = useAuth();
-  const navigation = useNavigation();
+  const navigation = useNavigation<BottomTabNavigationProp<BottomTabParamList>>();
 
   React.useEffect(() => {
     if (!user) {
