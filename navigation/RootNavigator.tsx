@@ -18,15 +18,13 @@ const RootNavigator: React.FC = () => {
   const { user } = useAuth();
 
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {user ? (
-          <Stack.Screen name="Main" component={BottomTabs} />
-        ) : (
-          <Stack.Screen name="Home" component={HomeScreen} initialParams={{ userId: 'guest' }} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {user ? (
+        <Stack.Screen name="Main" component={BottomTabs} />
+      ) : (
+        <Stack.Screen name="Home" component={HomeScreen} initialParams={{ userId: 'guest' }} />
+      )}
+    </Stack.Navigator>
   );
 };
 

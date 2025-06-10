@@ -1,5 +1,4 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text } from 'react-native';
 import { useAuth } from '../context/AuthContext';
@@ -8,7 +7,6 @@ import HomeScreen from '../screens/HomeScreen';
 import NutitrionScreen from '../screens/NutitrionScreen';
 
 
-import { BottomTabNavigationProp } from '@react-navigation/bottom-tabs';
 
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
@@ -21,7 +19,7 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabs: React.FC = () => {
   const { user } = useAuth();
-  const navigation = useNavigation<BottomTabNavigationProp<BottomTabParamList>>();
+  // const navigation = useNavigation<BottomTabNavigationProp<BottomTabParamList>>();
   const userId = user?.id;
 
   
@@ -43,9 +41,9 @@ const BottomTabs: React.FC = () => {
       <Tab.Screen name="Home" component={HomeScreen} initialParams={{ userId }} />
       <Tab.Screen name="Nutrition" component={NutitrionScreen} initialParams={{ userId }} />
       <Tab.Screen
-  name="GoalsHome"
-  children={(props) => <GoalStackNavigator {...props} userId={userId} />}
-/>
+        name="GoalsHome"
+        children={(props) => <GoalStackNavigator {...props} userId={userId} />}
+      />
     </Tab.Navigator>
   );
 };
