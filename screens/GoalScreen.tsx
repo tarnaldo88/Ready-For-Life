@@ -5,8 +5,8 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 type RootStackParamList = {
     Goals: undefined;
-    GoalsList: undefined;
-    CreateGoal: undefined;
+    GoalsList: { userId: string };
+    CreateGoal: { userId: string };
 };
 
 type GoalScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Goals'>;
@@ -17,10 +17,10 @@ export default function GoalScreen({ route }: { route: any }) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>Goals</Text>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GoalsList')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GoalsList', { userId })}>
                 <Text style={styles.buttonText}>View All Goals</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateGoal')}>
+            <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateGoal', { userId })}>
                 <Text style={styles.buttonText}>Create New Goal</Text>
             </TouchableOpacity>
         </View>

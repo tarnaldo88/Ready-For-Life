@@ -1,4 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { Text } from 'react-native';
 import { useAuth } from '../context/AuthContext';
@@ -18,9 +19,21 @@ const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabs: React.FC = () => {
   const { user } = useAuth();
+  const navigation = useNavigation();
+
+  React.useEffect(() => {
+    if (!user) {
+      // Redirect to HomeScreen with dummy userId if not authenticated
+      navigation.reset({
+        index: 0,
+        routes: [{ name: 'Home', params: { userId: 'guest' } }],
+      });
+    }
+  }, [user, navigation]);
+
   if (!user) {
-    // You can show a loading spinner or redirect to login here
-    return <Text>Loading user...</Text>;
+    // Optionally show nothing or a spinner while redirecting
+    return null;
   }
   const userId = user.id;
 
@@ -42,7 +55,10 @@ const BottomTabs: React.FC = () => {
     >
       <Tab.Screen name="Home" component={HomeScreen} initialParams={{ userId }} />
       <Tab.Screen name="Nutrition" component={NutitrionScreen} initialParams={{ userId }} />
-      <Tab.Screen name="GoalsHome" children={() => <GoalStackNavigator userId={userId} />} />
+      <Tab.Screen
+  name="GoalsHome"
+  children={(props) => <GoalStackNavigator {...props} userId={userId} />}
+/>
     </Tab.Navigator>
   );
 };

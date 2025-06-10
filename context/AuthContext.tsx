@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Text } from 'react-native';
-import { onAuthStateChanged } from 'firebase/auth';
+import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 
 // Define the shape of your AuthContext
@@ -28,9 +28,18 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     setUser(userData);
   };
 
-  const signOut = () => {
-    setUser(null);
+  const signOut = async () => {
+    setLoading(true);
+    try {
+      await firebaseSignOut(auth);
+      setUser(null); // onAuthStateChanged will handle this, but safe to keep
+    } catch (e) {
+      // Optionally handle error
+    } finally {
+      setLoading(false); // onAuthStateChanged will handle this, but safe to keep
+    }
   };
+
 
   if (loading) {
     return <Text>Loading user...</Text>;
