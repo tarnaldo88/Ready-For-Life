@@ -10,9 +10,9 @@ import NutitrionScreen from '../screens/NutitrionScreen';
 
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
-  Home: { userId: string };
-  Nutrition: { userId: string };
-  GoalsHome: { userId: string };
+  Home: undefined;
+  Nutrition: undefined;
+  GoalsHome: undefined;
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -38,11 +38,11 @@ const BottomTabs: React.FC = () => {
         tabBarInactiveTintColor: 'gray',
       })}
     >
-      <Tab.Screen name="Home" component={HomeScreen} initialParams={{ userId }} />
-      <Tab.Screen name="Nutrition" component={NutitrionScreen} initialParams={{ userId }} />
+      <Tab.Screen name="Home" component={HomeScreen} />
+      <Tab.Screen name="Nutrition" component={NutitrionScreen} />
       <Tab.Screen
         name="GoalsHome"
-        children={(props) => <GoalStackNavigator {...props} userId={userId} />}
+        component={GoalStackNavigator}
       />
     </Tab.Navigator>
   );

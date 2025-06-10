@@ -5,7 +5,11 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { createGoal } from '../app/goalsService';
 import { auth } from '../firebaseConfig';
 
+import { useAuth } from '../context/AuthContext';
+
 const CreateGoalScreen: React.FC = () => {
+  const { user } = useAuth();
+  const userId = user?.uid || 'guest';
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [goalName, setGoalName] = useState('');

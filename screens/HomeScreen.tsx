@@ -1,27 +1,29 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { RootStackParamList } from '../navigation/RootNavigator';
-import { BottomTabParamList } from '../navigation/BottomTabs';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, User } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
+import { RootStackParamList } from '../navigation/RootNavigator';
 
+
+import { useAuth } from '../context/AuthContext';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
 const videoSource1 = require('../img/video1.mp4');
 const videoSource2 = require('../img/video2.mp4');
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
-  const { userId } = route.params;
+const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const { user } = useAuth();
+  const userId = user?.uid || 'guest';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [user, setUser] = useState<User | null>(null);
+  
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
 
@@ -38,19 +40,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
     player.loop = true;
   });
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
-      setUser(firebaseUser);
-    });
-    return unsubscribe;
-  }, []);
+  
 
   const handleLogin = async () => {
     setError('');
     setLoading(true);
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
+      await signInWithEmailAndPassword(auth, email, password);
     } catch (e: any) {
       setError(e.message || 'Failed to sign in');
     } finally {
@@ -63,7 +59,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
     setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-      setUser(userCredential.user);
+      
     } catch (e: any) {
       setError(e.message || 'Failed to register');
     } finally {
@@ -76,7 +72,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
     setLoading(true);
     try {
       await auth.signOut();
-      setUser(null);
+      
     } catch (e: any) {
       setError(e.message || 'Failed to logout');
     } finally {
@@ -114,6 +110,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
             onPress={handleLogout}
             color="#e74c3c"
           />
+          <Text style={styles.title}>User ID: {user.uid}</Text>
         </View>
       </ImageBackground>
     );

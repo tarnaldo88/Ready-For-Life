@@ -8,7 +8,7 @@ import BottomTabs from './BottomTabs';
 import { BottomTabParamList } from './BottomTabs';
 
 export type RootStackParamList = {
-  Home: { userId: string };
+  Home: undefined;
   Main: { screen?: keyof BottomTabParamList; params?: any } | undefined;
 };
 
@@ -22,7 +22,7 @@ const RootNavigator: React.FC = () => {
       {user ? (
         <Stack.Screen name="Main" component={BottomTabs} />
       ) : (
-        <Stack.Screen name="Home" component={HomeScreen} initialParams={{ userId: 'guest' }} />
+        <Stack.Screen name="Home" component={HomeScreen} />
       )}
     </Stack.Navigator>
   );

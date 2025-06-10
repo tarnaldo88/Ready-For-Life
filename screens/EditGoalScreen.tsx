@@ -9,8 +9,12 @@ import { updateGoal } from '../app/goalsService';
 // Params: { goal: Goal, userId: string }
 type Props = StackScreenProps<GoalStackParamList, 'EditGoal'>;
 
+import { useAuth } from '../context/AuthContext';
+
 const EditGoalScreen: React.FC<Props> = ({ route, navigation }) => {
-  const { goal, userId } = route.params;
+  const { goal } = route.params;
+  const { user } = useAuth();
+  const userId = user?.uid || 'guest';
   const [goalName, setGoalName] = useState(goal.title);
   const [goalInformation, setGoalInformation] = useState(goal.description || '');
   const [goalStartDate, setGoalStartDate] = useState<Date | undefined>(goal.startDate ? new Date(goal.startDate) : undefined);

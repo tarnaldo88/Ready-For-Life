@@ -10,8 +10,11 @@ type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-const GoalsListScreen: React.FC<Props> = ({ route }) => {
-  const { userId } = route.params;
+import { useAuth } from '../context/AuthContext';
+
+const GoalsListScreen: React.FC<Props> = () => {
+  const { user } = useAuth();
+  const userId = user?.uid || 'guest';
   const navigation = useNavigation<StackNavigationProp<GoalStackParamList, 'GoalsList'>>();
   const [goals, setGoals] = useState<Goal[]>([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +32,7 @@ const GoalsListScreen: React.FC<Props> = ({ route }) => {
           if (isActive) setGoals(userGoals);
         } catch (err) {
           console.error('Error fetching goals:', err);
-          if (isActive) setError('Failed to load goals');
+          if (isActive) setError('Failed to load goals: ' + userId);
         } finally {
           if (isActive) setLoading(false);
         }
@@ -83,7 +86,7 @@ const GoalsListScreen: React.FC<Props> = ({ route }) => {
   };
 
   const handleEdit = (goal: Goal) => {
-    navigation.navigate('EditGoal', { goal, userId });
+    navigation.navigate('EditGoal', { goal });
   };
 
   return (

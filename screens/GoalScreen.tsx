@@ -10,9 +10,12 @@ type RootStackParamList = {
 };
 
 type GoalScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Goals'>;
-export default function GoalScreen({ route }: { route: any }) {
+import { useAuth } from '../context/AuthContext';
+
+export default function GoalScreen() {
+    const { user } = useAuth();
+    const userId = user?.uid || 'guest';
     const navigation = useNavigation<GoalScreenNavigationProp>();
-    const { userId } = route.params;
 
     return (
         <View style={styles.container}>
