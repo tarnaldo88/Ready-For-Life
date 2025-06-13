@@ -3,7 +3,7 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import goalBg from '../img/meditationBG.jpg';
+import goalBg from '../img/medBg.jpg';
 
 type RootStackParamList = {
     Goals: undefined;
