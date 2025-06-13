@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     buttonText: { color: '#222d01', fontSize: 18 },
 
     background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

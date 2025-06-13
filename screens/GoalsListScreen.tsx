@@ -1,10 +1,10 @@
 import { useFocusEffect } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { deleteGoal, getGoals, Goal } from '../app/goalsService';
+import goalListBg from '../img/goalListBg.jpg';
 import { GoalStackParamList } from '../navigation/GoalStackNavigator';
-
 type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
 
 import { useNavigation } from '@react-navigation/native';
@@ -90,6 +90,7 @@ const GoalsListScreen: React.FC<Props> = () => {
   };
 
   return (
+    <ImageBackground source={goalListBg} style={styles.background} resizeMode="cover">
     <View style={styles.container}>
       <Text style={styles.title}>Goals List</Text>
       <FlatList
@@ -114,6 +115,7 @@ const GoalsListScreen: React.FC<Props> = () => {
         )}
       />
     </View>
+    </ImageBackground>
   );
 };
 
@@ -132,7 +134,7 @@ const styles = StyleSheet.create({
   },
   goalItem: {
     width: '100%',
-    backgroundColor: '#e9eff7',
+    backgroundColor: '#a3ecc4',
     borderRadius: 8,
     padding: 12,
     marginBottom: 12,
@@ -170,6 +172,13 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
+  },
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
