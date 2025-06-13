@@ -36,7 +36,7 @@ export default function GoalScreen() {
 }
 
 const styles = StyleSheet.create({
-    container: { flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: '#1e022f'  },
+    container: { flex: 1, justifyContent: 'center', alignItems: 'center',  },
     title: { fontSize: 24, marginBottom: 20, color: 'gold' },
     button: { backgroundColor: '#c4e86c', padding: 10, marginVertical: 5, borderRadius: 5 },
     buttonText: { color: '#222d01', fontSize: 18 },

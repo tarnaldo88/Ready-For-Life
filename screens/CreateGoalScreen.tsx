@@ -1,11 +1,10 @@
-  import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Platform } from 'react-native';
-import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
-
+  import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import React, { useState } from 'react';
+import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { createGoal } from '../app/goalsService';
-import { auth } from '../firebaseConfig';
-
 import { useAuth } from '../context/AuthContext';
+import { auth } from '../firebaseConfig';
+import goalBg from '../img/medBg.jpg';
 
 const CreateGoalScreen: React.FC = () => {
   const { user } = useAuth();
@@ -72,6 +71,7 @@ const CreateGoalScreen: React.FC = () => {
   };
 
   return (
+    <ImageBackground source={goalBg} style={styles.background} resizeMode='cover'>
     <View style={styles.container}>
       <Text style={styles.title}>Create Goal</Text>
 
@@ -101,6 +101,7 @@ const CreateGoalScreen: React.FC = () => {
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Create Goal" onPress={handleSubmit} />
     </View>
+    </ImageBackground>
   );
 };
 
@@ -121,6 +122,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 12,
     borderRadius: 5,
+    color:'fff'
   },
   success: {
     color: 'green',
@@ -133,6 +135,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 8,
     textAlign: 'center',
+  },
+   background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
