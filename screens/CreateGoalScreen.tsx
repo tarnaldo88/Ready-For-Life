@@ -75,23 +75,24 @@ const CreateGoalScreen: React.FC = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Create Goal</Text>
 
-      <TextInput style={styles.input} placeholder="Goal Name" value={goalName} onChangeText={setGoalName} />
+      <TextInput style={styles.input} placeholder="Goal Name" placeholderTextColor="#C0C0C0" value={goalName} onChangeText={setGoalName} />
 
-      <Text>Start Date:</Text>
-      <Button onPress={showStartDatePickerModal} title={goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'} />
+      <Text style={styles.fieldTitle}>Start Date:</Text>
+      <Button  onPress={showStartDatePickerModal} title={goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'}  />
       {showStartDatePicker && (
         <DateTimePicker testID="startDatePicker" value={goalStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
 
-      <Text>End Date:</Text>
+      <Text style={styles.fieldTitle}>End Date:</Text>
       <Button onPress={showEndDatePickerModal} title={goalEndDate ? goalEndDate.toDateString() : 'Select End Date'} />
       {showEndDatePicker && (
         <DateTimePicker testID="endDatePicker" value={goalEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
       )}
 
       <TextInput
-        style={styles.input}
+        style={styles.inputGoalInfo}
         placeholder="Goal Information"
+        placeholderTextColor="#C0C0C0"
         value={goalInformation}
         onChangeText={setGoalInformation}
         multiline
@@ -109,21 +110,40 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
+    marginTop:150,
+    width:"auto"
   },
-
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 16,
+    marginBottom: 25,
+    color:'white'
+  },
+  fieldTitle: {
+    color:'white',
+    marginBottom:15,
+    marginTop:10,
   },
   input: {
     borderWidth: 1,
     borderColor: '#ccc',
     padding: 10,
-    marginBottom: 12,
+    marginBottom: 25,
+    marginTop:25,
     borderRadius: 5,
     backgroundColor: 'rgba(0,0,0,0.4)', 
-    color: 'white' 
+    color: 'white',
+  },
+  inputGoalInfo:{
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+    marginBottom: 25,
+    marginTop:25,
+    borderRadius: 5,
+    backgroundColor: 'rgba(0,0,0,0.4)', 
+    color: 'white',
+    height:100,   
   },
   success: {
     color: 'green',
