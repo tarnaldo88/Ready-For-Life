@@ -143,7 +143,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'rgba(0,0,0,0.4)', 
     color: 'white',
-    height:100,   
+    height:100,  
+    flex:1, 
   },
   success: {
     color: 'green',
