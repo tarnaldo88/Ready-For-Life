@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Platform, Switch } from 'react-native';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
-import { GoalStackParamList } from '../navigation/GoalStackNavigator';
+import React, { useState } from 'react';
+import { Button, ImageBackground, Platform, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { updateGoal } from '../app/goalsService';
+import goalListBg from '../img/goalListBg.jpg';
+import { GoalStackParamList } from '../navigation/GoalStackNavigator';
 
 // Add EditGoal to GoalStackParamList in navigator
 // Params: { goal: Goal, userId: string }
@@ -57,15 +58,16 @@ const EditGoalScreen: React.FC<Props> = ({ route, navigation }) => {
   };
 
   return (
+    <ImageBackground source={goalListBg} style={styles.background} resizeMode="cover">
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Goal</Text>
-      <TextInput style={styles.input} placeholder="Goal Name" value={goalName} onChangeText={setGoalName} />
-      <Text>Start Date:</Text>
+      <Text style={styles.title}>Edit Goal</Text>       
+      <TextInput style={styles.input} placeholder="Goal Name"  placeholderTextColor="#C0C0C0"  value={goalName} onChangeText={setGoalName} />
+      <Text style={styles.smTitle}>Start Date:</Text>
       <Button onPress={() => setShowStartDatePicker(true)} title={goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'} />
       {showStartDatePicker && (
         <DateTimePicker testID="startDatePicker" value={goalStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
-      <Text>End Date:</Text>
+      <Text style={styles.smTitle}>End Date:</Text>
       <Button onPress={() => setShowEndDatePicker(true)} title={goalEndDate ? goalEndDate.toDateString() : 'Select End Date'} />
       {showEndDatePicker && (
         <DateTimePicker testID="endDatePicker" value={goalEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
@@ -73,18 +75,20 @@ const EditGoalScreen: React.FC<Props> = ({ route, navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="Goal Information"
+        placeholderTextColor="#C0C0C0"
         value={goalInformation}
         onChangeText={setGoalInformation}
         multiline
       />
       <View style={styles.switchRow}>
-        <Text>Completed:</Text>
+        <Text style={styles.smTitle}>Completed:</Text>
         <Switch value={completed} onValueChange={setCompleted} />
       </View>
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title={loading ? 'Saving...' : 'Save Changes'} onPress={handleUpdate} disabled={loading} />
       <Button title="Cancel" onPress={() => navigation.goBack()} color="#aaa" />
     </View>
+    </ImageBackground>
   );
 };
 
@@ -92,12 +96,16 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    backgroundColor: '#fff',
+    
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 16,
+    color:'white'
+  },
+  smTitle:{
+    color: 'white',
   },
   input: {
     borderWidth: 1,
@@ -105,6 +113,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 12,
     borderRadius: 5,
+    color:'white',
   },
   switchRow: {
     flexDirection: 'row',
@@ -114,6 +123,13 @@ const styles = StyleSheet.create({
   error: {
     color: 'red',
     marginBottom: 8,
+  },
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
