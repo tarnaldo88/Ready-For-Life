@@ -66,6 +66,10 @@ const GoalsListScreen: React.FC<Props> = () => {
     );
   }
 
+  const handleGoalDates = async (goals: Goal[]) => {
+    
+  };
+
   const handleDelete = async (goalId: string) => {
     Alert.alert('Delete Goal', 'Are you sure you want to delete this goal?', [
       { text: 'Cancel', style: 'cancel' },
@@ -181,7 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: { backgroundColor: '#7904a4', padding: 10, marginVertical: 5, borderRadius: 5 },
+  button: { backgroundColor: '#7904a4', padding: 10, marginVertical: 5, borderRadius: 5, alignItems: "center", },
 });
 
 export default GoalsListScreen;

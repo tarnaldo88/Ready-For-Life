@@ -91,7 +91,7 @@ const CreateGoalScreen: React.FC = () => {
       </TouchableOpacity>
 
       <Text style={styles.fieldTitle}>End Date:</Text>      
-      <TouchableOpacity style={styles.button} onPress={ showEndDatePickerModal}>
+      <TouchableOpacity style={styles.endButton} onPress={ showEndDatePickerModal}>
         <Text style={styles.buttonText}>{goalEndDate ? goalEndDate.toDateString() : 'Select End Date'}</Text>
       </TouchableOpacity>
       {showEndDatePicker && (
@@ -111,7 +111,7 @@ const CreateGoalScreen: React.FC = () => {
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Create Goal" onPress={handleSubmit} />
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GoalsList')}>
-                <Text style={styles.buttonText}>Create New Goal</Text>
+                <Text style={styles.buttonText}>List of Goals</Text>
       </TouchableOpacity>
     </View>
     </ImageBackground>
@@ -179,19 +179,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: { 
+  endButton: { 
     backgroundColor: '#04a420', 
     padding: 10, 
     marginVertical: 5, 
-    borderRadius: 5 
+    borderRadius: 5,
+    alignItems: "center", 
   },
   startBtn: {
     backgroundColor: '#7904a4', 
     padding: 10, 
     marginVertical: 5, 
-    borderRadius: 5
+    borderRadius: 5,
+    alignItems: "center",
   },
-    buttonText: { color: '#ffff', fontSize: 18 },
+    buttonText: { color: '#ffff', fontSize: 18, justifyContent: 'center', },
+    button: { 
+      backgroundColor: '#7904a4', 
+      padding: 10, 
+      marginVertical: 5, 
+      borderRadius: 5, 
+      justifyContent: 'center', 
+      alignItems: "center", 
+    },
 });
 
 export default CreateGoalScreen;
