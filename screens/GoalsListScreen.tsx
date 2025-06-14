@@ -1,5 +1,6 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { LinearGradient } from 'expo-linear-gradient';
 import Moment from 'moment';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -109,13 +110,19 @@ const GoalsListScreen: React.FC<Props> = () => {
       <FlatList
         data={goals}
         keyExtractor={(item) => item.id || item.title}
-        renderItem={({ item }) => (
+        renderItem={({ item }) => (                      
           <View style={styles.goalItem}>
+            <LinearGradient
+              colors={['#aaece4', '#f1c4fa']}
+              start={{ x: 0, y: 0 }}
+              end={{ x: 1, y: 1 }}
+              style={{ flex: 1 }}
+            >
             <Text style={styles.goalTitle}>{item.title}</Text>
             {item.description ? <Text>{item.description}</Text> : null}
             {item.startDate ? <Text>Start: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
             {item.endDate ? <Text>End: {Moment(item.endDate).format('d MM YYYY')}</Text> : null}
-            <Text>Status: {item.completed ? 'Completed' : 'In Progress'}</Text>
+            <Text >Status: {item.completed ? 'Completed' : 'In Progress'}</Text>
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
                 <Text style={styles.buttonText}>Edit</Text>
@@ -124,7 +131,8 @@ const GoalsListScreen: React.FC<Props> = () => {
                 <Text style={styles.buttonText}>Delete</Text>
               </TouchableOpacity>
             </View>
-          </View>
+            </LinearGradient>
+          </View>          
         )}
       />
       <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateGoal')}>
@@ -151,13 +159,13 @@ const styles = StyleSheet.create({
   },
   goalItem: {
     width: '100%',
-    backgroundColor: '#a3ecc4',
+    backgroundColor: '#a3ecc4, 0f',
     borderRadius: 8,
     padding: 12,
     marginBottom: 12,
     shadowColor: '#000',
     shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: 4 },
     shadowRadius: 4,
     elevation: 2,
   },
