@@ -1,16 +1,13 @@
-import { useFocusEffect } from '@react-navigation/native';
-import { StackScreenProps } from '@react-navigation/stack';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { deleteGoal, getGoals, Goal } from '../app/goalsService';
+import { useAuth } from '../context/AuthContext';
 import goalListBg from '../img/goalListBg.jpg';
 import { GoalStackParamList } from '../navigation/GoalStackNavigator';
+
 type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
-
-import { useNavigation } from '@react-navigation/native';
-import { StackNavigationProp } from '@react-navigation/stack';
-
-import { useAuth } from '../context/AuthContext';
 
 const GoalsListScreen: React.FC<Props> = () => {
   const { user } = useAuth();
@@ -114,6 +111,9 @@ const GoalsListScreen: React.FC<Props> = () => {
           </View>
         )}
       />
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateGoal')}>
+          <Text style={styles.buttonText}>Create New Goal</Text>
+      </TouchableOpacity>
     </View>
     </ImageBackground>
   );
@@ -181,6 +181,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  button: { backgroundColor: '#7904a4', padding: 10, marginVertical: 5, borderRadius: 5 },
 });
 
 export default GoalsListScreen;

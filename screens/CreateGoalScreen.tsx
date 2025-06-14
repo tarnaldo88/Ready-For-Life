@@ -1,10 +1,15 @@
   import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createGoal } from '../app/goalsService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import goalBg from '../img/medBg.jpg';
+import { GoalStackParamList } from '../navigation/GoalStackNavigator';
+
+type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
 
 const CreateGoalScreen: React.FC = () => {
   const { user } = useAuth();
@@ -16,7 +21,7 @@ const CreateGoalScreen: React.FC = () => {
   const [goalEndDate, setGoalEndDate] = useState<Date | undefined>(undefined);
   const [goalInformation, setGoalInformation] = useState('');
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-  
+  const navigation = useNavigation<StackNavigationProp<GoalStackParamList, 'GoalsList'>>();
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
 
   const handleStartDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
@@ -105,6 +110,9 @@ const CreateGoalScreen: React.FC = () => {
       {success ? <Text style={styles.success}>{success}</Text> : null}
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Create Goal" onPress={handleSubmit} />
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('GoalsList')}>
+                <Text style={styles.buttonText}>Create New Goal</Text>
+      </TouchableOpacity>
     </View>
     </ImageBackground>
   );
