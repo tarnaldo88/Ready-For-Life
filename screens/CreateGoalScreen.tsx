@@ -1,6 +1,6 @@
   import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import React, { useState } from 'react';
-import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { createGoal } from '../app/goalsService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
@@ -83,8 +83,10 @@ const CreateGoalScreen: React.FC = () => {
         <DateTimePicker testID="startDatePicker" value={goalStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
 
-      <Text style={styles.fieldTitle}>End Date:</Text>
-      <Button onPress={showEndDatePickerModal} title={goalEndDate ? goalEndDate.toDateString() : 'Select End Date'} />
+      <Text style={styles.fieldTitle}>End Date:</Text>      
+      <TouchableOpacity style={styles.button} onPress={ showEndDatePickerModal}>
+        <Text style={styles.buttonText}>{goalEndDate ? goalEndDate.toDateString() : 'Select End Date'}</Text>
+      </TouchableOpacity>
       {showEndDatePicker && (
         <DateTimePicker testID="endDatePicker" value={goalEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
       )}
@@ -110,19 +112,20 @@ const styles = StyleSheet.create({
   container: {
     padding: 16,
     flex: 1,
-    marginTop:150,
+    marginTop:100,
     width:"auto"
   },
   title: {
-    fontSize: 24,
+    fontSize: 34,
     fontWeight: 'bold',
-    marginBottom: 25,
+    marginBottom: 12,
     color:'white'
   },
   fieldTitle: {
     color:'white',
     marginBottom:15,
     marginTop:10,
+    fontSize: 20,
   },
   input: {
     borderWidth: 1,
@@ -165,6 +168,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  button: { backgroundColor: '#c4e86c', padding: 10, marginVertical: 5, borderRadius: 5 },
+    buttonText: { color: '#222d01', fontSize: 18 },
 });
 
 export default CreateGoalScreen;
