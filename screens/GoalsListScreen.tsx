@@ -1,5 +1,6 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import Moment from 'moment';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { deleteGoal, getGoals, Goal } from '../app/goalsService';
@@ -17,6 +18,9 @@ const GoalsListScreen: React.FC<Props> = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  var moment = require('moment');
+  
+
   useFocusEffect(
     React.useCallback(() => {
       let isActive = true;
@@ -26,13 +30,21 @@ const GoalsListScreen: React.FC<Props> = () => {
         try {
           const userGoals = await getGoals(userId);
           console.log('Fetched goals:', userGoals);
-          if (isActive) setGoals(userGoals);
+          if (isActive){ 
+            setGoals(userGoals);
+            handleGoalDates(userGoals);
+          };
         } catch (err) {
           console.error('Error fetching goals:', err);
           if (isActive) setError('Failed to load goals: ' + userId);
         } finally {
           if (isActive) setLoading(false);
         }
+      };
+      const handleGoalDates = async (goals: Goal[]) => {
+          for(let i = 0; i < goals.length; i++){
+            
+          }
       };
       fetchGoals();
       return () => {
@@ -67,7 +79,7 @@ const GoalsListScreen: React.FC<Props> = () => {
   }
 
   const handleGoalDates = async (goals: Goal[]) => {
-    
+
   };
 
   const handleDelete = async (goalId: string) => {
@@ -101,8 +113,8 @@ const GoalsListScreen: React.FC<Props> = () => {
           <View style={styles.goalItem}>
             <Text style={styles.goalTitle}>{item.title}</Text>
             {item.description ? <Text>{item.description}</Text> : null}
-            {item.startDate ? <Text>Start: {item.startDate}</Text> : null}
-            {item.endDate ? <Text>End: {item.endDate}</Text> : null}
+            {item.startDate ? <Text>Start: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
+            {item.endDate ? <Text>End: {Moment(item.endDate).format('d MM YYYY')}</Text> : null}
             <Text>Status: {item.completed ? 'Completed' : 'In Progress'}</Text>
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
