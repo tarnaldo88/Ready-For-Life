@@ -77,11 +77,13 @@ const CreateGoalScreen: React.FC = () => {
 
       <TextInput style={styles.input} placeholder="Goal Name" placeholderTextColor="#C0C0C0" value={goalName} onChangeText={setGoalName} />
 
-      <Text style={styles.fieldTitle}>Start Date:</Text>
-      <Button  onPress={showStartDatePickerModal} title={goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'}  />
+      <Text style={styles.fieldTitle}>Start Date:</Text>      
       {showStartDatePicker && (
         <DateTimePicker testID="startDatePicker" value={goalStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
+      <TouchableOpacity style={styles.startBtn} onPress={ showStartDatePickerModal}>
+        <Text style={styles.buttonText}>{goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'}</Text>
+      </TouchableOpacity>
 
       <Text style={styles.fieldTitle}>End Date:</Text>      
       <TouchableOpacity style={styles.button} onPress={ showEndDatePickerModal}>
@@ -136,6 +138,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: 'rgba(0,0,0,0.4)', 
     color: 'white',
+    fontSize:16,
   },
   inputGoalInfo:{
     borderWidth: 1,
@@ -168,8 +171,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  button: { backgroundColor: '#c4e86c', padding: 10, marginVertical: 5, borderRadius: 5 },
-    buttonText: { color: '#222d01', fontSize: 18 },
+  button: { 
+    backgroundColor: '#04a420', 
+    padding: 10, 
+    marginVertical: 5, 
+    borderRadius: 5 
+  },
+  startBtn: {
+    backgroundColor: '#7904a4', 
+    padding: 10, 
+    marginVertical: 5, 
+    borderRadius: 5
+  },
+    buttonText: { color: '#ffff', fontSize: 18 },
 });
 
 export default CreateGoalScreen;
