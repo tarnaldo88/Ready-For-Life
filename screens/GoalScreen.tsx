@@ -38,13 +38,13 @@ export default function GoalScreen() {
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'center', alignItems: 'center',  },
     title: { 
-        fontSize: 24, 
+        fontSize: 44, 
         marginBottom: 20, 
         fontWeight: 'bold',
         color: 'gold', 
     },
-    button: { backgroundColor: '#c4e86c', padding: 10, marginVertical: 5, borderRadius: 5 },
-    buttonText: { color: '#222d01', fontSize: 18 },
+    button: { backgroundColor: '#7904a4', padding: 10, marginVertical: 5, borderRadius: 5 },
+    buttonText: { color: '#fff', fontSize: 18 },
 
     background: {
         flex: 1,
