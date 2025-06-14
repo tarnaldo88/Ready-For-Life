@@ -113,7 +113,7 @@ const GoalsListScreen: React.FC<Props> = () => {
         renderItem={({ item }) => (                      
           <View style={styles.goalItem}>
             <LinearGradient
-              colors={['#aaece4', '#f1c4fa']}
+              colors={['#c33cfd','#3cd9fd' ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={{ flex: 1 }}
@@ -159,14 +159,14 @@ const styles = StyleSheet.create({
   },
   goalItem: {
     width: '100%',
-    backgroundColor: '#a3ecc4, 0f',
+    
     borderRadius: 8,
     padding: 12,
     marginBottom: 12,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 4,
+    // shadowColor: '#000',
+    // shadowOpacity: 0.1,
+    // shadowOffset: { width: 0, height: 4 },
+    // shadowRadius: 4,
     elevation: 2,
   },
   goalTitle: {
