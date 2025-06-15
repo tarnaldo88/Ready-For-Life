@@ -1,5 +1,6 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import { useAuth } from '../context/AuthContext';
 import CreateGoalScreen from '../screens/CreateGoalScreen';
 import EditGoalScreen from '../screens/EditGoalScreen';
 import GoalsList from '../screens/GoalsListScreen';
@@ -13,7 +14,7 @@ export type GoalStackParamList = {
 
 const Stack = createStackNavigator<GoalStackParamList>();
 
-import { useAuth } from '../context/AuthContext';
+
 
 const GoalStackNavigator: React.FC = () => {
   const { user } = useAuth();
