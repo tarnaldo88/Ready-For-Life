@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { deleteGoal, getGoals, Goal } from '../app/goalsService';
 import { useAuth } from '../context/AuthContext';
-import goalListBg from '../img/goalListBg.jpg';
+import goalListBg from '../img/medBg.jpg';
 import { GoalStackParamList } from '../navigation/GoalStackNavigator';
 
 type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
