@@ -122,7 +122,7 @@ const GoalsListScreen: React.FC<Props> = () => {
             {item.description ? <Text style={styles.goalText}>{item.description}</Text> : null}
             {item.startDate ? <Text style={styles.goalText}>Start: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
             {item.endDate ? <Text style={styles.goalText}>End: {Moment(item.endDate).format('d MM YYYY')}</Text> : null}
-            <Text >Status: {item.completed ? 'Completed' : 'In Progress'}</Text>
+            <Text style={styles.progressTitle}>Status: {item.completed ? 'Completed' : 'In Progress'}</Text>
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
                 <Text style={styles.buttonText}>Edit</Text>
@@ -158,7 +158,8 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   goalText:{
-    color:'white'
+    color:'white',
+    marginLeft: 8,
   },
   goalItem: {
     width: '100%',
@@ -176,6 +177,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     marginBottom: 4,
+    marginLeft: 8,
+    color: 'white',
+  },
+  progressTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 4,
+    marginLeft: 8,
+    color: '#3cfdb5',
   },
   error: {
     color: 'red',
