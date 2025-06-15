@@ -13,7 +13,7 @@ type Props = StackScreenProps<GoalStackParamList, 'GoalsList'>;
 
 const CreateGoalScreen: React.FC = () => {
   const { user } = useAuth();
-  const userId = user?.uid || 'guest';
+  // const userId = user?.uid || 'guest';
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [goalName, setGoalName] = useState('');
