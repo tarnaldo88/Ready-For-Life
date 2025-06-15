@@ -119,9 +119,9 @@ const GoalsListScreen: React.FC<Props> = () => {
               style={{ flex: 1 }}
             >
             <Text style={styles.goalTitle}>{item.title}</Text>
-            {item.description ? <Text>{item.description}</Text> : null}
-            {item.startDate ? <Text>Start: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
-            {item.endDate ? <Text>End: {Moment(item.endDate).format('d MM YYYY')}</Text> : null}
+            {item.description ? <Text style={styles.goalText}>{item.description}</Text> : null}
+            {item.startDate ? <Text style={styles.goalText}>Start: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
+            {item.endDate ? <Text style={styles.goalText}>End: {Moment(item.endDate).format('d MM YYYY')}</Text> : null}
             <Text >Status: {item.completed ? 'Completed' : 'In Progress'}</Text>
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
@@ -157,10 +157,13 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: 'white',
   },
+  goalText:{
+    color:'white'
+  },
   goalItem: {
     width: '100%',
     
-    borderRadius: 8,
+    // borderRadius: 8,
     padding: 12,
     marginBottom: 12,
     // shadowColor: '#000',
