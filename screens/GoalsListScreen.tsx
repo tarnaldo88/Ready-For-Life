@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 4,
     marginLeft: 8,
-    color: '#3cfdb5',
+    color: '#23e859',
   },
   error: {
     color: 'red',

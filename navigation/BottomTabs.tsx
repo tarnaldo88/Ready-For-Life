@@ -13,6 +13,11 @@ export type BottomTabParamList = {
   Home: undefined;
   Nutrition: undefined;
   GoalsHome: undefined;
+  tabBarOptions:{
+    style: {
+      backgroundColor: 'your-color',
+    },
+  },
 };
 
 const Tab = createBottomTabNavigator<BottomTabParamList>();
@@ -36,7 +41,9 @@ const BottomTabs: React.FC = () => {
         headerShown: false,
         tabBarActiveTintColor: '#6200ee',
         tabBarInactiveTintColor: 'gray',
+        tabBarStyle:{backgroundColor:'#111214'}
       })}
+      
     >
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Nutrition" component={NutitrionScreen} />
