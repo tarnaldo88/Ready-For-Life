@@ -204,6 +204,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     marginTop: 8,
     justifyContent: 'flex-end',
+    marginRight: 8,
   },
   editButton: {
     backgroundColor: '#6cc6e8',
