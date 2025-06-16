@@ -7,7 +7,7 @@ import React, { useState } from 'react';
 import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
-import goalBg from '../img/medBg.jpg';
+import createBg from '../img/createNutBg.jpg';
 
 type Props = StackScreenProps<NutStackList, 'NutList'>;
 
@@ -64,7 +64,7 @@ const CreateNutScreen: React.FC = () => {
   };
 
   return (
-    <ImageBackground source={goalBg} style={styles.background} resizeMode='cover'>
+    <ImageBackground source={createBg} style={styles.background} resizeMode='cover'>
     <View style={styles.container}>
       <Text style={styles.title}>Create Nutrition Item</Text>
 
