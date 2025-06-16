@@ -42,7 +42,7 @@ const NutitrionScreen: React.FC = () => {
           console.log('Fetched goals:', userNuts);
           if (isActive){ 
             setNuts(userNuts);
-            handleNutDates(userNuts);
+            handleNutCalories(userNuts);
           };
         } catch (err) {
           console.error('Error fetching goals:', err);
@@ -51,8 +51,8 @@ const NutitrionScreen: React.FC = () => {
           if (isActive) setLoading(false);
         }
       };
-      const handleNutDates = async (goals: Nut[]) => {
-          for(let i = 0; i < goals.length; i++){
+      const handleNutCalories = async (nuts: Nut[]) => {
+          for(let i = 0; i < nuts.length; i++){
             
           }
       };
@@ -129,7 +129,7 @@ const NutitrionScreen: React.FC = () => {
               style={{ flex: 1 }}
             >
             <Text style={styles.nutTitle}>{item.title}</Text>
-            {item.calories ? <Text style={styles.nutText}>Calories: {item.calories}</Text> : null}
+            {item.calories ? <Text style={styles.calText}>Calories: {item.calories}</Text> : null}
             {item.description ? <Text style={styles.nutText}>Food Description: {item.description}</Text> : null}
             {item.startDate ? <Text style={styles.nutText}>Time Eaten: {Moment(item.startDate).format('d MM YYYY, h:mm:ss a')}</Text> : null}
             <View style={styles.buttonRow}>
@@ -168,6 +168,12 @@ const styles = StyleSheet.create({
   },
   nutText:{
     color:'white',
+    marginLeft: 8,
+    marginRight:10,
+  },
+  calText:{
+    color:'white',
+    fontWeight:'bold',
     marginLeft: 8,
     marginRight:10,
   },
