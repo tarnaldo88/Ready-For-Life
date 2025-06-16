@@ -100,7 +100,7 @@ const NutitrionScreen: React.FC = () => {
             await deleteNut(nutId);
             setNuts(nuts.filter(g => g.id !== nutId));
           } catch (err) {
-            setError('Failed to delete goal');
+            setError('Failed to delete Food Item');
           }
         }
       }
@@ -131,7 +131,7 @@ const NutitrionScreen: React.FC = () => {
             <Text style={styles.nutTitle}>{item.title}</Text>
             {item.calories ? <Text style={styles.nutText}>Calories: {item.calories}</Text> : null}
             {item.description ? <Text style={styles.nutText}>Food Description: {item.description}</Text> : null}
-            {item.startDate ? <Text style={styles.nutText}>Time Eaten: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
+            {item.startDate ? <Text style={styles.nutText}>Time Eaten: {Moment(item.startDate).format('d MM YYYY, h:mm:ss a')}</Text> : null}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
                 <Text style={styles.buttonText}>Edit</Text>
