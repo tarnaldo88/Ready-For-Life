@@ -20,6 +20,7 @@ const CreateNutScreen: React.FC = () => {
   const [nutStartDate, setnutStartDate] = useState<Date | undefined>(undefined);
   const [nutInformation, setNutInformation] = useState('');
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+  const [cal, setCal]= useState('');
 
   const navigation = useNavigation<StackNavigationProp<NutStackList, 'NutList'>>();
 
@@ -37,7 +38,7 @@ const CreateNutScreen: React.FC = () => {
     setError('');
     const user = auth.currentUser;
     if (!user) {
-      setError('You must be logged in to create a goal.');
+      setError('You must be logged in to create a food item.');
       return;
     }
     try {
@@ -45,6 +46,7 @@ const CreateNutScreen: React.FC = () => {
         title: nutName,
         description: nutInformation,
         startDate: nutStartDate ? nutStartDate.toISOString() : null,
+        calories: cal,
         userId: user.uid,
       };
       const nutId = await createNut(newNut);
@@ -74,8 +76,9 @@ const CreateNutScreen: React.FC = () => {
       )}
       <TouchableOpacity style={styles.startBtn} onPress={ showStartDatePickerModal}>
         <Text style={styles.buttonText}>{nutStartDate ? nutStartDate.toDateString() : 'Select Start Date'}</Text>
-      </TouchableOpacity>      
-
+      </TouchableOpacity>            
+      <TextInput style={styles.input} keyboardType='numeric' placeholder="Calorie Amount" placeholderTextColor="#C0C0C0"
+          onChangeText={ setCal}/>
       <TextInput
         style={styles.inputGoalInfo}
         placeholder="Nutrition Information"

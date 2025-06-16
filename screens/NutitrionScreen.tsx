@@ -120,7 +120,7 @@ const NutitrionScreen: React.FC = () => {
         renderItem={({ item }) => (                      
           <View style={styles.nutItem}>
             <LinearGradient
-              colors={['#7d00ff','#9bd2f7' ]}
+              colors={['#7d00ff','#0087FF' ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={{ flex: 1 }}
