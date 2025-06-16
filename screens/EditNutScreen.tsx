@@ -16,10 +16,8 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
   const [nutName, setNutName] = useState(nut.title);
   const [nutInformation, setNutInformation] = useState(nut.description || '');
   const [nutStartDate, setNutStartDate] = useState<Date | undefined>(nut.startDate ? new Date(nut.startDate) : undefined);
-  const [nutEndDate, setNutEndDate] = useState<Date | undefined>(nut.endDate ? new Date(nut.endDate) : undefined);
   const [completed, setCompleted] = useState(!!nut.completed);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
-  const [showEndDatePicker, setShowEndDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -27,12 +25,6 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
     const currentDate = selectedDate || nutStartDate;
     setShowStartDatePicker(Platform.OS === 'ios');
     setNutStartDate(currentDate);
-  };
-
-  const handleEndDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    const currentDate = selectedDate || nutEndDate;
-    setShowEndDatePicker(Platform.OS === 'ios');
-    setNutEndDate(currentDate);
   };
 
   const handleUpdate = async () => {
@@ -43,8 +35,6 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
         title: nutName,
         description: nutInformation,
         startDate: nutStartDate ? nutStartDate.toISOString() : null,
-        endDate: nutEndDate ? nutEndDate.toISOString() : null,
-        completed,
       });
       navigation.goBack();
     } catch (err) {
@@ -64,11 +54,7 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
       {showStartDatePicker && (
         <DateTimePicker testID="startDatePicker" value={nutStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
-      <Text style={styles.smTitle}>End Date:</Text>
-      <Button onPress={() => setShowEndDatePicker(true)} title={nutEndDate ? nutEndDate.toDateString() : 'Select End Date'} />
-      {showEndDatePicker && (
-        <DateTimePicker testID="endDatePicker" value={nutEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
-      )}
+      
       <TextInput
         style={styles.input}
         placeholder="Nutrition Information"

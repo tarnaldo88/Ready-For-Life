@@ -1,4 +1,4 @@
-  import { NutStackList } from '@/navigation/NutStackNavigator';
+import { NutStackList } from '@/navigation/NutStackNavigator';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
@@ -11,15 +11,16 @@ import goalBg from '../img/medBg.jpg';
 
 type Props = StackScreenProps<NutStackList, 'NutList'>;
 
-const CreateNutitrionScreen: React.FC = () => {
+const CreateNutScreen: React.FC = () => {
   const { user } = useAuth();
-  // const userId = user?.uid || 'guest';
+  const userId = user?.uid || 'guest';
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [nutName, setNutName] = useState('');
   const [nutStartDate, setnutStartDate] = useState<Date | undefined>(undefined);
   const [nutInformation, setNutInformation] = useState('');
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
+
   const navigation = useNavigation<StackNavigationProp<NutStackList, 'NutList'>>();
 
   const handleStartDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
@@ -181,4 +182,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default CreateNutitrionScreen;
+export default CreateNutScreen;

@@ -10,7 +10,9 @@ type Props = StackScreenProps<NutStackList, 'NutList'>;
 
 const NutitrionScreen: React.FC = () => {
   const { user } = useAuth();
+  const userId = user?.uid || 'guest';
   const navigation = useNavigation<StackNavigationProp<NutStackList, 'NutList'>>();
+
   return (
     <ImageBackground source = {nutBg}  style={styles.background} resizeMode='cover'>
     <View >

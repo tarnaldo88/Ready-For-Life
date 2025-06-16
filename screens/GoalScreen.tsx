@@ -13,8 +13,6 @@ type RootStackParamList = {
 
 type GoalScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Goals'>;
 
-
-
 export default function GoalScreen() {
     const { user } = useAuth();
     const userId = user?.uid || 'guest';
