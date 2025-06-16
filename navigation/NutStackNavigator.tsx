@@ -9,7 +9,7 @@ import { useAuth } from '../context/AuthContext';
 export type NutStackList = {
     NutList: undefined,
     ExList: undefined,
-
+    CreateNut: undefined,
     EditNut: {nut: any},
     EditEx: {ex:any},
 }
@@ -22,7 +22,7 @@ const NutStackNavigator: React.FC = () => {
     return(
         <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen name="NutList" component={NutitrionScreen} />
-            <Stack.Screen name="ExList" component={CreateNutitrionScreen} />
+            <Stack.Screen name="CreateNut" component={CreateNutitrionScreen} />
             <Stack.Screen name="EditNut" component={EditNutScreen} />
             <Stack.Screen name="EditEx" component={EditExScreen} />
         </Stack.Navigator>
