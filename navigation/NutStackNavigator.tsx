@@ -28,3 +28,5 @@ const NutStackNavigator: React.FC = () => {
         </Stack.Navigator>
     )
 }
+
+export default NutStackNavigator;

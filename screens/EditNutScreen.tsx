@@ -58,7 +58,7 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
     <ImageBackground source={nutListBg} style={styles.background} resizeMode="cover">
     <View style={styles.container}>
       <Text style={styles.title}>Edit Nutrition</Text>       
-      <TextInput style={styles.input} placeholder="Nutrition Name"  placeholderTextColor="#C0C0C0"  value={nutName} onChangeText={setNutName} />
+      <TextInput style={styles.input} placeholder="Food Name"  placeholderTextColor="#C0C0C0"  value={nutName} onChangeText={setNutName} />
       <Text style={styles.smTitle}>Start Date:</Text>
       <Button onPress={() => setShowStartDatePicker(true)} title={nutStartDate ? nutStartDate.toDateString() : 'Select Start Date'} />
       {showStartDatePicker && (
