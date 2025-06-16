@@ -27,6 +27,7 @@ const NutitrionScreen: React.FC = () => {
   const [nuts, setNuts] = useState<Nut[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [cal, setCal] = useState(1800);
 
   var moment = require('moment');
 
@@ -112,13 +113,14 @@ const NutitrionScreen: React.FC = () => {
     <ImageBackground source = {nutBg}  style={styles.background} resizeMode='cover'>
     <View style={styles.container}>
       <Text style={styles.title}>Goals List</Text>
+      <Text style={styles.nutText}>Total Calories Remaining: {cal}</Text>
       <FlatList
         data={nuts}
         keyExtractor={(item) => item.id || item.title}
         renderItem={({ item }) => (                      
           <View style={styles.nutItem}>
             <LinearGradient
-              colors={['#c33cfd','#3cd9fd' ]}
+              colors={['#7d00ff','#9bd2f7' ]}
               start={{ x: 0, y: 0 }}
               end={{ x: 1, y: 1 }}
               style={{ flex: 1 }}
