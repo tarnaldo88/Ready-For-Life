@@ -1,7 +1,7 @@
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { Button, ImageBackground, Platform, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
+import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, View } from 'react-native';
 import { updateNut } from '../app/nutService';
 import nutListBg from '../img/goalListBg.jpg';
 
@@ -62,11 +62,7 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
         value={nutInformation}
         onChangeText={setNutInformation}
         multiline
-      />
-      <View style={styles.switchRow}>
-        <Text style={styles.smTitle}>Completed:</Text>
-        <Switch value={completed} onValueChange={setCompleted} />
-      </View>
+      />      
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title={loading ? 'Saving...' : 'Save Changes'} onPress={handleUpdate} disabled={loading} />
       <Button title="Cancel" onPress={() => navigation.goBack()} color="#aaa" />
