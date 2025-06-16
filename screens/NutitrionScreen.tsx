@@ -169,6 +169,7 @@ const styles = StyleSheet.create({
   nutText:{
     color:'white',
     marginLeft: 8,
+    marginRight:10,
   },
   nutItem: {
     width: '100%',
