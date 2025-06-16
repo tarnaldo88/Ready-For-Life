@@ -44,7 +44,6 @@ const CreateNutitrionScreen: React.FC = () => {
         title: nutName,
         description: nutInformation,
         startDate: nutStartDate ? nutStartDate.toISOString() : null,
-        completed: false,
         userId: user.uid,
       };
       const nutId = await createGoal(newNut);
