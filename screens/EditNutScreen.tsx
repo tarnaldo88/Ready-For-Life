@@ -3,10 +3,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Button, ImageBackground, Platform, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
 import { updateGoal } from '../app/goalsService';
-import goalListBg from '../img/goalListBg.jpg';
+import nutListBg from '../img/goalListBg.jpg';
 
-// Add EditGoal to GoalStackParamList in navigator
-// Params: { goal: Goal, userId: string }
 type Props = StackScreenProps<NutStackList, 'EditNut'>;
 
 import { NutStackList } from '@/navigation/NutStackNavigator';
@@ -16,10 +14,10 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
   const { nut } = route.params;
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
-  const [goalName, setGoalName] = useState(nut.title);
-  const [goalInformation, setGoalInformation] = useState(nut.description || '');
-  const [goalStartDate, setGoalStartDate] = useState<Date | undefined>(nut.startDate ? new Date(nut.startDate) : undefined);
-  const [goalEndDate, setGoalEndDate] = useState<Date | undefined>(nut.endDate ? new Date(nut.endDate) : undefined);
+  const [nutName, setNutName] = useState(nut.title);
+  const [nutInformation, setNutInformation] = useState(nut.description || '');
+  const [nutStartDate, setNutStartDate] = useState<Date | undefined>(nut.startDate ? new Date(nut.startDate) : undefined);
+  const [nutEndDate, setNutEndDate] = useState<Date | undefined>(nut.endDate ? new Date(nut.endDate) : undefined);
   const [completed, setCompleted] = useState(!!nut.completed);
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const [showEndDatePicker, setShowEndDatePicker] = useState(false);
@@ -27,15 +25,15 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
   const [error, setError] = useState('');
 
   const handleStartDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    const currentDate = selectedDate || goalStartDate;
+    const currentDate = selectedDate || nutStartDate;
     setShowStartDatePicker(Platform.OS === 'ios');
-    setGoalStartDate(currentDate);
+    setNutStartDate(currentDate);
   };
 
   const handleEndDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    const currentDate = selectedDate || goalEndDate;
+    const currentDate = selectedDate || nutEndDate;
     setShowEndDatePicker(Platform.OS === 'ios');
-    setGoalEndDate(currentDate);
+    setNutEndDate(currentDate);
   };
 
   const handleUpdate = async () => {
@@ -43,41 +41,41 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
     setError('');
     try {
       await updateGoal(nut.id, {
-        title: goalName,
-        description: goalInformation,
-        startDate: goalStartDate ? goalStartDate.toISOString() : null,
-        endDate: goalEndDate ? goalEndDate.toISOString() : null,
+        title: nutName,
+        description: nutInformation,
+        startDate: nutStartDate ? nutStartDate.toISOString() : null,
+        endDate: nutEndDate ? nutEndDate.toISOString() : null,
         completed,
       });
       navigation.goBack();
     } catch (err) {
-      setError('Failed to update goal');
+      setError('Failed to update nut');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <ImageBackground source={goalListBg} style={styles.background} resizeMode="cover">
+    <ImageBackground source={nutListBg} style={styles.background} resizeMode="cover">
     <View style={styles.container}>
-      <Text style={styles.title}>Edit Goal</Text>       
-      <TextInput style={styles.input} placeholder="Goal Name"  placeholderTextColor="#C0C0C0"  value={goalName} onChangeText={setGoalName} />
+      <Text style={styles.title}>Edit Nutrition</Text>       
+      <TextInput style={styles.input} placeholder="Nutrition Name"  placeholderTextColor="#C0C0C0"  value={nutName} onChangeText={setNutName} />
       <Text style={styles.smTitle}>Start Date:</Text>
-      <Button onPress={() => setShowStartDatePicker(true)} title={goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'} />
+      <Button onPress={() => setShowStartDatePicker(true)} title={nutStartDate ? nutStartDate.toDateString() : 'Select Start Date'} />
       {showStartDatePicker && (
-        <DateTimePicker testID="startDatePicker" value={goalStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
+        <DateTimePicker testID="startDatePicker" value={nutStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
       <Text style={styles.smTitle}>End Date:</Text>
-      <Button onPress={() => setShowEndDatePicker(true)} title={goalEndDate ? goalEndDate.toDateString() : 'Select End Date'} />
+      <Button onPress={() => setShowEndDatePicker(true)} title={nutEndDate ? nutEndDate.toDateString() : 'Select End Date'} />
       {showEndDatePicker && (
-        <DateTimePicker testID="endDatePicker" value={goalEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
+        <DateTimePicker testID="endDatePicker" value={nutEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
       )}
       <TextInput
         style={styles.input}
-        placeholder="Goal Information"
+        placeholder="Nutrition Information"
         placeholderTextColor="#C0C0C0"
-        value={goalInformation}
-        onChangeText={setGoalInformation}
+        value={nutInformation}
+        onChangeText={setNutInformation}
         multiline
       />
       <View style={styles.switchRow}>
