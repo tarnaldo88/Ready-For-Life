@@ -17,6 +17,7 @@ const Stack = createStackNavigator<NutStackList>();
 
 const NutStackNavigator: React.FC = () => {
     const { user } = useAuth();
+    const userId = user?.uid || 'guest';
 
     return(
         <Stack.Navigator screenOptions={{ headerShown: false }}>

@@ -6,18 +6,26 @@ import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react
 import { useAuth } from '../context/AuthContext';
 import nutBg from '../img/loginBg.jpg';
 
+type RootStackParamList = {
+    //Goals: undefined;
+    NutList: { userId: string };
+    CreateNut: { userId: any };
+};
+
+type NutScreenNavigationProp = StackNavigationProp<RootStackParamList, 'NutList'>;
+
 type Props = StackScreenProps<NutStackList, 'NutList'>;
 
 const NutitrionScreen: React.FC = () => {
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
-  const navigation = useNavigation<StackNavigationProp<NutStackList, 'NutList'>>();
+  const navigation = useNavigation<NutScreenNavigationProp>();
 
   return (
     <ImageBackground source = {nutBg}  style={styles.background} resizeMode='cover'>
     <View >
       <Text >Welcome to Nut!</Text>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateNut')}>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateNut', { userId })}>
         <Text style={styles.buttonText}>Create New Food Item</Text>
       </TouchableOpacity>
     </View>
@@ -38,4 +46,3 @@ const styles = StyleSheet.create({
 })
 
 export default NutitrionScreen;
-

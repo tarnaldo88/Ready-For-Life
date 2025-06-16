@@ -19,6 +19,7 @@ const Stack = createStackNavigator<GoalStackParamList>();
 const GoalStackNavigator: React.FC = () => {
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
+  
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {/* <Stack.Screen name="GoalsMain" component={GoalScreen} /> */}

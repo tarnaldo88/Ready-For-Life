@@ -4,7 +4,7 @@ import { Text } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import GoalStackNavigator from '../navigation/GoalStackNavigator';
 import HomeScreen from '../screens/HomeScreen';
-import NutitrionScreen from '../screens/NutitrionScreen';
+import NutStackNavigator from './NutStackNavigator';
 
 
 
@@ -46,7 +46,7 @@ const BottomTabs: React.FC = () => {
       
     >
       <Tab.Screen name="Home" component={HomeScreen} />
-      <Tab.Screen name="Nutrition" component={NutitrionScreen} />
+      <Tab.Screen name="Nutrition" component={NutStackNavigator} />
       <Tab.Screen
         name="GoalsHome"
         component={GoalStackNavigator}
