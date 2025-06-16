@@ -17,31 +17,19 @@ const CreateNutitrionScreen: React.FC = () => {
   const [success, setSuccess] = useState('');
   const [error, setError] = useState('');
   const [nutName, setNutName] = useState('');
-  const [goalStartDate, setGoalStartDate] = useState<Date | undefined>(undefined);
-  const [goalEndDate, setGoalEndDate] = useState<Date | undefined>(undefined);
+  const [nutStartDate, setnutStartDate] = useState<Date | undefined>(undefined);
   const [nutInformation, setNutInformation] = useState('');
   const [showStartDatePicker, setShowStartDatePicker] = useState(false);
   const navigation = useNavigation<StackNavigationProp<NutStackList, 'NutList'>>();
-  const [showEndDatePicker, setShowEndDatePicker] = useState(false);  
 
   const handleStartDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    const currentDate = selectedDate || goalStartDate;
+    const currentDate = selectedDate || nutStartDate;
     setShowStartDatePicker(Platform.OS === 'ios');
-    setGoalStartDate(currentDate);
-  };
-
-  const handleEndDateChange = (event: DateTimePickerEvent, selectedDate?: Date) => {
-    const currentDate = selectedDate || goalEndDate;
-    setShowEndDatePicker(Platform.OS === 'ios');
-    setGoalEndDate(currentDate);
+    setnutStartDate(currentDate);
   };
 
   const showStartDatePickerModal = () => {
     setShowStartDatePicker(true);
-  };
-
-  const showEndDatePickerModal = () => {
-    setShowEndDatePicker(true);
   };
 
   const handleSubmit = async () => {
@@ -55,22 +43,20 @@ const CreateNutitrionScreen: React.FC = () => {
       const newNut = {
         title: nutName,
         description: nutInformation,
-        startDate: goalStartDate ? goalStartDate.toISOString() : null,
-        endDate: goalEndDate ? goalEndDate.toISOString() : null,
+        startDate: nutStartDate ? nutStartDate.toISOString() : null,
         completed: false,
         userId: user.uid,
       };
       const nutId = await createGoal(newNut);
-      console.log('Goal created with ID:', nutId);
-      setSuccess('Goal created successfully!');
+      console.log('Food item created with ID:', nutId);
+      setSuccess('Food item created successfully!');
       setNutName('');
-      setGoalStartDate(undefined);
-      setGoalEndDate(undefined);
+      setnutStartDate(undefined);
       setNutInformation('');
       setTimeout(() => setSuccess(''), 2500);
     } catch (error) {
-      console.error('Error creating goal:', error);
-      setError('Error creating goal.');
+      console.error('Error creating Nutrition item:', error);
+      setError('Error creating Nutrition item.');
       setSuccess('');
     }
   };
@@ -84,19 +70,11 @@ const CreateNutitrionScreen: React.FC = () => {
 
       <Text style={styles.fieldTitle}>Start Date:</Text>      
       {showStartDatePicker && (
-        <DateTimePicker testID="startDatePicker" value={goalStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
+        <DateTimePicker testID="startDatePicker" value={nutStartDate || new Date()} mode="date" display="default" onChange={handleStartDateChange} />
       )}
       <TouchableOpacity style={styles.startBtn} onPress={ showStartDatePickerModal}>
-        <Text style={styles.buttonText}>{goalStartDate ? goalStartDate.toDateString() : 'Select Start Date'}</Text>
-      </TouchableOpacity>
-
-      <Text style={styles.fieldTitle}>End Date:</Text>      
-      <TouchableOpacity style={styles.endButton} onPress={ showEndDatePickerModal}>
-        <Text style={styles.buttonText}>{goalEndDate ? goalEndDate.toDateString() : 'Select End Date'}</Text>
-      </TouchableOpacity>
-      {showEndDatePicker && (
-        <DateTimePicker testID="endDatePicker" value={goalEndDate || new Date()} mode="date" display="default" onChange={handleEndDateChange} />
-      )}
+        <Text style={styles.buttonText}>{nutStartDate ? nutStartDate.toDateString() : 'Select Start Date'}</Text>
+      </TouchableOpacity>      
 
       <TextInput
         style={styles.inputGoalInfo}
