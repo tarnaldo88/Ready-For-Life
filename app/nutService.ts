@@ -8,7 +8,7 @@ export interface Nut {
   id?: string;
   title: string;
   description?: string;
-  calories?: Number,
+  calories?: string,
   completed?: boolean;
   [key: string]: any;
 }

@@ -84,6 +84,9 @@ const NutitrionScreen: React.FC = () => {
       <View style={styles.container}>
         <Text style={styles.title}>Nutrition Items List</Text>
         <Text>No food items found for this user.</Text>
+        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateNut', { userId })}>
+        <Text style={styles.buttonText}>Create New Food Item</Text>
+        </TouchableOpacity>
       </View>
     );
   }
@@ -126,8 +129,9 @@ const NutitrionScreen: React.FC = () => {
               style={{ flex: 1 }}
             >
             <Text style={styles.nutTitle}>{item.title}</Text>
-            {item.description ? <Text style={styles.nutText}>{item.description}</Text> : null}
-            {item.startDate ? <Text style={styles.nutText}>Start: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
+            {item.calories ? <Text style={styles.nutText}>Calories: {item.calories}</Text> : null}
+            {item.description ? <Text style={styles.nutText}>Food Description: {item.description}</Text> : null}
+            {item.startDate ? <Text style={styles.nutText}>Time Eaten: {Moment(item.startDate).format('d MM YYYY')}</Text> : null}
             <View style={styles.buttonRow}>
               <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
                 <Text style={styles.buttonText}>Edit</Text>
