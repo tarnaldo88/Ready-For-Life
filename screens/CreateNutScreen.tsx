@@ -1,10 +1,10 @@
+import { createNut } from '@/app/nutService';
 import { NutStackList } from '@/navigation/NutStackNavigator';
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Button, ImageBackground, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { createGoal } from '../app/goalsService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import goalBg from '../img/medBg.jpg';
@@ -47,7 +47,7 @@ const CreateNutScreen: React.FC = () => {
         startDate: nutStartDate ? nutStartDate.toISOString() : null,
         userId: user.uid,
       };
-      const nutId = await createGoal(newNut);
+      const nutId = await createNut(newNut);
       console.log('Food item created with ID:', nutId);
       setSuccess('Food item created successfully!');
       setNutName('');

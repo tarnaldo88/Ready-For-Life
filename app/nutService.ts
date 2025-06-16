@@ -2,7 +2,7 @@ import { addDoc, collection, deleteDoc, doc, DocumentData, getDocs, getFirestore
 import { app } from '../firebaseConfig';
 
 const db = getFirestore(app);
-const nutCollection = collection(db, 'nutrition');
+const nutCollection = collection(db, 'Nutrition');
 
 export interface Nut {
   id?: string;
@@ -39,12 +39,12 @@ export async function getNut(userId: string): Promise<Nut[]> {
 
 // Update a goal
 export async function updateNut(id: string, updates: Partial<Nut>): Promise<void> {
-  const nutDoc = doc(db, 'nutrition', id);
+  const nutDoc = doc(db, 'Nutrition', id);
   await updateDoc(nutDoc, updates);
 }
 
 // Delete a goal
 export async function deleteNut(id: string): Promise<void> {
-  const nutDoc = doc(db, 'nutrition', id);
+  const nutDoc = doc(db, 'Nutrition', id);
   await deleteDoc(nutDoc);
 }
