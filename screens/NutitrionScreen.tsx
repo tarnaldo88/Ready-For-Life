@@ -206,11 +206,13 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 4,
     marginRight: 8,
+    marginBottom:8,
   },
   deleteButton: {
     backgroundColor: '#e86c6c',
     padding: 8,
     borderRadius: 4,
+    marginBottom:8,
   },
   buttonText: {
     color: '#fff',
