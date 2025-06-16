@@ -1,18 +1,19 @@
+import { deleteNut, getNut, Nut } from '@/app/nutService';
 import { NutStackList } from '@/navigation/NutStackNavigator';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
-import React, { useState }  from 'react';
+import { LinearGradient } from 'expo-linear-gradient';
+import Moment from 'moment';
+import React, { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import nutBg from '../img/loginBg.jpg';
-import { getNut, deleteNut, Nut } from '@/app/nutService';
-import { LinearGradient } from 'expo-linear-gradient';
-import Moment from 'moment';
 
 type RootStackParamList = {
     //Goals: undefined;
     NutList: { userId: string };
     CreateNut: { userId: any };
+    EditNut: {nut: any};
 };
 
 type NutScreenNavigationProp = StackNavigationProp<RootStackParamList, 'NutList'>;
@@ -223,4 +224,4 @@ const styles = StyleSheet.create({
   button: { backgroundColor: '#7904a4', padding: 10, marginVertical: 5, borderRadius: 5, alignItems: "center", },
 })
 
-export default NutitrionScreen;\
+export default NutitrionScreen;
