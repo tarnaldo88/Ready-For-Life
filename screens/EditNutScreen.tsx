@@ -2,7 +2,7 @@ import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/dat
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { Button, ImageBackground, Platform, StyleSheet, Switch, Text, TextInput, View } from 'react-native';
-import { updateGoal } from '../app/goalsService';
+import { updateNut } from '../app/nutService';
 import nutListBg from '../img/goalListBg.jpg';
 
 type Props = StackScreenProps<NutStackList, 'EditNut'>;
@@ -13,7 +13,6 @@ import { useAuth } from '../context/AuthContext';
 const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
   const { nut } = route.params;
   const { user } = useAuth();
-  const userId = user?.uid || 'guest';
   const [nutName, setNutName] = useState(nut.title);
   const [nutInformation, setNutInformation] = useState(nut.description || '');
   const [nutStartDate, setNutStartDate] = useState<Date | undefined>(nut.startDate ? new Date(nut.startDate) : undefined);
@@ -40,7 +39,7 @@ const EditNutScreen: React.FC<Props> = ({ route, navigation }) => {
     setLoading(true);
     setError('');
     try {
-      await updateGoal(nut.id, {
+      await updateNut(nut.id, {
         title: nutName,
         description: nutInformation,
         startDate: nutStartDate ? nutStartDate.toISOString() : null,
