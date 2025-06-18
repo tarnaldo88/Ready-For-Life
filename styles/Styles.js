@@ -1,3 +1,6 @@
+import { StyleSheet } from 'react-native';
+
+
 const styleNutList = StyleSheet.create({
     container: {
     flex: 1,
