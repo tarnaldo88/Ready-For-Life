@@ -6,8 +6,9 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React, { useState } from 'react';
 import { ActivityIndicator, Alert, FlatList, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import nutBg from '../img/loginBg.jpg';
+import nutBg from '../img/nutListBg.jpg';
 import { styleNutList } from '../styles/Styles';
+
 
 type RootStackParamList = {
     //Goals: undefined;
