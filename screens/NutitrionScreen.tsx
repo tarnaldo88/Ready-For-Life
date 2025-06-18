@@ -3,11 +3,11 @@ import { NutStackList } from '@/navigation/NutStackNavigator';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
-import Moment from 'moment';
 import React, { useState } from 'react';
-import { ActivityIndicator, Alert, FlatList, ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, FlatList, ImageBackground, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import nutBg from '../img/loginBg.jpg';
+import { styleNutList } from '../styles/Styles';
 
 type RootStackParamList = {
     //Goals: undefined;
@@ -28,6 +28,10 @@ const NutitrionScreen: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [cal, setCal] = useState(1800);
+  const [editingCal, setEditingCal] = useState(false);
+  const [calInput, setCalInput] = useState('1800');
+  const [groupedNuts, setGroupedNuts] = useState<any>({});
+  const [caloriesByDay, setCaloriesByDay] = useState<any>({});
 
   var moment = require('moment');
 
@@ -36,25 +40,31 @@ const NutitrionScreen: React.FC = () => {
       let isActive = true;
       const fetchNut = async () => {
         setLoading(true);
-        console.log('userId:', userId);
         try {
           const userNuts = await getNut(userId);
-          console.log('Fetched goals:', userNuts);
-          if (isActive){ 
+          if (isActive) {
             setNuts(userNuts);
-            handleNutCalories(userNuts);
-          };
+            // Group by day and calculate calories
+            const grouped: { [date: string]: Nut[] } = {};
+            const calByDay: { [date: string]: number } = {};
+            userNuts.forEach(nut => {
+              // Use only date part for grouping (e.g. 2025-06-18)
+              const date = nut.startDate ? moment(nut.startDate).format('YYYY-MM-DD') : 'Unknown';
+              if (!grouped[date]) grouped[date] = [];
+              grouped[date].push(nut);
+              // Parse calories as number
+              const cals = nut.calories ? parseInt(nut.calories, 10) : 0;
+              if (!calByDay[date]) calByDay[date] = 0;
+              calByDay[date] += cals;
+            });
+            setGroupedNuts(grouped);
+            setCaloriesByDay(calByDay);
+          }
         } catch (err) {
-          console.error('Error fetching goals:', err);
-          if (isActive) setError('Failed to load goals: ' + userId);
+          if (isActive) setError('Failed to load nutrition: ' + userId);
         } finally {
           if (isActive) setLoading(false);
         }
-      };
-      const handleNutCalories = async (nuts: Nut[]) => {
-          for(let i = 0; i < nuts.length; i++){
-            
-          }
       };
       fetchNut();
       return () => {
@@ -65,7 +75,7 @@ const NutitrionScreen: React.FC = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
+      <View style={styleNutList.container}>
         <ActivityIndicator size="large" />
       </View>
     );
@@ -73,20 +83,8 @@ const NutitrionScreen: React.FC = () => {
 
   if (error) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.error}>{error}</Text>
-      </View>
-    );
-  }
-
-  if (nuts.length === 0) {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Nutrition Items List</Text>
-        <Text>No food items found for this user.</Text>
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateNut', { userId })}>
-        <Text style={styles.buttonText}>Create New Food Item</Text>
-        </TouchableOpacity>
+      <View style={styleNutList.container}>
+        <Text style={styleNutList.error}>{error}</Text>
       </View>
     );
   }
@@ -111,133 +109,94 @@ const NutitrionScreen: React.FC = () => {
     navigation.navigate('EditNut', { nut });
   };
 
-
   return (
-    <ImageBackground source = {nutBg}  style={styles.background} resizeMode='cover'>
-    <View style={styles.container}>
-      <Text style={styles.title}>Goals List</Text>
-      <Text style={styles.nutText}>Total Calories Remaining: {cal}</Text>
-      <FlatList
-        data={nuts}
-        keyExtractor={(item) => item.id || item.title}
-        renderItem={({ item }) => (                      
-          <View style={styles.nutItem}>
-            <LinearGradient
-              colors={['#7d00ff','#0087FF' ]}
-              start={{ x: 0, y: 0 }}
-              end={{ x: 1, y: 1 }}
-              style={{ flex: 1 }}
-            >
-            <Text style={styles.nutTitle}>{item.title}</Text>
-            {item.calories ? <Text style={styles.calText}>Calories: {item.calories}</Text> : null}
-            {item.description ? <Text style={styles.nutText}>Food Description: {item.description}</Text> : null}
-            {item.startDate ? <Text style={styles.nutText}>Time Eaten: {Moment(item.startDate).format('d MM YYYY, h:mm:ss a')}</Text> : null}
-            <View style={styles.buttonRow}>
-              <TouchableOpacity style={styles.editButton} onPress={() => handleEdit(item)}>
-                <Text style={styles.buttonText}>Edit</Text>
+    <ImageBackground source={nutBg} style={styleNutList.background} resizeMode='cover'>
+      <View style={styleNutList.container}>
+        <Text style={styleNutList.title}>Nutrition Entries</Text>
+        <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+          <Text style={styleNutList.nutText}>Daily Calorie Goal: </Text>
+          {editingCal ? (
+            <>
+              <TextInput
+                style={[styleNutList.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
+                value={calInput}
+                onChangeText={setCalInput}
+                keyboardType="numeric"
+                autoFocus
+              />
+              <TouchableOpacity style={[styleNutList.editButton, {marginRight: 4}]} onPress={() => {
+                const val = parseInt(calInput, 10);
+                if (!isNaN(val) && val > 0) {
+                  setCal(val);
+                  setEditingCal(false);
+                }
+              }}>
+                <Text style={styleNutList.buttonText}>Save</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.deleteButton} onPress={() => handleDelete(item.id!)}>
-                <Text style={styles.buttonText}>Delete</Text>
+              <TouchableOpacity style={styleNutList.deleteButton} onPress={() => {
+                setCalInput(cal.toString());
+                setEditingCal(false);
+              }}>
+                <Text style={styleNutList.buttonText}>Cancel</Text>
               </TouchableOpacity>
-            </View>
-            </LinearGradient>
-          </View>          
+            </>
+          ) : (
+            <>
+              <Text style={[styleNutList.calText, {marginRight: 8}]}>{cal}</Text>
+              <TouchableOpacity style={styleNutList.editButton} onPress={() => setEditingCal(true)}>
+                <Text style={styleNutList.buttonText}>Edit</Text>
+              </TouchableOpacity>
+            </>
+          )}
+        </View>
+        {Object.keys(groupedNuts).length === 0 ? (
+          <>
+            <Text>No food items found for this user.</Text>
+            <TouchableOpacity style={styleNutList.button} onPress={() => navigation.navigate('CreateNut', { userId })}>
+              <Text style={styleNutList.buttonText}>Create New Food Item</Text>
+            </TouchableOpacity>
+          </>
+        ) : (
+          <FlatList
+            data={Object.keys(groupedNuts).sort((a, b) => b.localeCompare(a))}
+            keyExtractor={date => date}
+            renderItem={({ item: date }) => (
+              <View style={{ marginBottom: 24, width: '100%' }}>
+                <Text style={styleNutList.progressTitle}>{moment(date).format('dddd, MMM D, YYYY')}</Text>
+                <Text style={styleNutList.nutText}>Calories Consumed: {caloriesByDay[date]} / {cal} | Remaining: {cal - caloriesByDay[date]}</Text>
+                {groupedNuts[date].map((nut: Nut) => (
+                  <View style={styleNutList.nutItem} key={nut.id || nut.title}>
+                    <LinearGradient
+                      colors={['#7d00ff','#0087FF' ]}
+                      start={{ x: 0, y: 0 }}
+                      end={{ x: 1, y: 1 }}
+                      style={{ flex: 1 }}
+                    >
+                      <Text style={styleNutList.nutTitle}>{nut.title}</Text>
+                      {nut.calories ? <Text style={styleNutList.calText}>Calories: {nut.calories}</Text> : null}
+                      {nut.description ? <Text style={styleNutList.nutText}>Food Description: {nut.description}</Text> : null}
+                      {nut.startDate ? <Text style={styleNutList.nutText}>Time Eaten: {moment(nut.startDate).format('h:mm:ss a')}</Text> : null}
+                      <View style={styleNutList.buttonRow}>
+                        <TouchableOpacity style={styleNutList.editButton} onPress={() => handleEdit(nut)}>
+                          <Text style={styleNutList.buttonText}>Edit</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styleNutList.deleteButton} onPress={() => handleDelete(nut.id!)}>
+                          <Text style={styleNutList.buttonText}>Delete</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </LinearGradient>
+                  </View>
+                ))}
+              </View>
+            )}
+          />
         )}
-      />
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('CreateNut', { userId })}>
-        <Text style={styles.buttonText}>Create New Food Item</Text>
-      </TouchableOpacity>
-    </View>    
+        <TouchableOpacity style={styleNutList.button} onPress={() => navigation.navigate('CreateNut', { userId })}>
+          <Text style={styleNutList.buttonText}>Create New Food Item</Text>
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: 'white',
-  },
-  nutText:{
-    color:'white',
-    marginLeft: 8,
-    marginRight:10,
-  },
-  calText:{
-    color:'white',
-    fontWeight:'bold',
-    marginLeft: 8,
-    marginRight:10,
-  },
-  nutItem: {
-    width: '100%',
-    
-    // borderRadius: 8,
-    padding: 12,
-    marginBottom: 12,
-    // shadowColor: '#000',
-    // shadowOpacity: 0.1,
-    // shadowOffset: { width: 0, height: 4 },
-    // shadowRadius: 4,
-    elevation: 2,
-  },
-  nutTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    marginLeft: 8,
-    color: 'white',
-  },
-  progressTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 4,
-    marginLeft: 8,
-    color: '#23e859',
-  },
-  error: {
-    color: 'red',
-    fontSize: 16,
-  },
-  buttonRow: {
-    flexDirection: 'row',
-    marginTop: 8,
-    justifyContent: 'flex-end',
-    marginRight: 8,
-  },
-  editButton: {
-    backgroundColor: '#6cc6e8',
-    padding: 8,
-    borderRadius: 4,
-    marginRight: 8,
-    marginBottom:8,
-  },
-  deleteButton: {
-    backgroundColor: '#e86c6c',
-    padding: 8,
-    borderRadius: 4,
-    marginBottom:8,
-  },
-  buttonText: {
-    color: '#fff',
-    fontWeight: 'bold',
-  },
-  background: {
-    flex: 1,
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: { backgroundColor: '#7904a4', padding: 10, marginVertical: 5, borderRadius: 5, alignItems: "center", },
-})
 
 export default NutitrionScreen;
