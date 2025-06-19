@@ -129,14 +129,21 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <Text style={styles.title}>Welcome, {user.email}</Text>
             <LineChart data = {data} 
               yAxisColor="#0BA5A4"
-              showVerticalLines
-              verticalLinesColor="rgba(14,164,164,0.5)"
               xAxisColor="#0BA5A4"
-              color="#0BA5A4" 
+              showVerticalLines
+              verticalLinesColor="rgba(14,164,164,0.5)"              
+              color="#07BAD1" 
+              curved
               width = {300} 
               height = {200}  
               thickness={5}
               textColor= '#fff'
+              backgroundColor="#414141"
+              startFillColor1="#8a56ce"
+            startFillColor2="#56acce"
+            endFillColor1="#8a56ce"
+            endFillColor2="#56acce"
+            
             />
             <View style={{margin: 10}}></View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
