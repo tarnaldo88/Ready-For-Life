@@ -125,11 +125,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <VideoView style={styles.videoStyle} player={player} nativeControls={false}/>
       <View style={styles.container}>
        {user ? (
-          <>            
-            <LineChart data = {data} />
-
+          <>     
             <Text style={styles.title}>Welcome, {user.email}</Text>
-            
+            <LineChart data = {data} />
             <View style={{margin: 10}}></View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
               <Text style={styles.nutText}>Goal Weight: </Text>
