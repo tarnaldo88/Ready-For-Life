@@ -127,7 +127,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
        {user ? (
           <>     
             <Text style={styles.title}>Welcome, {user.email}</Text>
-            <LineChart data = {data} />
+            <LineChart data = {data} 
+              yAxisColor="#0BA5A4"
+              showVerticalLines
+              verticalLinesColor="rgba(14,164,164,0.5)"
+              xAxisColor="#0BA5A4"
+              color="#0BA5A4" 
+              width = {300} 
+              height = {200}  
+              thickness={5}
+              textColor= '#fff'
+            />
             <View style={{margin: 10}}></View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
               <Text style={styles.nutText}>Goal Weight: </Text>
