@@ -1,4 +1,5 @@
 import { deleteNut, getNut, Nut } from '@/app/nutService';
+import { getUserCalorieGoal, setUserCalorieGoal } from '@/app/userService';
 import { NutStackList } from '@/navigation/NutStackNavigator';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
@@ -31,10 +32,30 @@ const NutitrionScreen: React.FC = () => {
   const [cal, setCal] = useState(1800);
   const [editingCal, setEditingCal] = useState(false);
   const [calInput, setCalInput] = useState('1800');
+  const [calLoading, setCalLoading] = useState(true);
   const [groupedNuts, setGroupedNuts] = useState<any>({});
   const [caloriesByDay, setCaloriesByDay] = useState<any>({});
 
   var moment = require('moment');
+
+  // Fetch calorie goal on mount
+  React.useEffect(() => {
+    let isActive = true;
+    const fetchGoal = async () => {
+      setCalLoading(true);
+      try {
+        const goal = await getUserCalorieGoal(userId);
+        if (isActive && goal && !isNaN(goal)) {
+          setCal(goal);
+          setCalInput(goal.toString());
+        }
+      } finally {
+        if (isActive) setCalLoading(false);
+      }
+    };
+    if (userId && userId !== 'guest') fetchGoal();
+    return () => { isActive = false; };
+  }, [userId]);
 
   useFocusEffect(
     React.useCallback(() => {
@@ -125,11 +146,16 @@ const NutitrionScreen: React.FC = () => {
                 keyboardType="numeric"
                 autoFocus
               />
-              <TouchableOpacity style={[styleNutList.editButton, {marginRight: 4}]} onPress={() => {
+              <TouchableOpacity style={[styleNutList.editButton, {marginRight: 4}]} onPress={async () => {
                 const val = parseInt(calInput, 10);
                 if (!isNaN(val) && val > 0) {
                   setCal(val);
                   setEditingCal(false);
+                  if (userId && userId !== 'guest') {
+                    setCalLoading(true);
+                    await setUserCalorieGoal(userId, val);
+                    setCalLoading(false);
+                  }
                 }
               }}>
                 <Text style={styleNutList.buttonText}>Save</Text>
@@ -150,6 +176,8 @@ const NutitrionScreen: React.FC = () => {
             </>
           )}
         </View>
+        {calLoading && <ActivityIndicator size="small" color="#fff" style={{marginBottom: 10}} />}
+
         {Object.keys(groupedNuts).length === 0 ? (
           <>
             <Text>No food items found for this user.</Text>
