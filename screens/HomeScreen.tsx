@@ -7,6 +7,7 @@ import { getUserGoalWeight, setUserGoalWeight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
+import matrixBg from '../img/matrix.jpg';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
@@ -113,140 +114,125 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
+  //videoVIEW  
   return (
-    <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-      <VideoView style={styles.videoStyle} player={player} nativeControls={false} />
+    
+    <ImageBackground source={user? matrixBg : loginBg} style={styles.background} resizeMode="cover">
+      <VideoView style={styles.videoStyle} player={player} nativeControls={false}/>
       <View style={styles.container}>
-      <View style={styles.container}>
-          <Text style={styles.title}>Welcome, {user.email}</Text>
-          <Button
-            title="Go to Nut"
-            onPress={() => navigation.navigate('Main', { screen: 'Nutrition', params: { userId: user.uid } })}
-          />
-          <View style={{margin: 10}}></View>
-          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
-            <Text style={styles.nutText}>Goal Weight: </Text>
-            {editingGoalWeight ? (
+       {user ? (
+          <>
+            <Text style={styles.title}>Welcome, {user.email}</Text>
+            
+            <View style={{margin: 10}}></View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+              <Text style={styles.nutText}>Goal Weight: </Text>
+              {editingGoalWeight ? (
+                <>
+                  <TextInput
+                    style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
+                    value={goalWeightInput}
+                    onChangeText={setGoalWeightInput}
+                    keyboardType="numeric"
+                    autoFocus
+                  />
+                  <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={async () => {
+                    const val = parseFloat(goalWeightInput);
+                    if (!isNaN(val) && val > 0) {
+                      setGoalWeightLoading(true);
+                      await setUserGoalWeight(user.uid, val);
+                      setGoalWeight(val);
+                      setEditingGoalWeight(false);
+                      setGoalWeightLoading(false);
+                    }
+                  }}>
+                    <Text style={styles.buttonText}>Save</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.deleteButton} onPress={() => {
+                    setGoalWeightInput(goalWeight !== null ? goalWeight.toString() : '');
+                    setEditingGoalWeight(false);
+                  }}>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </>
+              ) : (
+                <>
+                  <Text style={[styles.buttonText, {marginRight: 8}]}>{goalWeight !== null ? goalWeight : 'Not set'}</Text>
+                  <TouchableOpacity style={styles.editButton} onPress={() => setEditingGoalWeight(true)}>
+                    <Text style={styles.buttonText}>Edit</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+              {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}
+            </View>
+            <TouchableOpacity             
+              style={styles.button}
+              onPress={() => navigation.navigate('Main', { screen: 'Nutrition', params: { userId: user.uid } })}
+            >
+              <Text style={styles.buttonText}>Go to Nut</Text> 
+            </TouchableOpacity>
+            <Button
+              title="Logout"
+              onPress={handleLogout}
+              color="#e74c3c"
+            />
+          </>
+        ) : (
+          <>
+            <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
+            {showReg ? (
               <>
                 <TextInput
-                  style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
-                  value={goalWeightInput}
-                  onChangeText={setGoalWeightInput}
-                  keyboardType="numeric"
-                  autoFocus
+                  style={styles.input}
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
                 />
-                <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={async () => {
-                  const val = parseFloat(goalWeightInput);
-                  if (!isNaN(val) && val > 0) {
-                    setGoalWeightLoading(true);
-                    await setUserGoalWeight(user.uid, val);
-                    setGoalWeight(val);
-                    setEditingGoalWeight(false);
-                    setGoalWeightLoading(false);
-                  }
-                }}>
-                  <Text style={styles.buttonText}>Save</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.deleteButton} onPress={() => {
-                  setGoalWeightInput(goalWeight !== null ? goalWeight.toString() : '');
-                  setEditingGoalWeight(false);
-                }}>
-                  <Text style={styles.buttonText}>Cancel</Text>
-                </TouchableOpacity>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Confirm Password"
+                  value={confirmPassword}
+                  onChangeText={setConfirmPassword}
+                  secureTextEntry
+                />
+                <Button title="Register" onPress={handleRegister} disabled={loading} />
+                <Button title="Back to Login" onPress={() => setShowReg(false)} />
               </>
             ) : (
               <>
-                <Text style={[styles.buttonText, {marginRight: 8}]}>{goalWeight !== null ? goalWeight : 'Not set'}</Text>
-                <TouchableOpacity style={styles.editButton} onPress={() => setEditingGoalWeight(true)}>
-                  <Text style={styles.buttonText}>Edit</Text>
-                </TouchableOpacity>
+                <TextInput
+                  style={styles.input}
+                  placeholder="Email"
+                  value={email}
+                  onChangeText={setEmail}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
+                <TextInput
+                  style={styles.input}
+                  placeholder="Password"
+                  value={password}
+                  onChangeText={setPassword}
+                  secureTextEntry
+                />
+                <Button title="Login" onPress={handleLogin} disabled={loading} />
+                <Button title="Register" onPress={() => setShowReg(true)} />
               </>
             )}
-            {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}
-          </View>
-          <Button
-            title="Logout"
-            onPress={handleLogout}
-            color="#e74c3c"
-          />
-        </View>
-        <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
-      {showReg ? (
-        <>
-        <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-          <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry
-        />
-        </>
-        ) : (
-          <>
-          <TextInput
-          style={styles.input}
-          placeholder="Email"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-        />
-        </>
+            {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}          
+          
+        </>      
       ) }
-      
-      {error ? <Text style={styles.error}>{error}</Text> : null}
-      {isRegister ? (        
-        <Button
-          
-          title={loading ? 'Registering...' : 'Register'}
-          onPress={ () => {
-            handleRegister();
-            handlePasswordMatch();
-          }}
-          disabled={loading}
-        />
-      ) : (
-        <Button
-          title={loading ? 'Logging in...' : 'Login'}
-          onPress={handleLogin}
-          disabled={loading}
-          
-        />
-      )}
-      {loading && <ActivityIndicator style={{ marginTop: 10 }} />}
-      <View style={{margin: 10}}></View>
-      <Button
-        title={isRegister ? 'Already have an account? Login' : "Don't have an account? Register"}
-        onPress={() => {
-          setShowReg(!showReg);
-          setIsRegister(!isRegister);                  
-          setError('');
-        }}
-        color="#888"
-      />
-      </View>
+       </View>
     </ImageBackground>
   );
 }
@@ -330,7 +316,7 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontWeight: 'bold',
-  },
+  },  
 });
 
 export default HomeScreen;
