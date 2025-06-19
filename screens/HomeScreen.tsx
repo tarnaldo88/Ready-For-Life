@@ -1,14 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import React, { useState } from 'react';
-import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { getUserGoalWeight, setUserGoalWeight } from '../app/userService';
+import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
 import { RootStackParamList } from '../navigation/RootNavigator';
-
-
-import { useAuth } from '../context/AuthContext';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
@@ -23,7 +22,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  
+  const [goalWeight, setGoalWeight] = useState<number | null>(null);
+  const [goalWeightInput, setGoalWeightInput] = useState('');
+  const [editingGoalWeight, setEditingGoalWeight] = useState(false);
+  const [goalWeightLoading, setGoalWeightLoading] = useState(false);
+
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
 
@@ -40,7 +43,22 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     player.loop = true;
   });
 
-  
+  useEffect(() => {
+    let isActive = true;
+    const fetchGoalWeight = async () => {
+      if (user?.uid) {
+        setGoalWeightLoading(true);
+        const gw = await getUserGoalWeight(user.uid);
+        if (isActive) {
+          setGoalWeight(gw);
+          setGoalWeightInput(gw !== null ? gw.toString() : '');
+          setGoalWeightLoading(false);
+        }
+      }
+    };
+    fetchGoalWeight();
+    return () => { isActive = false; };
+  }, [user?.uid]);
 
   const handleLogin = async () => {
     setError('');
@@ -95,31 +113,63 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
-  if (user) {
-    return (
-      <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-        <View style={styles.container}>
+  return (
+    <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
+      <VideoView style={styles.videoStyle} player={player} nativeControls={false} />
+      <View style={styles.container}>
+      <View style={styles.container}>
           <Text style={styles.title}>Welcome, {user.email}</Text>
           <Button
             title="Go to Nut"
             onPress={() => navigation.navigate('Main', { screen: 'Nutrition', params: { userId: user.uid } })}
           />
           <View style={{margin: 10}}></View>
+          <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+            <Text style={styles.nutText}>Goal Weight: </Text>
+            {editingGoalWeight ? (
+              <>
+                <TextInput
+                  style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
+                  value={goalWeightInput}
+                  onChangeText={setGoalWeightInput}
+                  keyboardType="numeric"
+                  autoFocus
+                />
+                <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={async () => {
+                  const val = parseFloat(goalWeightInput);
+                  if (!isNaN(val) && val > 0) {
+                    setGoalWeightLoading(true);
+                    await setUserGoalWeight(user.uid, val);
+                    setGoalWeight(val);
+                    setEditingGoalWeight(false);
+                    setGoalWeightLoading(false);
+                  }
+                }}>
+                  <Text style={styles.buttonText}>Save</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.deleteButton} onPress={() => {
+                  setGoalWeightInput(goalWeight !== null ? goalWeight.toString() : '');
+                  setEditingGoalWeight(false);
+                }}>
+                  <Text style={styles.buttonText}>Cancel</Text>
+                </TouchableOpacity>
+              </>
+            ) : (
+              <>
+                <Text style={[styles.buttonText, {marginRight: 8}]}>{goalWeight !== null ? goalWeight : 'Not set'}</Text>
+                <TouchableOpacity style={styles.editButton} onPress={() => setEditingGoalWeight(true)}>
+                  <Text style={styles.buttonText}>Edit</Text>
+                </TouchableOpacity>
+              </>
+            )}
+            {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}
+          </View>
           <Button
             title="Logout"
             onPress={handleLogout}
             color="#e74c3c"
           />
         </View>
-      </ImageBackground>
-    );
-  }
-
-  return (
-    <ImageBackground source={loginBg} style={styles.background} resizeMode="cover">
-      <VideoView style={styles.video} player={player} nativeControls={false} />
-      <View style={styles.container}>
-      
         <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
       {showReg ? (
         <>
@@ -199,7 +249,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       </View>
     </ImageBackground>
   );
-};
+}
+
 
 const styles = StyleSheet.create({
   background: {
@@ -213,15 +264,24 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor: 'rgba(121, 243, 14, 0.3)', // semi-transparent overlay for readability
     padding: 20,
     width: '100%',
   },
   title: {
-    fontSize: 24,
+    fontSize: 32,
     fontWeight: 'bold',
+    marginBottom: 24,
+    color: '#fff',
+  },
+  video: {
+    width: 300,
+    height: 200,
     marginBottom: 20,
-    color: '#e9eff7',
+  },
+  nutText: {
+    color: '#fff',
+    marginLeft: 0,
+    marginRight: 8,
   },
   input: {
     width: '100%',
@@ -244,7 +304,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     margin: 10,
   },
-  video: {    
+  videoStyle: {    
     height: '100%',
     width: '320%',
     position: 'absolute',
@@ -253,6 +313,23 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
+  },
+  editButton: {
+    backgroundColor: '#6cc6e8',
+    padding: 8,
+    borderRadius: 4,
+    marginRight: 8,
+    marginBottom:8,
+  },
+  deleteButton: {
+    backgroundColor: '#e86c6c',
+    padding: 8,
+    borderRadius: 4,
+    marginBottom:8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
 });
 
