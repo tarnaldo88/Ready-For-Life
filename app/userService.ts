@@ -27,3 +27,19 @@ export async function getUserCalorieGoal(userId: string): Promise<number | null>
   }
   return null;
 }
+
+export async function setUserGoalWeight(userId: string, goalWeight: number) {
+  const userRef = doc(db, 'users', userId);
+  await setDoc(userRef, { goalWeight }, { merge: true });
+}
+
+export async function getUserGoalWeight(userId: string): Promise<number | null> {
+  const userRef = doc(db, 'users', userId);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    const data = userSnap.data();
+    return typeof data.goalWeight === 'number' ? data.goalWeight : null;
+  }
+  return null;
+}
+
