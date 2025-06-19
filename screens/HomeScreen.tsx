@@ -2,7 +2,8 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { useVideoPlayer, VideoView } from 'expo-video';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { LineChart } from "react-native-gifted-charts";
 import { getUserGoalWeight, setUserGoalWeight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
@@ -30,6 +31,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
+
+  const data=[ {value:50}, {value:80}, {value:90}, {value:70} ]
 
   const player = useVideoPlayer(videoSource1, (player) => {    
     player.staysActiveInBackground = true;
@@ -118,10 +121,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     
     <ImageBackground source={user? matrixBg : loginBg} style={styles.background} resizeMode="cover">
+      <ScrollView>
       <VideoView style={styles.videoStyle} player={player} nativeControls={false}/>
       <View style={styles.container}>
        {user ? (
-          <>
+          <>            
+            <LineChart data = {data} />
+
             <Text style={styles.title}>Welcome, {user.email}</Text>
             
             <View style={{margin: 10}}></View>
@@ -177,6 +183,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               color="#e74c3c"
             />
           </>
+          
         ) : (
           <>
             <Text style={styles.title}>{isRegister ? 'Register' : 'Login'}</Text>
@@ -233,7 +240,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
         </>      
       ) }
        </View>
-    </ImageBackground>
+       </ScrollView>
+    </ImageBackground>    
   );
 }
 
