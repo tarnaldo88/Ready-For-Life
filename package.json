@@ -9,7 +9,10 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest"
+    "test": "jest"    
+  },
+  "jest": {
+    "preset": "jest-expo"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
@@ -64,3 +67,4 @@
   },
   "private": true
 }
+
