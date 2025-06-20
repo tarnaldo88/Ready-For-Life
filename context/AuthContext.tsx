@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import { signOut as firebaseSignOut, onAuthStateChanged } from 'firebase/auth';
+import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { Text } from 'react-native';
-import { onAuthStateChanged, signOut as firebaseSignOut } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 
 // Define the shape of your AuthContext
@@ -59,3 +59,6 @@ export const useAuth = () => {
   }
   return context;
 };
+
+
+export default AuthContext;

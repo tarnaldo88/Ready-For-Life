@@ -9,7 +9,7 @@
     "ios": "expo start --ios",
     "web": "expo start --web",
     "lint": "expo lint",
-    "test": "jest"    
+    "test": "jest"
   },
   "jest": {
     "preset": "jest-expo"
@@ -59,7 +59,9 @@
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
+    "@types/jest": "^30.0.0",
     "@types/react": "~19.0.10",
+    "@types/react-test-renderer": "^19.1.0",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "ts-jest": "^29.4.0",
@@ -67,4 +69,3 @@
   },
   "private": true
 }
-
