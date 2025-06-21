@@ -130,7 +130,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
             <LineChart data = {data} 
               thickness={6}
               color="#07BAD1"
-              maxValue={600}
+              maxValue={100}
               noOfSections={3}
               areaChart
               yAxisTextStyle={{color: 'lightgray'}}
@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
   },
   videoStyle: {    
     height: '100%',
-    width: '320%',
+    width: '100%',
     position: 'absolute',
     //backgroundColor: 'rgba(121, 243, 14, 0.3)', // semi-transparent overlay for readability
     top: 0,
