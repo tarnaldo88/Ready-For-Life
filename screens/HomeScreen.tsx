@@ -138,12 +138,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               height = {200}  
               thickness={5}
               textColor= '#fff'
-              backgroundColor="#414141"
-              startFillColor1="#8a56ce"
-            startFillColor2="#56acce"
-            endFillColor1="#8a56ce"
-            endFillColor2="#56acce"
-            
+              backgroundColor="#414141"            
             />
             <View style={{margin: 10}}></View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
