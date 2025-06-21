@@ -128,17 +128,26 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <>     
             <Text style={styles.title}>Welcome, {user.email}</Text>
             <LineChart data = {data} 
-              yAxisColor="#0BA5A4"
-              xAxisColor="#0BA5A4"
-              showVerticalLines
-              verticalLinesColor="rgba(14,164,164,0.5)"              
-              color="#07BAD1" 
+              thickness={6}
+              color="#07BAD1"
+              maxValue={600}
+              noOfSections={3}
+              areaChart
+              yAxisTextStyle={{color: 'lightgray'}}
               curved
-              width = {300} 
-              height = {200}  
-              thickness={5}
-              textColor= '#fff'
-              backgroundColor="#414141"            
+              startFillColor={'rgb(84,219,234)'}
+              endFillColor={'rgb(84,219,234)'}
+              startOpacity={0.4}
+              endOpacity={0.4}
+              spacing={38}
+              backgroundColor="#414141"
+              rulesColor="gray"
+              rulesType="solid"
+              initialSpacing={10}
+              yAxisColor="lightgray"
+              xAxisColor="lightgray"
+              dataPointsHeight={20}
+              dataPointsWidth={20}           
             />
             <View style={{margin: 10}}></View>
             <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
