@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import { useVideoPlayer, VideoView } from 'expo-video';
+import { useVideoPlayer } from 'expo-video';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -38,8 +38,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     player.staysActiveInBackground = true;
     player.playbackRate = 2;
     player.play();  
-    player.loop = true;      
-  });
+    player.loop = true;  
+    });
 
   const player2 = useVideoPlayer(videoSource2, (player) => {   
     player.staysActiveInBackground = true;
@@ -121,8 +121,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   return (
     
     <ImageBackground source={user? matrixBg : loginBg} style={styles.background} resizeMode="cover">
-      <ScrollView>
-      <VideoView style={styles.videoStyle} player={player} nativeControls={false}/>
+      <ScrollView>    
       <View style={styles.container}>
        {user ? (
           <>     
@@ -229,9 +228,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   value={confirmPassword}
                   onChangeText={setConfirmPassword}
                   secureTextEntry
-                />
-                <Button title="Register" onPress={handleRegister} disabled={loading} />
-                <Button title="Back to Login" onPress={() => setShowReg(false)} />
+                />                
+                <TouchableOpacity style={styles.button} onPress={handleRegister} disabled={loading}>
+                  <Text style={styles.buttonText}>Register</Text>
+                </TouchableOpacity>                               
+                <TouchableOpacity style={styles.button} onPress={() => setShowReg(false)}>
+                  <Text style={styles.buttonText}>Back to Login</Text>
+                </TouchableOpacity>
               </>
             ) : (
               <>
@@ -250,8 +253,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   onChangeText={setPassword}
                   secureTextEntry
                 />
-                <Button title="Login" onPress={handleLogin} disabled={loading} />
-                <Button title="Register" onPress={() => setShowReg(true)} />
+                <TouchableOpacity style={styles.button} onPress={handleLogin} disabled={loading}>
+                  <Text style={styles.buttonText}>Login</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button} onPress={() => setShowReg(true)}>
+                  <Text style={styles.buttonText}>Register</Text>
+                </TouchableOpacity>
               </>
             )}
             {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}          
