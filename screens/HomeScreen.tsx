@@ -1,10 +1,12 @@
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
 import { useVideoPlayer } from 'expo-video';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
-import { getUserGoalWeight, setUserGoalWeight, Weight } from '../app/userService';
+import { getUserGoalWeight, setUserGoalWeight, Weight, addUserWeightEntry, getUserWeightHistory } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
@@ -27,8 +29,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [goalWeight, setGoalWeight] = useState<number | null>(null);
   const [goalWeightInput, setGoalWeightInput] = useState('');
   const [editingGoalWeight, setEditingGoalWeight] = useState(false);
+  const [editingCurrentWeight, setEditingCurrentWeight] = useState(false);
   const [goalWeightLoading, setGoalWeightLoading] = useState(false);
   const [weights, setWeights] = useState<Weight[]>([]);
+  const [weightChartLoading, setWeightChartLoading] = useState(false);
+  // New state for weight entry
+  const [weightInput, setWeightInput] = useState('');
+  const [weightDate, setWeightDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
@@ -48,6 +56,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     player.loop = true;
   });
 
+  // Fetch weights on mount
+  async function fetchWeights() {
+    if (!user?.uid) return;
+    setWeightChartLoading(true);
+    try {
+      const entries = await getUserWeightHistory(user.uid);
+      // Sort by date
+      entries.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+      setWeights(entries);
+    } finally {
+      setWeightChartLoading(false);
+    }
+  }
+
   useEffect(() => {
     let isActive = true;
     const fetchGoalWeight = async () => {
@@ -62,6 +84,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       }
     };
     fetchGoalWeight();
+    fetchWeights();
     return () => { isActive = false; };
   }, [user?.uid]);
 
@@ -127,30 +150,37 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
        {user ? (
           <>     
             <Text style={styles.title}>Welcome, {user.email}</Text>
-            <LineChart data = {data} 
-              thickness={6}
-              color="#07BAD1"
-              maxValue={100}
-              noOfSections={3}
-              areaChart
-              yAxisTextStyle={{color: 'lightgray'}}
-              curved
-              startFillColor={'rgb(84,219,234)'}
-              endFillColor={'rgb(84,219,234)'}
-              startOpacity={0.4}
-              endOpacity={0.4}
-              spacing={38}
-              backgroundColor="#414141"
-              rulesColor="gray"
-              rulesType="solid"
-              initialSpacing={10}
-              yAxisColor="lightgray"
-              xAxisColor="lightgray"
-              dataPointsHeight={20}
-              dataPointsWidth={20}           
-            />
-            <View style={{margin: 10}}></View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 10 }}>
+             {/* Historical Weights Chart */}
+             <View style={{marginVertical: 16, backgroundColor: '#fff', borderRadius: 8, padding: 12, width: '100%'}}>
+               <Text style={[styles.nutText, {marginBottom: 8, color: '#333'}]}>Weight History</Text>
+               {weightChartLoading ? (
+                 <ActivityIndicator size="small" color="#7904a4" />
+               ) : weights.length > 0 ? (
+                 <LineChart
+                   data={weights.map(w => ({
+                     value: typeof w.weight === 'number' ? w.weight : parseFloat(w.weight),
+                     label: w.date ? Moment(w.date).format('MM/DD') : '',
+                   }))}
+                   thickness={3}
+                   color="#7904a4"
+                   hideDataPoints={false}
+                   yAxisColor="#C0C0C0"
+                   xAxisColor="#C0C0C0"
+                   areaChart
+                   curved
+                   hideRules
+                   isAnimated
+                   noOfSections={4}
+                   yAxisTextStyle={{color: '#888'}} 
+                   xAxisLabelTextStyle={{color: '#888'}}
+                   style={{height: 180}}
+                 />
+               ) : (
+                 <Text style={{color: '#888'}}>No weight entries yet.</Text>
+               )}
+             </View>
+             <View style={{margin: 10}}></View>
+            <View style={{  alignItems: 'center', marginBottom: 10 }}>
               <Text style={styles.nutText}>Goal Weight: </Text>
               {editingGoalWeight ? (
                 <>
@@ -187,6 +217,56 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     <Text style={styles.buttonText}>Edit</Text>
                   </TouchableOpacity>
                 </>
+              )}
+              {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}
+              {editingCurrentWeight ? (
+                <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
+                  <TextInput
+                    style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
+                    value={weightInput}
+                    onChangeText={setWeightInput}
+                    keyboardType="numeric"
+                    autoFocus
+                  />
+                  <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={async () => {
+                    const val = parseFloat(weightInput);
+                    if (!isNaN(val) && val > 0) {
+                      await addUserWeightEntry(user.uid, val, weightDate);
+                      setEditingCurrentWeight(false);
+                      // Fetch weights again after adding
+                      fetchWeights();
+                    }
+                  }}>
+                    <Text style={styles.buttonText}>Save</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.deleteButton} onPress={() => setEditingCurrentWeight(false)}>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <>
+                  <Text style={styles.nutText}>Current Weight: {weightInput}</Text>
+                  <TouchableOpacity style={styles.editButton} onPress={() => setEditingCurrentWeight(true)}>
+                    <Text style={styles.buttonText}>Edit Current Weight</Text>
+                  </TouchableOpacity>
+                </>
+              )}
+              <TouchableOpacity style={styles.editButton} onPress={() => setShowDatePicker(true)}>
+                <Text style={styles.buttonText}>Edit Date of Weight</Text>
+              </TouchableOpacity>
+              <Text style={styles.nutText}>Date of Weight: {Moment(weightDate).format('MM DD YYYY')}</Text>
+              {showDatePicker && (
+                <DateTimePicker
+                  value={weightDate}
+                  onChange={(event, date) => {
+                    if (date) {
+                      setWeightDate(date);
+                      setShowDatePicker(false);
+                    }
+                  }}
+                  minimumDate={new Date(2000, 0, 1)}
+                  maximumDate={new Date()}
+                />
               )}
               {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}
             </View>
