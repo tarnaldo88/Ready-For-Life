@@ -4,7 +4,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'fire
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
-import { getUserGoalWeight, setUserGoalWeight } from '../app/userService';
+import { getUserGoalWeight, setUserGoalWeight, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
@@ -28,6 +28,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [goalWeightInput, setGoalWeightInput] = useState('');
   const [editingGoalWeight, setEditingGoalWeight] = useState(false);
   const [goalWeightLoading, setGoalWeightLoading] = useState(false);
+  const [weights, setWeights] = useState<Weight[]>([]);
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);

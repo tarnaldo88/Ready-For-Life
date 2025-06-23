@@ -43,9 +43,9 @@ const GoalsListScreen: React.FC<Props> = () => {
         }
       };
       const handleGoalDates = async (goals: Goal[]) => {
-          for(let i = 0; i < goals.length; i++){
+          // for(let i = 0; i < goals.length; i++){
             
-          }
+          // }
       };
       fetchGoals();
       return () => {

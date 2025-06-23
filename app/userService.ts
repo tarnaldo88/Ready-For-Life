@@ -4,6 +4,7 @@ import { app } from '../firebaseConfig';
 export interface Weight{
   id?: string;
   weight: number;
+  [key: number]: any;
 }
 
 const db = getFirestore(app);
