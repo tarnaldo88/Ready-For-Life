@@ -154,7 +154,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    noOfSections={4}
                    yAxisTextStyle={{color: '#888'}} 
                    xAxisLabelTextStyle={{color: '#888'}}
-                   style={{height: 180}}
+                   height={180}
                  />
                ) : (
                  <Text style={{color: '#888'}}>No weight entries yet.</Text>
