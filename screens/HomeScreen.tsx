@@ -1,12 +1,11 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
-import { useVideoPlayer } from 'expo-video';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Button, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
-import { getUserGoalWeight, setUserGoalWeight, Weight, addUserWeightEntry, getUserWeightHistory } from '../app/userService';
+import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
@@ -14,9 +13,6 @@ import matrixBg from '../img/matrix.jpg';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
-
-const videoSource1 = require('../img/video1.mp4');
-const videoSource2 = require('../img/video2.mp4');
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const { user } = useAuth();
@@ -40,21 +36,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
-
-  const data=[ {value:50}, {value:80}, {value:90}, {value:70} ]
-
-  const player = useVideoPlayer(videoSource1, (player) => {    
-    player.staysActiveInBackground = true;
-    player.playbackRate = 2;
-    player.play();  
-    player.loop = true;  
-    });
-
-  const player2 = useVideoPlayer(videoSource2, (player) => {   
-    player.staysActiveInBackground = true;
-    player.play();
-    player.loop = true;
-  });
 
   // Fetch weights on mount
   async function fetchWeights() {
