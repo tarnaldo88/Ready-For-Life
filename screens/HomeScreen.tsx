@@ -193,7 +193,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 </>
               ) : (
                 <>
-                  <Text style={[styles.buttonText, {marginRight: 8}]}>{goalWeight !== null ? goalWeight : 'Not set'}</Text>
+                 
                   <TouchableOpacity style={styles.editButton} onPress={() => setEditingGoalWeight(true)}>
                     <Text style={styles.buttonText}>Edit</Text>
                   </TouchableOpacity>
