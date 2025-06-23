@@ -1,6 +1,11 @@
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import { app } from '../firebaseConfig';
 
+export interface Weight{
+  id?: string;
+  weight: number;
+}
+
 const db = getFirestore(app);
 
 export async function getUserProfile(userId: string) {
