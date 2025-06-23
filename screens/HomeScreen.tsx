@@ -132,8 +132,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
           <>     
             <Text style={styles.title}>Welcome, {user.email}</Text>
              {/* Historical Weights Chart */}
-             <View style={{marginVertical: 16, backgroundColor: '#fff', borderRadius: 8, padding: 12, width: '100%'}}>
-               <Text style={[styles.nutText, {marginBottom: 8, color: '#333'}]}>Weight History</Text>
+             <View style={{marginVertical: 16, backgroundColor: '#275075', borderRadius: 8, padding: 12, width: '100%'}}>
+               <Text style={[styles.nutText, {marginBottom: 8, color: '#fff'}]}>Weight History</Text>
                {weightChartLoading ? (
                  <ActivityIndicator size="small" color="#7904a4" />
                ) : weights.length > 0 ? (
@@ -152,17 +152,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    hideRules
                    isAnimated
                    noOfSections={4}
-                   yAxisTextStyle={{color: '#888'}} 
-                   xAxisLabelTextStyle={{color: '#888'}}
+                   yAxisTextStyle={{color: '#fff'}} 
+                   xAxisLabelTextStyle={{color: '#fff'}}
                    height={180}
                  />
                ) : (
-                 <Text style={{color: '#888'}}>No weight entries yet.</Text>
+                 <Text style={{color: '#fff'}}>No weight entries yet.</Text>
                )}
              </View>
              <View style={{margin: 10}}></View>
             <View style={{  alignItems: 'center', marginBottom: 10 }}>
-              <Text style={styles.nutText}>Goal Weight: </Text>
+              <Text style={styles.nutText}>Goal Weight: {goalWeight}</Text>
               {editingGoalWeight ? (
                 <>
                   <TextInput
@@ -211,7 +211,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   />
                   <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={async () => {
                     const val = parseFloat(weightInput);
-                    if (!isNaN(val) && val > 0) {
+                    if (!isNaN(val) && val > 0) {                      
                       await addUserWeightEntry(user.uid, val, weightDate);
                       setEditingCurrentWeight(false);
                       // Fetch weights again after adding
