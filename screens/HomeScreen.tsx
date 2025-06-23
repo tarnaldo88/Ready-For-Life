@@ -145,15 +145,16 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    thickness={3}
                    color="#7904a4"
                    hideDataPoints={false}
-                   yAxisColor="#C0C0C0"
-                   xAxisColor="#C0C0C0"
-                   areaChart
+                   yAxisColor="#00e6e6"
+                   xAxisColor="#c084fc"
                    curved
                    hideRules
                    isAnimated
                    noOfSections={4}
-                   yAxisTextStyle={{color: '#fff'}} 
-                   xAxisLabelTextStyle={{color: '#fff'}}
+                   yAxisTextStyle={{color: '#00e6e6'}}
+                   xAxisLabelTextStyle={{color: '#c084fc'}}                   
+                   dataPointsColor="#c084fc"
+                   dataPointsRadius={5}                   
                    height={180}
                  />
                ) : (
