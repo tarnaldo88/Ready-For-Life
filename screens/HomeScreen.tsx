@@ -46,6 +46,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       // Sort by date
       entries.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
       setWeights(entries);
+      // Set the most recent weight in weightInput
+      if (entries.length > 0) {
+        const latest = entries[entries.length - 1];
+        setWeightInput(latest.weight.toString());
+      } else {
+        setWeightInput('');
+      }
     } finally {
       setWeightChartLoading(false);
     }
@@ -206,7 +213,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   <TextInput
                     style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
                     value={weightInput}
-                    onChangeText={setWeightInput}
+                    onChangeText={ (value) =>
+                      setWeightInput(value)
+                    }
                     keyboardType="numeric"
                     autoFocus
                   />
