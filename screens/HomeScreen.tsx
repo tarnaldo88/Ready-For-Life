@@ -159,10 +159,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    isAnimated
                    noOfSections={4}
                    yAxisTextStyle={{color: '#00e6e6'}}
-                   xAxisLabelTextStyle={{color: '#c084fc'}}                   
+                   xAxisLabelTextStyle={{color: '#c084fc'}}
                    dataPointsColor="#c084fc"
                    dataPointsRadius={5}                   
                    height={180}
+                   yAxisOffset={250}
                  />
                ) : (
                  <Text style={{color: '#fff'}}>No weight entries yet.</Text>
