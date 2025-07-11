@@ -3,18 +3,61 @@ import { StackScreenProps } from '@react-navigation/stack';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
 import { LineChart } from "react-native-gifted-charts";
 import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { updateProfile } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
 import matrixBg from '../img/matrix.jpg';
+import defaultAvatar from '../img/defaultAvatar.png';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+  const [avatarUploading, setAvatarUploading] = useState(false);
+
+  // Avatar picker handler
+  const handleAvatarPress = async () => {
+    if (!user) return;
+    // Ask for permission
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (!permissionResult.granted) {
+      Alert.alert('Permission required', 'Please allow access to your photos to change your avatar.');
+      return;
+    }
+    // Pick image
+    const pickerResult = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.7,
+    });
+    if (pickerResult.cancelled) return;
+    setAvatarUploading(true);
+    try {
+      // Upload to Firebase Storage
+      const storage = getStorage();
+      const response = await fetch(pickerResult.uri);
+      const blob = await response.blob();
+      const storageRef = ref(storage, `avatars/${user.uid}.jpg`);
+      await uploadBytes(storageRef, blob);
+      const downloadURL = await getDownloadURL(storageRef);
+      // Update Firebase Auth profile
+      await updateProfile(user, { photoURL: downloadURL });
+      // Force UI update (if using context, may need to trigger re-fetch)
+      Alert.alert('Avatar updated!');
+    } catch (e) {
+      Alert.alert('Error', 'Failed to update avatar.');
+    } finally {
+      setAvatarUploading(false);
+    }
+  };
+
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
   const [email, setEmail] = useState('');
@@ -136,8 +179,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       <ScrollView>    
       <View style={styles.container}>
        {user ? (
-          <>     
-            <Text style={styles.title}>Welcome, {user.email}</Text>
+          <>                 {/* User avatar and username */}
+             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>
+               <TouchableOpacity onPress={handleAvatarPress} disabled={avatarUploading}>
+                 <Image
+                   source={user.photoURL ? { uri: user.photoURL } : defaultAvatar}
+                   style={{ width: 56, height: 56, borderRadius: 28, marginRight: 12, borderWidth: 2, borderColor: '#00e6e6', backgroundColor: '#eee', opacity: avatarUploading ? 0.5 : 1 }}
+                 />
+                 {avatarUploading && <ActivityIndicator style={{position: 'absolute', left: 18, top: 18}} color="#00e6e6" />}
+               </TouchableOpacity>
+               <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+                 {user.displayName ? user.displayName : (user.email || 'User')}
+               </Text>
+             </View>
+             <Text style={styles.title}>Welcome, {user.email}</Text>
              {/* Historical Weights Chart */}
              <View style={{marginVertical: 16, backgroundColor: '#275075', borderRadius: 8, padding: 12, width: '100%'}}>
                <Text style={[styles.nutText, {marginBottom: 8, color: '#fff'}]}>Weight History</Text>
