@@ -215,7 +215,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsRadius={5}                   
                    height={180}
                    yAxisOffset={lowLim}
-                 />
+                 />  
                  {editingLowLim ? (
                   <>
                   <TextInput
@@ -233,10 +233,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   </TouchableOpacity>
                   </>
                  ):(
-                  <TouchableOpacity onPress={() => setEditingLowLim(true)}>
-                    <Text style={{color: '#fff'}}>(Press to change)Low Limit: {lowLim}</Text>
+                  <TouchableOpacity style={styles.editButton} onPress={() => setEditingLowLim(true)}>
+                    <Text style={styles.buttonText}>Low Limit: {lowLim}</Text>
                   </TouchableOpacity>)
-                  }                 
+                  }                                
                  </>
                ) : (
                  <Text style={{color: '#fff'}}>No weight entries yet.</Text>
@@ -481,7 +481,7 @@ const styles = StyleSheet.create({
     bottom: 0,
   },
   editButton: {
-    backgroundColor: '#6cc6e8',
+    backgroundColor: '#9000f3',
     padding: 8,
     borderRadius: 4,
     marginRight: 8,
