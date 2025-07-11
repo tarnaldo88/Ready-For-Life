@@ -159,18 +159,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
-  const handlePasswordMatch = () => {
-    if (password.length < 6) 
-    {
-      setError('Password must be at least 6 characters long');
-    }
-    else if (confirmPassword !== password) 
-    {
-      setError('Passwords do not match');
-    } 
-    else 
-    {      
-      setError('');
+  const handleLowLimit = (text: string) => {
+    const val = parseFloat(text);
+    if (!isNaN(val) && val > 0) {
+      setLowLim(val);
+    } else {
+      setLowLim(0);
     }
   };
 
@@ -227,7 +221,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   <TextInput
                     style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
                     value={lowLim.toString()}
-                    onChangeText={(text) => setLowLim(parseInt(text))}
+                    onChangeText={(text) => handleLowLimit(text)}
                     keyboardType="numeric"
                     autoFocus
                   />
