@@ -19,6 +19,30 @@ type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [avatarUploading, setAvatarUploading] = useState(false);
+  const [lowLim, setLowLim] = useState(0);
+  const { user } = useAuth();
+  const userId = user?.uid || 'guest';
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [goalWeight, setGoalWeight] = useState<number | null>(null);
+  const [goalWeightInput, setGoalWeightInput] = useState('');
+  const [editingGoalWeight, setEditingGoalWeight] = useState(false);
+  const [editingCurrentWeight, setEditingCurrentWeight] = useState(false);
+  const [editingLowLim, setEditingLowLim] = useState(false);
+  const [goalWeightLoading, setGoalWeightLoading] = useState(false);
+  const [weights, setWeights] = useState<Weight[]>([]);
+  const [weightChartLoading, setWeightChartLoading] = useState(false);
+  // New state for weight entry
+  const [weightInput, setWeightInput] = useState('');
+  const [weightDate, setWeightDate] = useState<Date>(new Date());
+  const [showDatePicker, setShowDatePicker] = useState(false);
+
+  const [isRegister, setIsRegister] = useState(false);
+  const [showReg, setShowReg] = useState(false);
+
 
   // Avatar picker handler
   const handleAvatarPress = async () => {
@@ -57,28 +81,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
-  const { user } = useAuth();
-  const userId = user?.uid || 'guest';
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [goalWeight, setGoalWeight] = useState<number | null>(null);
-  const [goalWeightInput, setGoalWeightInput] = useState('');
-  const [editingGoalWeight, setEditingGoalWeight] = useState(false);
-  const [editingCurrentWeight, setEditingCurrentWeight] = useState(false);
-  const [goalWeightLoading, setGoalWeightLoading] = useState(false);
-  const [weights, setWeights] = useState<Weight[]>([]);
-  const [weightChartLoading, setWeightChartLoading] = useState(false);
-  // New state for weight entry
-  const [weightInput, setWeightInput] = useState('');
-  const [weightDate, setWeightDate] = useState<Date>(new Date());
-  const [showDatePicker, setShowDatePicker] = useState(false);
-
-  const [isRegister, setIsRegister] = useState(false);
-  const [showReg, setShowReg] = useState(false);
-
+  
   // Fetch weights on mount
   async function fetchWeights() {
     if (!user?.uid) return;
@@ -190,14 +193,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
                  {user.displayName ? user.displayName : (user.email || 'User')}
                </Text>
-             </View>
-             <Text style={styles.title}>Welcome, {user.email}</Text>
+             </View>             
              {/* Historical Weights Chart */}
              <View style={{marginVertical: 16, backgroundColor: '#275075', borderRadius: 8, padding: 12, width: '100%'}}>
                <Text style={[styles.nutText, {marginBottom: 8, color: '#fff'}]}>Weight History</Text>
                {weightChartLoading ? (
                  <ActivityIndicator size="small" color="#7904a4" />
                ) : weights.length > 0 ? (
+                <>
                  <LineChart
                    data={weights.map(w => ({
                      value: typeof w.weight === 'number' ? w.weight : parseFloat(w.weight),
@@ -217,8 +220,30 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsColor="#c084fc"
                    dataPointsRadius={5}                   
                    height={180}
-                   yAxisOffset={320}
+                   yAxisOffset={lowLim}
                  />
+                 {editingLowLim ? (
+                  <>
+                  <TextInput
+                    style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
+                    value={lowLim.toString()}
+                    onChangeText={(text) => setLowLim(parseInt(text))}
+                    keyboardType="numeric"
+                    autoFocus
+                  />
+                  <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={() => setEditingLowLim(false)}>
+                    <Text style={styles.buttonText}>Save</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.deleteButton} onPress={() => setEditingLowLim(false)}>
+                    <Text style={styles.buttonText}>Cancel</Text>
+                  </TouchableOpacity>
+                  </>
+                 ):(
+                  <TouchableOpacity onPress={() => setEditingLowLim(true)}>
+                    <Text style={{color: '#fff'}}>(Press to change)Low Limit: {lowLim}</Text>
+                  </TouchableOpacity>)
+                  }                 
+                 </>
                ) : (
                  <Text style={{color: '#fff'}}>No weight entries yet.</Text>
                )}
