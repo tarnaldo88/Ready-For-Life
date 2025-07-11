@@ -10,9 +10,9 @@ import { LineChart } from "react-native-gifted-charts";
 import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
-import defaultAvatar from '../img/defaultAvatar.png';
 import loginBg from '../img/loginBg.jpg';
 import matrixBg from '../img/matrix.jpg';
+import defaultAvatar from '../img/smeagol.png';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
@@ -41,7 +41,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     try {
       // Upload to Firebase Storage
       const storage = getStorage();
-      const response = await fetch(pickerResult.uri);
+      const response = await fetch(pickerResult.assets[0].uri);
       const blob = await response.blob();
       const storageRef = ref(storage, `avatars/${user.uid}.jpg`);
       await uploadBytes(storageRef, blob);
