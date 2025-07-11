@@ -1,19 +1,18 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { StackScreenProps } from '@react-navigation/stack';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import * as ImagePicker from 'expo-image-picker';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { getDownloadURL, getStorage, ref, uploadBytes } from 'firebase/storage';
 import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View, Alert } from 'react-native';
-import * as ImagePicker from 'expo-image-picker';
+import { ActivityIndicator, Alert, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
 import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { updateProfile } from 'firebase/auth';
 import { auth } from '../firebaseConfig';
+import defaultAvatar from '../img/defaultAvatar.png';
 import loginBg from '../img/loginBg.jpg';
 import matrixBg from '../img/matrix.jpg';
-import defaultAvatar from '../img/defaultAvatar.png';
 import { RootStackParamList } from '../navigation/RootNavigator';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
@@ -37,7 +36,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       aspect: [1, 1],
       quality: 0.7,
     });
-    if (pickerResult.cancelled) return;
+    if (pickerResult.canceled) return;
     setAvatarUploading(true);
     try {
       // Upload to Firebase Storage
