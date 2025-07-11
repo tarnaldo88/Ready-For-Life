@@ -163,7 +163,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsColor="#c084fc"
                    dataPointsRadius={5}                   
                    height={180}
-                   yAxisOffset={250}
+                   yAxisOffset={320}
                  />
                ) : (
                  <Text style={{color: '#fff'}}>No weight entries yet.</Text>
