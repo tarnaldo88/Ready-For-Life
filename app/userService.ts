@@ -81,6 +81,21 @@ export async function addUserWeightEntry(userId: string, weight: number, date: D
   });
 }
 
+export async function setUserLowLim(userId: string, lowLim: string) {
+  const userRef = doc(db, 'users', userId);
+  await setDoc(userRef, { lowLim }, { merge: true });
+}
+
+export async function getUserLowLim(userId: string): Promise<string> {
+  const userRef = doc(db, 'users', userId);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    const data = userSnap.data();
+    return typeof data.lowLim === 'string' ? data.lowLim : (typeof data.lowLim === 'number' ? data.lowLim.toString() : '0');
+  }
+  return '0';
+}
+
 export async function getUserWeight(userId: string): Promise<number | null> {
   const userRef = doc(db, 'users', userId);
   const userSnap = await getDoc(userRef);

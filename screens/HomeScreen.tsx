@@ -7,7 +7,7 @@ import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
-import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight } from '../app/userService';
+import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight, getUserLowLim, setUserLowLim } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
@@ -105,18 +105,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     let isActive = true;
-    const fetchGoalWeight = async () => {
+    const fetchGoalWeightAndLowLim = async () => {
       if (user?.uid) {
         setGoalWeightLoading(true);
         const gw = await getUserGoalWeight(user.uid);
+        const ll = await getUserLowLim(user.uid);
         if (isActive) {
           setGoalWeight(gw);
           setGoalWeightInput(gw !== null ? gw.toString() : '');
+          setLowLim(ll);
           setGoalWeightLoading(false);
         }
       }
     };
-    fetchGoalWeight();
+    fetchGoalWeightAndLowLim();
     fetchWeights();
     return () => { isActive = false; };
   }, [user?.uid]);
@@ -227,7 +229,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                     keyboardType="numeric"
                     autoFocus
                   />
-                  <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={() => setEditingLowLim(false)}>
+                  <TouchableOpacity style={[styles.editButton, {marginRight: 4}]} onPress={async () => {
+                    if (user?.uid) {
+                      await setUserLowLim(user.uid, lowLim);
+                    }
+                    setEditingLowLim(false);
+                  }}>
                     <Text style={styles.buttonText}>Save</Text>
                   </TouchableOpacity>
                   <TouchableOpacity style={styles.deleteButton} onPress={() => setEditingLowLim(false)}>
