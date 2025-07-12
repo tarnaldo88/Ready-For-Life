@@ -7,7 +7,7 @@ import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
-import { addUserWeightEntry, getUserGoalWeight, getUserWeightHistory, setUserGoalWeight, Weight, getUserLowLim, setUserLowLim } from '../app/userService';
+import { addUserWeightEntry, getUserGoalWeight, getUserLowLim, getUserWeightHistory, setUserGoalWeight, setUserLowLim, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import loginBg from '../img/loginBg.jpg';
@@ -319,10 +319,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                 </View>
               ) : (
                 <>
-                  <Text style={styles.nutText}>Current Weight: {weightInput}</Text>
+                <Text style={styles.nutText}>Current Weight: {weightInput}</Text>  
                   <TouchableOpacity style={styles.editButton} onPress={() => setEditingCurrentWeight(true)}>
                     <Text style={styles.buttonText}>Edit Current Weight</Text>
-                  </TouchableOpacity>
+                  </TouchableOpacity>                
                 </>
               )}
               <TouchableOpacity style={styles.editButton} onPress={() => setShowDatePicker(true)}>
@@ -344,6 +344,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               )}
               {goalWeightLoading && <ActivityIndicator size="small" color="#7904a4" style={{marginLeft: 8}} />}
             </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center', marginVertical: 6 }}>
             <TouchableOpacity             
               style={styles.button}
               onPress={() => navigation.navigate('Main', { screen: 'Nutrition', params: { userId: user.uid } })}
@@ -355,6 +356,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
               onPress={handleLogout}
               color="#e74c3c"
             />
+            </View>
           </>
           
         ) : (
