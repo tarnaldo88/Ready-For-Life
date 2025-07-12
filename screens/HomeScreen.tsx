@@ -19,7 +19,7 @@ type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [avatarUploading, setAvatarUploading] = useState(false);
-  const [lowLim, setLowLim] = useState(0);
+  const [lowLim, setLowLim] = useState('0');
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
   const [email, setEmail] = useState('');
@@ -162,9 +162,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const handleLowLimit = (text: string) => {
     const val = parseFloat(text);
     if (!isNaN(val) && val > 0) {
-      setLowLim(val);
+      setLowLim(val.toString());
     } else {
-      setLowLim(0);
+      setLowLim('0');
     }
   };
 
@@ -214,13 +214,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsColor="#c084fc"
                    dataPointsRadius={5}                   
                    height={180}
-                   yAxisOffset={lowLim}
+                   yAxisOffset={parseFloat(lowLim)}
                  />  
                  {editingLowLim ? (
                   <>
                   <TextInput
                     style={[styles.input, { width: 80, marginRight: 8, backgroundColor: 'white', color: 'black' }]}
-                    value={lowLim.toString()}
+                    value={lowLim}
                     onChangeText={(text) => handleLowLimit(text)}
                     keyboardType="numeric"
                     autoFocus
