@@ -182,7 +182,9 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    source={user.photoURL ? { uri: user.photoURL } : defaultAvatar}
                    style={{ width: 56, height: 56, borderRadius: 28, marginRight: 12, borderWidth: 2, borderColor: '#00e6e6', backgroundColor: '#eee', opacity: avatarUploading ? 0.5 : 1 }}
                  />
-                 {avatarUploading && <ActivityIndicator style={{position: 'absolute', left: 18, top: 18}} color="#00e6e6" />}
+                 {avatarUploading ? (
+                      <ActivityIndicator style={{position: 'absolute', left: 18, top: 18}} color="#00e6e6" />
+                  ) : null}
                </TouchableOpacity>
                <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
                  {user.displayName ? user.displayName : (user.email || 'User')}
