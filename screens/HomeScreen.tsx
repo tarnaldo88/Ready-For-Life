@@ -341,10 +341,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   </TouchableOpacity>                
                 </>
               )}
+              <Text style={styles.nutText}>Date of Weight: {Moment(weightDate).format('MM DD YYYY')}</Text>
               <TouchableOpacity style={styles.editButton} onPress={() => setShowDatePicker(true)}>
                 <Text style={styles.buttonText}>Edit Date of Weight</Text>
               </TouchableOpacity>
-              <Text style={styles.nutText}>Date of Weight: {Moment(weightDate).format('MM DD YYYY')}</Text>
+              
               {showDatePicker && (
                 <DateTimePicker
                   value={weightDate}
