@@ -19,6 +19,7 @@ type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   const [avatarUploading, setAvatarUploading] = useState(false);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [lowLim, setLowLim] = useState('0');
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
@@ -47,6 +48,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
   // Avatar picker handler
   const handleAvatarPress = async () => {
     if (!user) return;
+    const { getFirestore, doc, setDoc } = await import('firebase/firestore');
     // Ask for permission
     const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (!permissionResult.granted) {
@@ -72,7 +74,10 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       const downloadURL = await getDownloadURL(storageRef);
       // Update Firebase Auth profile
       await updateProfile(user, { photoURL: downloadURL });
-      // Force UI update (if using context, may need to trigger re-fetch)
+      // Save avatar URL to Firestore user profile
+      const db = getFirestore();
+      await setDoc(doc(db, 'users', user.uid), { avatarUrl: downloadURL }, { merge: true });
+      setAvatarUrl(downloadURL);
       Alert.alert('Avatar updated!');
     } catch (e) {
       Alert.alert('Error', 'Failed to update avatar.');
@@ -105,20 +110,31 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   useEffect(() => {
     let isActive = true;
-    const fetchGoalWeightAndLowLim = async () => {
+    const fetchGoalWeightAndLowLimAndAvatar = async () => {
       if (user?.uid) {
         setGoalWeightLoading(true);
         const gw = await getUserGoalWeight(user.uid);
         const ll = await getUserLowLim(user.uid);
+        // Fetch avatarUrl from Firestore
+        const { getFirestore, doc, getDoc } = await import('firebase/firestore');
+        const db = getFirestore();
+        const userRef = doc(db, 'users', user.uid);
+        const userSnap = await getDoc(userRef);
+        let avatarUrlFromDb = null;
+        if (userSnap.exists()) {
+          const data = userSnap.data();
+          avatarUrlFromDb = data.avatarUrl || null;
+        }
         if (isActive) {
           setGoalWeight(gw);
           setGoalWeightInput(gw !== null ? gw.toString() : '');
           setLowLim(ll);
+          setAvatarUrl(avatarUrlFromDb);
           setGoalWeightLoading(false);
         }
       }
     };
-    fetchGoalWeightAndLowLim();
+    fetchGoalWeightAndLowLimAndAvatar();
     fetchWeights();
     return () => { isActive = false; };
   }, [user?.uid]);
@@ -181,7 +197,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
              <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>
                <TouchableOpacity onPress={handleAvatarPress} disabled={avatarUploading}>
                  <Image
-                   source={user.photoURL ? { uri: user.photoURL } : defaultAvatar}
+                   source={avatarUrl ? { uri: avatarUrl } : user.photoURL ? { uri: user.photoURL } : defaultAvatar}
                    style={{ width: 56, height: 56, borderRadius: 28, marginRight: 12, borderWidth: 2, borderColor: '#00e6e6', backgroundColor: '#eee', opacity: avatarUploading ? 0.5 : 1 }}
                  />
                  {avatarUploading ? (
