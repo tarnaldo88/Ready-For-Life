@@ -186,6 +186,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
+  const DataPointLabel = ({ value }: { value: any }) => (
+    <View style={{ backgroundColor: 'white', padding: 4, borderRadius: 4 }}>
+      <Text>{value}</Text>
+    </View>
+  );
+
   //videoVIEW  
   return (
     
@@ -235,6 +241,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsRadius={5}                   
                    height={180}
                    yAxisOffset={parseFloat(lowLim)}
+                   dataPointLabelComponent={DataPointLabel}
                  />  
                  {editingLowLim ? (
                   <>
