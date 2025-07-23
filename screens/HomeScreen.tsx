@@ -241,7 +241,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsRadius={5}                   
                    height={180}
                    yAxisOffset={parseFloat(lowLim)}
-                  //  dataPointLabelComponent={DataPointLabel}
+                  dataPointLabelComponent={({value}: {value: number}) => <DataPointLabel value={value} />}
                  />  
                  {editingLowLim ? (
                   <>
