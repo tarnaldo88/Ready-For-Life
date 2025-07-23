@@ -186,11 +186,15 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
     }
   };
 
-  const DataPointLabel = ({ value }: { value: any }) => (
+  const DataPointLabel = ({ value }: { value: any }) => {
+    const valStr = value.toString();
+    console.log("DataPointLabel: " + valStr);
+    return (
     <View style={{ backgroundColor: 'white', padding: 4, borderRadius: 4 }}>
-      <Text>{value}</Text>
+      <Text>{valStr}</Text>
     </View>
-  );
+    );
+  };
 
   //videoVIEW  
   return (
