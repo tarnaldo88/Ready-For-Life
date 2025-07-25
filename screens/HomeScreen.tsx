@@ -185,18 +185,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
       setLowLim('0');
     }
   };
-
-  const DataPointLabel = ({ value }: { value: any }) => {
-    const valStr = value.toString();
-    console.log("DataPointLabel: " + valStr);
-    return (
-    <View style={{ backgroundColor: 'white', padding: 4, borderRadius: 4 }}>
-      <Text>{valStr}</Text>
-    </View>
-    );
-  };
-
-  //videoVIEW  
+  
   return (
     
     <ImageBackground source={user? matrixBg : loginBg} style={styles.background} resizeMode="cover">
@@ -246,7 +235,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsRadius={5}                   
                    height={180}
                    yAxisOffset={parseFloat(lowLim)}
-                  
+                  textColor1="#fff"
                  />  
                  {editingLowLim ? (
                   <>
