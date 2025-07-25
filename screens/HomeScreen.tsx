@@ -229,6 +229,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    data={weights.map(w => ({
                      value: typeof w.weight === 'number' ? w.weight : parseFloat(w.weight),
                      label: w.date ? Moment(w.date).format('MM/DD') : '',
+                     dataPointText: (typeof w.weight === 'number' ? w.weight : parseFloat(w.weight)).toString(),
                    }))}
                    thickness={3}
                    color="#7904a4"
@@ -245,7 +246,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    dataPointsRadius={5}                   
                    height={180}
                    yAxisOffset={parseFloat(lowLim)}
-                  dataPointLabelComponent={({value}: {value: number}) => <DataPointLabel value={value} />}
+                  
                  />  
                  {editingLowLim ? (
                   <>
