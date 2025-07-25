@@ -1,4 +1,5 @@
 import ProfileScreen from "../app/(tabs)/ProfileScreen";
+import EditProfileScreen from "./EditProfileScreen";
 import GoalScreen from "./GoalScreen";
 import HomeScreen from "./HomeScreen";
 import LoginScreen from "./LoginScreen";
@@ -112,6 +113,21 @@ const HomeStackScreen = ({navigation}) => {
                     )
                 }}
             />         
+            <HomeStack.Screen
+                name="EditProfile"
+                component={EditProfileScreen}
+                options={{
+                    title: "Edit Profile",
+                    headerLeft: () => (
+                        <Icon.Button
+                            name="menu"
+                            size={25}
+                            backgroundColor="#c70212"
+                            onPress={() => navigation.openDrawer()}
+                        ></Icon.Button>
+                    )
+                }}
+            />
         </HomeStack.Navigator>
     );
 };
