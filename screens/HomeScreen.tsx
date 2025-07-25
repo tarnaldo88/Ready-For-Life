@@ -220,7 +220,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                      label: w.date ? Moment(w.date).format('MM/DD') : '',
                      dataPointText: (typeof w.weight === 'number' ? w.weight : parseFloat(w.weight)).toString(),
                    }))}
-                   thickness={3}
+                   thickness={2}
                    color="#7904a4"
                    hideDataPoints={false}
                    yAxisColor="#00e6e6"
@@ -232,7 +232,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                    yAxisTextStyle={{color: '#00e6e6'}}
                    xAxisLabelTextStyle={{color: '#c084fc'}}
                    dataPointsColor="#c084fc"
-                   dataPointsRadius={5}                   
+                   dataPointsRadius={2}                   
                    height={180}
                    yAxisOffset={parseFloat(lowLim)}
                   textColor1="#fff"
