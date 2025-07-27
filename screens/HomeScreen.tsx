@@ -1,4 +1,5 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
+import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
@@ -17,7 +18,7 @@ import { RootStackParamList } from '../navigation/RootNavigator';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
-const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [lowLim, setLowLim] = useState('0');
@@ -43,6 +44,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
+
+  const navigation = useNavigation<HomeScreenProps['navigation']>();
 
 
   // Avatar picker handler
@@ -203,9 +206,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
                   <ActivityIndicator style={{position: 'absolute', left: 18, top: 18}} color="#00e6e6" />
                  ) : <></>}
                </TouchableOpacity>
-               <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold'}}>
+               <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold', marginRight: 8}}>
                  {user.displayName ? user.displayName : (user.email || 'User')}
                </Text>
+               <TouchableOpacity style={styles.editButton} onPress={() => {
+                    navigation.navigate('EditProfile');
+                  }}>
+                 <Text style={styles.buttonText}>Edit Profile</Text>
+               </TouchableOpacity>
              </View>             
              {/* Historical Weights Chart */}
              <View style={{marginVertical: 16, backgroundColor: '#275075', borderRadius: 8, padding: 12, width: '100%'}}>
