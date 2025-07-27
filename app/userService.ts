@@ -57,6 +57,26 @@ export async function setUserWeight(userId: string, weight: number) {
 // Add a new entry to the user's weight history
 import { collection, addDoc, getDocs } from 'firebase/firestore';
 
+// Set user's first and last name in Firestore
+export async function setUserProfileName(userId: string, firstName: string, lastName: string) {
+  const userRef = doc(db, 'users', userId);
+  await setDoc(userRef, { firstName, lastName }, { merge: true });
+}
+
+// Get user's first and last name from Firestore
+export async function getUserProfileName(userId: string): Promise<{ firstName: string; lastName: string } | null> {
+  const userRef = doc(db, 'users', userId);
+  const userSnap = await getDoc(userRef);
+  if (userSnap.exists()) {
+    const data = userSnap.data();
+    return {
+      firstName: data.firstName || '',
+      lastName: data.lastName || '',
+    };
+  }
+  return null;
+}
+
 // Fetch all historical weights for a user
 export async function getUserWeightHistory(userId: string): Promise<Weight[]> {
   const weightsRef = collection(db, 'users', userId, 'weights');
