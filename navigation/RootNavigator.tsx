@@ -1,10 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useAuth } from '../context/AuthContext';
+import EditProfileScreen from '../screens/EditProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
-import BottomTabs from './BottomTabs';
-
-import { BottomTabParamList } from './BottomTabs';
+import BottomTabs, { BottomTabParamList } from './BottomTabs';
 
 export type RootStackParamList = {
   Home: undefined;
@@ -24,6 +23,7 @@ const RootNavigator: React.FC = () => {
       ) : (
         <Stack.Screen name="Home" component={HomeScreen} />
       )}
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
     </Stack.Navigator>
   );
 };

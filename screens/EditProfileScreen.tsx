@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 
 const EditProfileScreen: React.FC = () => {
   const { user } = useAuth();
@@ -48,6 +48,15 @@ const EditProfileScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
+      <View style={styles.header}>
+        <Text style={{fontSize: 24,
+          fontWeight: 'bold',
+          marginBottom: 24,
+          color: '#fff',}}
+        >
+          First Name: {firstName} Last Name: {lastName}
+        </Text>
+      </View>
       <Text style={styles.title}>Edit Profile</Text>
       <TextInput
         style={styles.input}
@@ -77,6 +86,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 20,
     backgroundColor: '#275075',
+  },
+  header: {
+    width: '100%',
+    height: 50,
+    backgroundColor: '#7904a4',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   title: {
     fontSize: 28,
