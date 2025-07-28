@@ -6,7 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 
 export type HomeStackList = {
     Home: undefined,
-    EditProfile: undefined,
+    EditProfile: { userId: string },
 }
 
 const Stack = createStackNavigator<HomeStackList>();
@@ -22,3 +22,5 @@ const HomeStackNavigator: React.FC = () => {
         </Stack.Navigator>
     )
 }
+
+export default HomeStackNavigator;

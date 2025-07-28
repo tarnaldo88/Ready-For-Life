@@ -209,9 +209,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold', marginRight: 8}}>
                  {user.displayName ? user.displayName : (user.email || 'User')}
                </Text>
-               <TouchableOpacity style={styles.editButton} onPress={() => {
-                    navigation.navigate('EditProfile');
-                  }}>
+               <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditProfile')}>
                  <Text style={styles.buttonText}>Edit Profile</Text>
                </TouchableOpacity>
              </View>             
