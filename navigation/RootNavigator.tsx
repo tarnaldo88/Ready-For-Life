@@ -1,6 +1,5 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import HomeScreen from '../screens/HomeScreen';
 import BottomTabs from './BottomTabs';
@@ -10,6 +9,7 @@ import { BottomTabParamList } from './BottomTabs';
 export type RootStackParamList = {
   Home: undefined;
   Main: { screen?: keyof BottomTabParamList; params?: any } | undefined;
+  EditProfile: { userId: string },
 };
 
 const Stack = createStackNavigator<RootStackParamList>();
