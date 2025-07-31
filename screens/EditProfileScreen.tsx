@@ -1,4 +1,3 @@
-import profileBg from '';
 import { RootStackParamList } from '@/navigation/RootNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -6,6 +5,7 @@ import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import profileBg from '../img/profileBg.jpg';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
 
@@ -55,16 +55,10 @@ const EditProfileScreen: React.FC = () => {
 
   return (
     <ImageBackground source={profileBg} style={styles.background} resizeMode="cover">
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={{fontSize: 24,
-            fontWeight: 'bold',
-            marginBottom: 24,
-            color: '#fff',}}
-          >
-            First Name: {firstName} Last Name: {lastName}
-          </Text>
-        </View>
+      <Text style={styles.titleName}>
+            {firstName} {lastName}
+      </Text>
+      <View style={styles.container}>        
         <Text style={styles.title}>Edit Profile</Text>
         <TextInput
           style={styles.input}
@@ -104,14 +98,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#275075',
   },
   header: {
     width: '100%',
-    height: 50,
     backgroundColor: '#7904a4',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 26,
   },
   title: {
     fontSize: 28,
@@ -126,6 +119,17 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 18,
     marginBottom: 16,
+  },
+  titleName: {
+    width: '100%',
+    borderRadius: 8,
+    padding: 12,
+    fontSize: 38,
+    marginBottom: 16,
+    marginTop: 26,
+    color: '#4b4e4a',
+    textAlign: 'center',
+    fontWeight: 'bold',
   },
   button: {
     backgroundColor: '#7904a4',
