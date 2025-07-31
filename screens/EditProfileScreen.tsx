@@ -1,14 +1,13 @@
+import profileBg from '';
 import { RootStackParamList } from '@/navigation/RootNavigator';
 import { useNavigation } from '@react-navigation/native';
 import { StackScreenProps } from '@react-navigation/stack';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 
 type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
-
-
 
 const EditProfileScreen: React.FC = () => {
   const { user } = useAuth();
@@ -55,42 +54,51 @@ const EditProfileScreen: React.FC = () => {
   };
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={{fontSize: 24,
-          fontWeight: 'bold',
-          marginBottom: 24,
-          color: '#fff',}}
-        >
-          First Name: {firstName} Last Name: {lastName}
-        </Text>
+    <ImageBackground source={profileBg} style={styles.background} resizeMode="cover">
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={{fontSize: 24,
+            fontWeight: 'bold',
+            marginBottom: 24,
+            color: '#fff',}}
+          >
+            First Name: {firstName} Last Name: {lastName}
+          </Text>
+        </View>
+        <Text style={styles.title}>Edit Profile</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={setFirstName}
+          autoCapitalize="words"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={setLastName}
+          autoCapitalize="words"
+        />
+        <TouchableOpacity style={styles.button} onPress={handleSave} disabled={loading}>
+          <Text style={styles.buttonText}>{loading ? 'Saving...' : 'Save'}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.buttonReturn} onPress={() => navigation.navigate("Home")} disabled={loading}>
+          <Text style={styles.btnReturnText}> Return Home </Text>
+        </TouchableOpacity>
       </View>
-      <Text style={styles.title}>Edit Profile</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="First Name"
-        value={firstName}
-        onChangeText={setFirstName}
-        autoCapitalize="words"
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Last Name"
-        value={lastName}
-        onChangeText={setLastName}
-        autoCapitalize="words"
-      />
-      <TouchableOpacity style={styles.button} onPress={handleSave} disabled={loading}>
-        <Text style={styles.buttonText}>{loading ? 'Saving...' : 'Save'}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")} disabled={loading}>
-        <Text style={styles.buttonText}> Return Home </Text>
-      </TouchableOpacity>
-    </View>
+    </ImageBackground>
   );
 };
 
 const styles = StyleSheet.create({
+  background: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -129,6 +137,19 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  buttonReturn: {
+    backgroundColor: '#F0D5F3',
+    padding: 14,
+    borderRadius: 12,
+    alignItems: 'center',
+    marginTop: 12,
+    width: '50%',
+  },
+  btnReturnText: {
+    color: '#333233',
     fontSize: 18,
     fontWeight: 'bold',
   },
