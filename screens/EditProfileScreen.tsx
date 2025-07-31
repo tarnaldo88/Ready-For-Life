@@ -1,13 +1,21 @@
+import { RootStackParamList } from '@/navigation/RootNavigator';
+import { useNavigation } from '@react-navigation/native';
+import { StackScreenProps } from '@react-navigation/stack';
 import { doc, getDoc, getFirestore, setDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+
+type HomeScreenProps = StackScreenProps<RootStackParamList, 'Home'>;
+
+
 
 const EditProfileScreen: React.FC = () => {
   const { user } = useAuth();
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
+  const navigation = useNavigation<HomeScreenProps['navigation']>();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -74,6 +82,9 @@ const EditProfileScreen: React.FC = () => {
       />
       <TouchableOpacity style={styles.button} onPress={handleSave} disabled={loading}>
         <Text style={styles.buttonText}>{loading ? 'Saving...' : 'Save'}</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => navigation.navigate("Home")} disabled={loading}>
+        <Text style={styles.buttonText}> Return Home </Text>
       </TouchableOpacity>
     </View>
   );
