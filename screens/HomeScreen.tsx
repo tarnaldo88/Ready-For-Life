@@ -22,6 +22,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [avatarUploading, setAvatarUploading] = useState(false);
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const [lowLim, setLowLim] = useState('0');
+  const [xAxisLowLim, setXAxisLowLim] = useState('0');
   const { user } = useAuth();
   const userId = user?.uid || 'guest';
   const [email, setEmail] = useState('');
@@ -214,7 +215,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                </TouchableOpacity>
              </View>             
              {/* Historical Weights Chart */}
-             <View style={{marginVertical: 16, backgroundColor: '#275075', borderRadius: 8, padding: 12, width: '100%'}}>
+             <View style={{marginVertical: 0, backgroundColor: '#275075, 0.5f', borderRadius: 8, padding: 0, width: '100%'}}>
                <Text style={[styles.nutText, {marginBottom: 8, color: '#fff'}]}>Weight History</Text>
                {weightChartLoading ? (
                  <ActivityIndicator size="small" color="#7904a4" />
@@ -241,7 +242,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                    dataPointsRadius={2}                   
                    height={180}
                    yAxisOffset={parseFloat(lowLim)}
-                  textColor1="#fff"
+                   textColor1="#fff"
+                   width={350}
                  />  
                  {editingLowLim ? (
                   <>
@@ -265,9 +267,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   </TouchableOpacity>
                   </>
                  ):(
-                  <TouchableOpacity style={styles.editButton} onPress={() => setEditingLowLim(true)}>
-                    <Text style={styles.buttonText}>Low Limit: {lowLim}</Text>
-                  </TouchableOpacity>)
+                  <>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditingLowLim(true)}>
+                      <Text style={styles.buttonText}> Y Axis Low Limit: {lowLim}</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={styles.editButton} onPress={() => setEditingLowLim(true)}>
+                    <Text style={styles.buttonText}> X Axis Low Limit: {xAxisLowLim}</Text>
+                    </TouchableOpacity>
+                  </>
+                  )
                   }                                
                  </>
                ) : (
@@ -465,7 +473,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 5,
     width: '100%',
   },
   title: {
