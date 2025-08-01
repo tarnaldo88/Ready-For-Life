@@ -15,6 +15,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigation = useNavigation<EditProfileScreenProps['navigation']>();
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonReturn}
-          onPress={() => navigation.navigate('Home')}
+          onPress={() => navigation.navigate('Home', { userId})}
           disabled={loading}
         >
           <Text style={styles.btnReturnText}> Return Home </Text>

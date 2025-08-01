@@ -6,7 +6,7 @@ import HomeScreen from '../screens/HomeScreen';
 import BottomTabs, { BottomTabParamList } from './BottomTabs';
 
 export type RootStackParamList = {
-  Home: undefined;
+  Home: { userId: string };
   Main: { screen?: keyof BottomTabParamList; params?: any } | undefined;
   EditProfile: { userId: string },
 };
