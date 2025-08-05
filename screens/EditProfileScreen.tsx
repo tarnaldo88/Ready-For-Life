@@ -81,7 +81,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = () => {
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.buttonReturn}
-          onPress={() => navigation.navigate('Home', { userId})}
+          onPress={() => navigation.navigate('Home', {userId})}
           disabled={loading}
         >
           <Text style={styles.btnReturnText}> Return Home </Text>
