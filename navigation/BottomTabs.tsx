@@ -10,7 +10,7 @@ import NutStackNavigator from './NutStackNavigator';
 
 // Define the param list for the bottom tabs
 export type BottomTabParamList = {
-  Home: undefined;
+  Home: { userId: string };
   Nutrition: undefined;
   GoalsHome: undefined;
   tabBarOptions:{

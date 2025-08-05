@@ -5,7 +5,7 @@ import EditProfileScreen from '../screens/EditProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
 
 export type HomeStackList = {
-    Home: undefined,
+    Home: { userId: string },
     EditProfile: { userId: string },
 }
 
