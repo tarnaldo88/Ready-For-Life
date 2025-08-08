@@ -284,7 +284,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
              </View>
              <View style={{margin: 10}}></View>
             <View style={{  alignItems: 'center', marginBottom: 10 }}>
-              <Text style={styles.nutText}>Goal Weight: {goalWeight}</Text>
+              <Text style={styles.nutText}>Goal Weight: {goalWeight !== null && goalWeight !== undefined ? String(goalWeight) : ''}</Text>
               {editingGoalWeight ? (
                 <>
                   <TextInput
@@ -350,13 +350,13 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                 </View>
               ) : (
                 <>
-                <Text style={styles.nutText}>Current Weight: {weightInput}</Text>  
+                <Text style={styles.nutText}>Current Weight: {weightInput !== null && weightInput !== undefined ? String(weightInput) : ''}</Text>  
                   <TouchableOpacity style={styles.editButton} onPress={() => setEditingCurrentWeight(true)}>
                     <Text style={styles.buttonText}>Edit Current Weight</Text>
                   </TouchableOpacity>                
                 </>
               )}
-              <Text style={styles.nutText}>Date of Weight: {Moment(weightDate).format('MM DD YYYY')}</Text>
+              <Text style={styles.nutText}>Date of Weight: {weightDate ? Moment(weightDate).format('MM DD YYYY') : ''}</Text>
               <TouchableOpacity style={styles.editButton} onPress={() => setShowDatePicker(true)}>
                 <Text style={styles.buttonText}>Edit Date of Weight</Text>
               </TouchableOpacity>
