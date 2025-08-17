@@ -14,6 +14,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = () => {
   const userId = user?.uid || 'guest';
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
+  const [currentWeight, setCurrentWeight] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
   const navigation = useNavigation<EditProfileScreenProps['navigation']>();
@@ -29,6 +30,7 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = () => {
           const data = userSnap.data();
           setFirstName(data.firstName || '');
           setLastName(data.lastName || '');
+          setCurrentWeight(typeof data.weight === 'number' ? data.weight : null);
         }
         setLoading(false);
       }
@@ -62,6 +64,21 @@ const EditProfileScreen: React.FC<EditProfileScreenProps> = () => {
       </Text>
       <View style={styles.container}>        
         <Text style={styles.title}>Edit Profile</Text>
+        <View style={styles.infoCard}>
+          <Text style={styles.infoTitle}>Profile Info</Text>
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Name</Text>
+            <Text style={styles.infoValue}>{firstName || lastName ? `${firstName} ${lastName}`.trim() : '—'}</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Email</Text>
+            <Text style={styles.infoValue}>{user?.email ?? '—'}</Text>
+          </View>
+          <View style={styles.infoRow}>
+            <Text style={styles.infoLabel}>Current Weight</Text>
+            <Text style={styles.infoValue}>{currentWeight !== null ? String(currentWeight) : '—'}</Text>
+          </View>
+        </View>
         <TextInput
           style={styles.input}
           placeholder="First Name"
@@ -117,6 +134,34 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     color: '#fff',
+  },
+  infoCard: {
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.4)',
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+  },
+  infoTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  infoRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  infoLabel: {
+    color: '#c0c0c0',
+    fontSize: 16,
+  },
+  infoValue: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: '600',
   },
   input: {
     width: '100%',
