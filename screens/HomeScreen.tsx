@@ -196,8 +196,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       <ScrollView>    
       <View style={styles.container}>
        {user ? (
-          <>                 {/* User avatar and username */}
-             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>
+          <>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>
                <TouchableOpacity onPress={handleAvatarPress} disabled={avatarUploading}>
                  <Image
                    source={avatarUrl ? { uri: avatarUrl } : user.photoURL ? { uri: user.photoURL } : defaultAvatar}

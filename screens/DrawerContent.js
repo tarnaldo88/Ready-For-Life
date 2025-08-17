@@ -126,7 +126,7 @@ function DrawerContent(props){
                 </View>
                 </DrawerContentScrollView>
                 {isSign ? (
-                    <> 
+                    <>
                 <Drawer.Section style={styleDrawContent.bottomDrawerSection}>
                     <DrawerItem 
                         con={({color, size}) => (
