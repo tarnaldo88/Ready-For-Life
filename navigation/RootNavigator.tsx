@@ -18,6 +18,7 @@ let Nutritionicon = '🍽️';
 let Goalsicon = '🎯';
 let EditProfileicon = '👤';
 let Logouticon = '🚪';
+let MenuIcon = '🍔';
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
@@ -39,7 +40,7 @@ const DrawerContent: React.FC<{ navigation: any }> = ({ navigation }) => {
   const { user } = useAuth();
   return (
     <View style={styles.drawerContainer}>
-      <Text style={styles.drawerHeader}>Menu</Text>
+      <Text style={styles.drawerHeader}>{MenuIcon} Menu</Text>
       <TouchableOpacity
         style={styles.drawerItem}
         onPress={() => {
