@@ -1,19 +1,23 @@
-import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator, DrawerToggleButton } from '@react-navigation/drawer';
+import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+import { auth } from '../firebaseConfig';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
 import BottomTabs, { BottomTabParamList } from './BottomTabs';
-import { auth } from '../firebaseConfig';
 
 export type RootStackParamList = {
   Home: { userId: string };
   Main: { screen?: keyof BottomTabParamList; params?: any } | undefined;
   EditProfile: { userId: string },
 };
-
+let Homeicon = '🏠';
+let Nutritionicon = '🍽️';
+let Goalsicon = '🎯';
+let EditProfileicon = '👤';
+let Logouticon = '🚪';
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator();
 
@@ -47,7 +51,7 @@ const DrawerContent: React.FC<{ navigation: any }> = ({ navigation }) => {
           }
         }}
       >
-        <Text style={styles.drawerItemText}>Home</Text>
+        <Text style={styles.drawerItemText}>{Homeicon} Home</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.drawerItem}
@@ -60,7 +64,7 @@ const DrawerContent: React.FC<{ navigation: any }> = ({ navigation }) => {
           }
         }}
       >
-        <Text style={styles.drawerItemText}>Nutrition</Text>
+        <Text style={styles.drawerItemText}>{Nutritionicon} Nutrition</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.drawerItem}
@@ -73,7 +77,7 @@ const DrawerContent: React.FC<{ navigation: any }> = ({ navigation }) => {
           }
         }}
       >
-        <Text style={styles.drawerItemText}>Goals</Text>
+        <Text style={styles.drawerItemText}>{Goalsicon} Goals</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.drawerItem}
@@ -86,7 +90,7 @@ const DrawerContent: React.FC<{ navigation: any }> = ({ navigation }) => {
           }
         }}
       >
-        <Text style={styles.drawerItemText}>Edit Profile</Text>
+        <Text style={styles.drawerItemText}>{EditProfileicon} Edit Profile</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={styles.drawerItem}
@@ -99,7 +103,7 @@ const DrawerContent: React.FC<{ navigation: any }> = ({ navigation }) => {
           }
         }}
       >
-        <Text style={styles.drawerItemText}>Logout</Text>
+        <Text style={styles.drawerItemText}>{Logouticon} Logout</Text>
       </TouchableOpacity>
     </View>
   );
