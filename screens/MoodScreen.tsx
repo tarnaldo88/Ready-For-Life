@@ -1,6 +1,6 @@
 import { Picker } from '@react-native-picker/picker';
 import React, { useMemo, useState } from 'react';
-import { Alert, Button, Text, TextInput, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
 import { addUserMoodEntry, MoodValue } from '../app/moodService';
 import { useAuth } from '../context/AuthContext';
 
@@ -59,3 +59,28 @@ const MoodScreen: React.FC = () =>  {
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+  container: { flex: 1, padding: 16, backgroundColor: '#111214' },
+  title: { color: '#fff', fontSize: 28, fontWeight: '700', marginBottom: 16 },
+  label: { color: '#fff', fontSize: 16, marginBottom: 8, marginTop: 12 },
+  pickerWrap: {
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#1a1b1e',
+  },
+  input: {
+    minHeight: 90,
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 8,
+    padding: 10,
+    color: '#fff',
+    backgroundColor: '#1a1b1e',
+    marginBottom: 16,
+  },
+});
+ 
+export default MoodScreen;
