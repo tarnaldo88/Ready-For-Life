@@ -8,6 +8,7 @@ import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
+import { MoodValue } from '../app/moodService';
 import { addUserWeightEntry, getUserGoalWeight, getUserLowLim, getUserWeightHistory, setUserGoalWeight, setUserLowLim, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
@@ -42,6 +43,11 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [weightInput, setWeightInput] = useState('');
   const [weightDate, setWeightDate] = useState<Date>(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
+  //mood entry
+  const moodOptions: MoodValue[] = ['Amazing', 'Good', 'Okay', 'Meh', 'Sad', 'Anxious', 'Angry', 'Stressed', 'Tired'];
+  const [mood, setMood] = useState<MoodValue>('Okay');
+  const [moodNote, setMoodNote] = useState('');
+  const [moodSaving, setMoodSaving] = useState(false);
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
