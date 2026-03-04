@@ -6,7 +6,7 @@ import { useAuth } from '../context/AuthContext';
 
 const MoodScreen: React.FC = () =>  {
     const { user } = useAuth();
-    const userId = user?.uid || 'guest';
+    const userId = user?.uid;
 
     const moodOptions = useMemo<MoodValue[]>(
         () => ['Amazing', 'Good', 'Okay', 'Meh', 'Sad', 'Anxious', 'Angry', 'Stressed', 'Tired'],
