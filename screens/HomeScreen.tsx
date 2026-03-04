@@ -8,7 +8,7 @@ import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
-import { MoodValue } from '../app/moodService';
+import { addUserMoodEntry, MoodValue } from '../app/moodService';
 import { addUserWeightEntry, getUserGoalWeight, getUserLowLim, getUserWeightHistory, setUserGoalWeight, setUserLowLim, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
@@ -54,6 +54,24 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
 
   const navigation = useNavigation<HomeScreenProps['navigation']>();
 
+  const handleSaveMood = async () => {
+      if (!user?.uid) {
+        Alert.alert('Not logged in', 'You must be logged in to save a mood entry.');
+        return;
+      }
+    
+      setMoodSaving(true);
+      try {
+        await addUserMoodEntry({ userId: user.uid, mood, note: moodNote });
+        setMoodNote('');
+        Alert.alert('Saved', 'Mood entry saved.');
+      } catch (e) {
+        console.error(e);
+        Alert.alert('Error', 'Could not save mood entry.');
+      } finally {
+        setMoodSaving(false);
+      }
+  };
 
   // Avatar picker handler
   const handleAvatarPress = async () => {
