@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { Text, View } from 'react-native';
-import { MoodValue } from '../app/moodService';
+import { Alert, Text, View } from 'react-native';
+import { addUserMoodEntry, MoodValue } from '../app/moodService';
 import { useAuth } from '../context/AuthContext';
 
 const MoodScreen: React.FC = () =>  {
@@ -14,6 +14,22 @@ const MoodScreen: React.FC = () =>  {
     
     const [mood, setMood] = useState<MoodValue>('Okay');
     const [note, setNote] = useState('');
+
+    const onSave = async () => {
+        if (!userId) {
+        Alert.alert('Not logged in', 'You must be logged in to save a mood entry.');
+        return;
+        }
+    
+        try {
+        await addUserMoodEntry({ userId, mood, note });
+        setNote('');
+        Alert.alert('Saved', 'Mood entry saved.');
+        } catch (e) {
+        Alert.alert('Error', 'Could not save mood entry.');
+        console.error(e);
+        }
+    };
 
     return (
         <View>
