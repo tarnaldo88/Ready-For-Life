@@ -222,6 +222,30 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
        {user ? (
           <>
             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>
+              <View style={styles.moodCard}>
+                <Text style={styles.moodTitle}>Mood Check-in</Text>
+              
+                <Text style={styles.moodLabel}>Current mood</Text>
+                <View style={styles.moodPickerWrap}>
+                  <Picker selectedValue={mood} onValueChange={(v) => setMood(v)}>
+                    {moodOptions.map((m) => (
+                      <Picker.Item key={m} label={m} value={m} />
+                    ))}
+                  </Picker>
+                </View>
+              
+                <Text style={styles.moodLabel}>Optional note</Text>
+                <TextInput
+                  style={styles.moodInput}
+                  value={moodNote}
+                  onChangeText={setMoodNote}
+                  placeholder="What’s going on today?"
+                  placeholderTextColor="#999"
+                  multiline
+                />
+              
+                <Button title={moodSaving ? 'Saving...' : 'Save Mood'} onPress={handleSaveMood} disabled={moodSaving} />
+              </View>
                <TouchableOpacity onPress={handleAvatarPress} disabled={avatarUploading}>
                  <Image
                    source={avatarUrl ? { uri: avatarUrl } : user.photoURL ? { uri: user.photoURL } : defaultAvatar}
@@ -564,6 +588,44 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },  
+  moodCard: {
+    width: '100%',
+    backgroundColor: 'rgba(0,0,0,0.45)',
+    borderRadius: 10,
+    padding: 12,
+    marginBottom: 14,
+    borderWidth: 1,
+    borderColor: '#333',
+  },
+  moodTitle: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: '700',
+    marginBottom: 10,
+  },
+  moodLabel: {
+    color: '#fff',
+    fontSize: 14,
+    marginTop: 10,
+    marginBottom: 6,
+  },
+  moodPickerWrap: {
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 8,
+    overflow: 'hidden',
+    backgroundColor: '#1a1b1e',
+  },
+  moodInput: {
+    minHeight: 70,
+    borderWidth: 1,
+    borderColor: '#333',
+    borderRadius: 8,
+    padding: 10,
+    color: '#fff',
+    backgroundColor: '#1a1b1e',
+    marginBottom: 12,
+  },
 });
 
 export default HomeScreen;
