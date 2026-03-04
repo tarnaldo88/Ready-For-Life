@@ -1,5 +1,5 @@
 import { addDoc, collection, getDocs, getFirestore, orderBy, query } from 'firebase/firestore';
-import app from ".";
+import { app } from '../firebaseConfig';
 
  
 export type MoodValue =
