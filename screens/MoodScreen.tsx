@@ -1,5 +1,6 @@
+import { Picker } from '@react-native-picker/picker';
 import React, { useMemo, useState } from 'react';
-import { Alert, Text, View } from 'react-native';
+import { Alert, Button, Text, TextInput, View } from 'react-native';
 import { addUserMoodEntry, MoodValue } from '../app/moodService';
 import { useAuth } from '../context/AuthContext';
 
@@ -32,8 +33,29 @@ const MoodScreen: React.FC = () =>  {
     };
 
     return (
-        <View>
-            <Text>Mood Screen</Text>
+        <View style={styles.container}>
+            <Text style={styles.title}>Mood Check-in</Text>
+        
+            <Text style={styles.label}>Current mood</Text>
+            <View style={styles.pickerWrap}>
+                <Picker selectedValue={mood} onValueChange={(v) => setMood(v)}>
+                {moodOptions.map((m) => (
+                    <Picker.Item key={m} label={m} value={m} />
+                ))}
+                </Picker>
+            </View>
+        
+            <Text style={styles.label}>Optional note</Text>
+            <TextInput
+                style={styles.input}
+                value={note}
+                onChangeText={setNote}
+                placeholder="What’s going on today?"
+                placeholderTextColor="#999"
+                multiline
+            />
+        
+            <Button title="Save Mood" onPress={onSave} />
         </View>
     );
 }
