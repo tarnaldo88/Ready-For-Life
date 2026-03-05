@@ -222,8 +222,24 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
       <View style={styles.container}>
        {user ? (
           <>
-            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>
-              <View style={styles.moodCard}>
+            <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 16, marginBottom: 20}}>              
+               <TouchableOpacity onPress={handleAvatarPress} disabled={avatarUploading}>
+                 <Image
+                   source={avatarUrl ? { uri: avatarUrl } : user.photoURL ? { uri: user.photoURL } : defaultAvatar}
+                   style={{ width: 56, height: 56, borderRadius: 28, marginRight: 12, borderWidth: 2, borderColor: '#00e6e6', backgroundColor: '#eee', opacity: avatarUploading ? 0.5 : 1 }}
+                 />
+                 {avatarUploading ? (
+                  <ActivityIndicator style={{position: 'absolute', left: 18, top: 18}} color="#00e6e6" />
+                 ) : <></>}
+               </TouchableOpacity>
+               <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold', marginRight: 8}}>
+                 {user.displayName ? user.displayName : (user.email || 'User')}
+               </Text>
+               <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditProfile', { userId })}>
+                 <Text style={styles.buttonText}>Edit Profile</Text>
+               </TouchableOpacity>
+             </View>   
+             <View style={styles.moodCard}>
                 <Text style={styles.moodTitle}>Mood Check-in</Text>
               
                 <Text style={styles.moodLabel}>Current mood</Text>
@@ -246,23 +262,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                 />
               
                 <Button title={moodSaving ? 'Saving...' : 'Save Mood'} onPress={handleSaveMood} disabled={moodSaving} />
-              </View>
-               <TouchableOpacity onPress={handleAvatarPress} disabled={avatarUploading}>
-                 <Image
-                   source={avatarUrl ? { uri: avatarUrl } : user.photoURL ? { uri: user.photoURL } : defaultAvatar}
-                   style={{ width: 56, height: 56, borderRadius: 28, marginRight: 12, borderWidth: 2, borderColor: '#00e6e6', backgroundColor: '#eee', opacity: avatarUploading ? 0.5 : 1 }}
-                 />
-                 {avatarUploading ? (
-                  <ActivityIndicator style={{position: 'absolute', left: 18, top: 18}} color="#00e6e6" />
-                 ) : <></>}
-               </TouchableOpacity>
-               <Text style={{fontSize: 22, color: '#fff', fontWeight: 'bold', marginRight: 8}}>
-                 {user.displayName ? user.displayName : (user.email || 'User')}
-               </Text>
-               <TouchableOpacity style={styles.editButton} onPress={() => navigation.navigate('EditProfile', { userId })}>
-                 <Text style={styles.buttonText}>Edit Profile</Text>
-               </TouchableOpacity>
-             </View>             
+              </View>          
              {/* Historical Weights Chart */}
              <View style={{marginVertical: 0, backgroundColor: '#275075, 0.5f', borderRadius: 8, padding: 0, width: '100%'}}>
                <Text style={[styles.nutText, {marginBottom: 8, color: '#fff'}]}>Weight History</Text>
