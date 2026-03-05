@@ -57,3 +57,22 @@ export async function getUserMoodHistory(userId: string): Promise<MoodEntry[]> {
     };
   });
 }
+
+export async function getLatestUserMoodEntry(userId: string): Promise<MoodEntry | null> {
+  const moodsRef = collection(db, 'users', userId, 'moods');
+  const q = query(moodsRef, orderBy('date', 'desc'), limit(1));
+  const snap = await getDocs(q);
+ 
+  if (snap.empty) return null;
+ 
+  const d = snap.docs[0];
+  const data = d.data() as any;
+ 
+  return {
+    id: d.id,
+    mood: data.mood,
+    note: data.note || '',
+    date: data.date || '',
+    createdAt: data.createdAt || '',
+  };
+}
