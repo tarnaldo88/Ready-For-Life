@@ -261,6 +261,12 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                       <Picker.Item key={m} label={m} value={m} />
                     ))}
                   </Picker>
+                  <TouchableOpacity
+                    style={[styles.editButton, { alignSelf: 'flex-start', marginTop: 8 }]}
+                    onPress={() => navigation.navigate('MoodHistory')}
+                  >
+                    <Text style={styles.buttonText}>View Mood History</Text>
+                  </TouchableOpacity>
                 </View>
               
                 <Text style={styles.moodLabel}>Optional note</Text>
