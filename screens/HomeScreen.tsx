@@ -9,6 +9,7 @@ import Moment from 'moment';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, Button, Image, ImageBackground, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { LineChart } from "react-native-gifted-charts";
+import type { getLatestUserMoodEntry, MoodEntry } from '../app/moodService';
 import { addUserMoodEntry, MoodValue } from '../app/moodService';
 import { addUserWeightEntry, getUserGoalWeight, getUserLowLim, getUserWeightHistory, setUserGoalWeight, setUserLowLim, Weight } from '../app/userService';
 import { useAuth } from '../context/AuthContext';
@@ -56,6 +57,17 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [showReg, setShowReg] = useState(false);
 
   const navigation = useNavigation<HomeScreenProps['navigation']>();
+
+  async function fetchLatestMood() {
+    if (!user?.uid) return;
+    setLatestMoodLoading(true);
+    try {
+      const entry = await getLatestUserMoodEntry(user.uid);
+      setLatestMood(entry);
+    } finally {
+      setLatestMoodLoading(false);
+    }
+  }
 
   const handleSaveMood = async () => {
       if (!user?.uid) {
@@ -167,7 +179,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     };
     fetchGoalWeightAndLowLimAndAvatar();
     fetchWeights();
-    fetchLatestMood();
+    
     return () => { isActive = false; };
   }, [user?.uid]);
 
