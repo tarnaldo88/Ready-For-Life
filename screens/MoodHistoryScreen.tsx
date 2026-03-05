@@ -27,8 +27,29 @@ const MoodHistoryScreen: React.FC = () => {
     }, [user?.uid]);
 
   return (
-    <View>
-      <Text>Mood History</Text>
+    <View style={styles.container}>
+      <Text style={styles.title}>Mood History</Text>
+ 
+      {loading ? (
+        <ActivityIndicator color="#7904a4" />
+      ) : (
+        <FlatList
+          data={items}
+          keyExtractor={(x) => x.id}
+          ListEmptyComponent={<Text style={styles.empty}>No mood entries yet.</Text>}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text style={styles.rowTop}>
+                <Text style={styles.mood}>{item.mood}</Text>
+                <Text style={styles.date}>
+                  {item.date ? `  ${Moment(item.date).format('MMM DD, YYYY')}` : ''}
+                </Text>
+              </Text>
+              {!!item.note && <Text style={styles.note}>{item.note}</Text>}
+            </View>
+          )}
+        />
+      )}
     </View>
   );
 }
