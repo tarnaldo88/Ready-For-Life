@@ -50,6 +50,8 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
   const [mood, setMood] = useState<MoodValue>('Okay');
   const [moodNote, setMoodNote] = useState('');
   const [moodSaving, setMoodSaving] = useState(false);
+  const [latestMood, setLatestMood] = useState<MoodEntry | null>(null);
+  const [latestMoodLoading, setLatestMoodLoading] = useState(false);
 
   const [isRegister, setIsRegister] = useState(false);
   const [showReg, setShowReg] = useState(false);
@@ -166,6 +168,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
     };
     fetchGoalWeightAndLowLimAndAvatar();
     fetchWeights();
+    fetchLatestMood();
     return () => { isActive = false; };
   }, [user?.uid]);
 
