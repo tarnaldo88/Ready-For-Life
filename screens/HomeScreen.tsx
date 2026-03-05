@@ -245,7 +245,15 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
              </View>   
              <View style={styles.moodCard}>
                 <Text style={styles.moodTitle}>Mood Check-in</Text>
-              
+                 {latestMoodLoading ? (
+                    <Text style={styles.moodMeta}>Loading last check-in...</Text>
+                  ) : latestMood ? (
+                    <Text style={styles.moodMeta}>
+                      Last check-in: {latestMood.mood} {latestMood.date ? `(${Moment(latestMood.date).format('MM/DD')})` : ''}
+                    </Text>
+                  ) : (
+                    <Text style={styles.moodMeta}>No mood entries yet.</Text>
+                  )}
                 <Text style={styles.moodLabel}>Current mood</Text>
                 <View style={styles.moodPickerWrap}>
                   <Picker selectedValue={mood} onValueChange={(v) => setMood(v)}>
@@ -264,6 +272,7 @@ const HomeScreen: React.FC<HomeScreenProps> = () => {
                   placeholderTextColor="#999"
                   multiline
                 />
+                
               
                 <Button title={moodSaving ? 'Saving...' : 'Save Mood'} onPress={handleSaveMood} disabled={moodSaving} />
               </View>          
@@ -626,6 +635,10 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginBottom: 10,
   },
+  moodMeta: {
+  color: '#cfcfcf',
+  marginBottom: 6,
+},
   moodLabel: {
     color: '#fff',
     fontSize: 14,
