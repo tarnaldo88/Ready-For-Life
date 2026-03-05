@@ -6,12 +6,14 @@ import { useAuth } from '../context/AuthContext';
 import { auth } from '../firebaseConfig';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import HomeScreen from '../screens/HomeScreen';
+import MoodHistoryScreen from '../screens/MoodHistoryScreen';
 import BottomTabs, { BottomTabParamList } from './BottomTabs';
 
 export type RootStackParamList = {
   Home: { userId: string };
   Main: { screen?: keyof BottomTabParamList; params?: any } | undefined;
   EditProfile: { userId: string },
+  MoodHistory: undefined;
 };
 let Homeicon = '🏠';
 let Nutritionicon = '🍽️';
@@ -32,6 +34,7 @@ const RootStack: React.FC = () => {
         <Stack.Screen name="Home" component={HomeScreen} />
       )}
       <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="MoodHistory" component={MoodHistoryScreen} />
     </Stack.Navigator>
   );
 }
